@@ -27,7 +27,7 @@ These are built into me. No setup required. Use them freely.
 
 ## 2. MCP Servers (Configured — Verify Active at Session Start)
 
-MCP servers extend what I can do beyond the filesystem. Two are configured:
+MCP servers extend what I can do beyond the filesystem. Three are configured:
 
 ### 2a. GitHub MCP (`@modelcontextprotocol/server-github`)
 **Config:** `~/.claude/config.json`  
@@ -62,6 +62,26 @@ MCP servers extend what I can do beyond the filesystem. Two are configured:
 
 **⚠️ Status:** May not be running. To start: `node /Users/jasonl/Desktop/Manifest-Match-Business-System/mcp-server.js`  
 **Use case:** Track business planning tasks, phase progress, project management.
+
+### 2c. XcodeBuildMCP (`XcodeBuildMCP`)
+**Config:** `~/.claude/settings.local.json` (permissions pre-approved)  
+**Plugin:** Also `swift-lsp@claude-plugins-official` enabled for Swift code intelligence.
+
+**What it lets me do:**
+- `build_sim` — build the app for a simulator
+- `build_run_sim` — build and launch in simulator
+- `launch_app_sim` / `stop_app_sim` — start/stop the running app
+- `screenshot` — capture the simulator screen
+- `describe_ui` — read the accessibility tree (see what's on screen)
+- `tap`, `swipe`, `gesture`, `type_text`, `long_press`, `key_press` — full UI interaction
+- `start_sim_log_cap` / `stop_sim_log_cap` — capture simulator logs
+- `launch_app_logs_sim` — stream logs while app runs
+- `test_sim` — run XCTest suite in simulator
+- `list_sims` / `boot_sim` / `list_devices` — manage simulators
+- `swift_package_build` / `swift_package_test` — build/test individual packages
+- `discover_projs` / `list_schemes` / `show_build_settings` — inspect Xcode project
+
+**This closes the feedback loop entirely** — I can build, run, interact with UI, read logs, and take screenshots without Xcode being manually operated.
 
 ---
 
@@ -131,6 +151,22 @@ Pattern-based skills (guardians, enforcers, specialists) don't go stale — they
 
 ---
 
+## 3b. Installed Plugins (May 2026)
+
+Plugins extend skills with multi-agent workflows. Installed from `claude-plugins-official`:
+
+| Plugin | What it does |
+|--------|-------------|
+| `code-review` | Multi-agent automated code review with confidence-based scoring |
+| `feature-dev` | Structured feature development: exploration → architecture → implementation → review |
+| `commit-commands` | Streamlined git: commit, push, PR creation |
+| `pr-review-toolkit` | Specialized agents for PR review (comments, tests, error handling, types, simplification) |
+| `security-guidance` | Security review for user data handling, auth, privacy |
+| `hookify` | Build custom hooks to enforce constraints automatically |
+| `session-report` | Auto-generates session report at end — preserves continuity across context resets |
+
+---
+
 ## 4. Hooks (Automatic — Fires on Every Prompt)
 
 **File:** `~/.claude/hooks/validate-sacred-constraints.sh`  
@@ -145,9 +181,7 @@ Pattern-based skills (guardians, enforcers, specialists) don't go stale — they
 6. Teal hue = 174/360
 7. V7Core zero dependencies
 
-**⚠️ BROKEN:** Hook points to old V7 path:  
-`/Users/jasonl/Desktop/manifest and match  v7/V7 build files/...`  
-This path does not exist. The hook runs but finds nothing to validate. **Needs to be fixed to point to V8.**
+**Fixed May 2026** — now points to V8 packages at `/Users/jasonl/Desktop/ios26_manifest_and_match/manifest_and_match_V8/Packages`.
 
 ---
 

@@ -1,0 +1,40 @@
+{
+  "name": "v7-expansion-architect",
+  "description": "Expert guide for implementing AI Questions, Ad Cards, and Career Building expansion in ManifestAndMatchV7 (project, user)",
+  "version": "1.0.0",
+  "author": "V7 Architecture Team",
+  "tags": [
+    "v7",
+    "expansion",
+    "ai-questions",
+    "ad-cards",
+    "career-building",
+    "manifest-profile",
+    "architecture",
+    "guardian-validated"
+  ],
+  "activationKeywords": [
+    "expansion",
+    "ai questions",
+    "question card",
+    "user truths",
+    "ad card",
+    "advertisement",
+    "career building",
+    "manifest profile",
+    "skills gap",
+    "course recommendation",
+    "smart question generator",
+    "ad placement"
+  ],
+  "dependencies": [
+    "v7-architecture-guardian",
+    "thompson-performance-guardian",
+    "ai-error-handling-enforcer",
+    "cost-optimization-watchdog"
+  ],
+  "references": [
+    "/upgrade/future_api_ads_ai_carreerbuilding/V7_INTEGRATION_BRIDGE_RESEARCH.md",
+    "/upgrade/future_api_ads_ai_carreerbuilding/EXPANSION_MASTER_PLAN.md"
+  ]
+}

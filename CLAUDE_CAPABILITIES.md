@@ -65,61 +65,69 @@ MCP servers extend what I can do beyond the filesystem. Two are configured:
 
 ---
 
-## 3. Skills System (42 Custom Skills)
+## 3. Skills System (36 Active Skills — Audited May 2026)
 
-Skills are invoked via `/skill-name` in conversation. They are instruction sets that change how I behave.
+Skills are invoked via `/skill-name` in conversation. They are instruction sets that change how I behave.  
+**Killed in May 2026 audit:** ios26-migration-orchestrator, ios26-v8-upgrade-coordinator, onet-implementation-coordinator, v7-upgrade-workflow, phase-3.5-executor, career-data-integration (all obsolete: completed phases, outdated orchestrators, or duplicates of V8-specific skills).
 
 ### The Hierarchy
 
 **Meta-skill (invoke first for complex V8 work):**
-- `/v8-omniscient-guardian` — master skill, knows entire codebase (393 files, 14 packages), delegates to domain experts. Last updated Nov 12 2025.
+- `/v8-omniscient-guardian` — master skill, knows entire codebase, delegates to domain experts. Updated Nov 2025 + May 2026 current-state patch.
 
 **Domain expert sub-skills (invoke for specific areas):**
-| Skill | When to use | Last updated |
-|-------|-------------|-------------|
-| `/v8-data-models-expert` | Core Data entities, persistence, relationships | Nov 08 2025 |
-| `/v8-thompson-mathematician` | Thompson Sampling math, FastBetaSampler, <10ms performance | Nov 08 2025 |
-| `/v8-job-sources-expert` | API integrations, rate limiting, job fetching | Nov 08 2025 |
-| `/v8-coresignal-integration-expert` | CoreSignal API, Elasticsearch DSL | Nov 11 2025 |
-| `/v8-ai-systems-expert` | iOS 26 Foundation Models, AI features | Nov 08 2025 |
-| `/v8-data-flows-expert` | End-to-end flows, swipe handling, pipelines | Nov 08 2025 |
-| `/v8-ui-components-expert` | SwiftUI views, accessibility, DeckScreen | Nov 08 2025 |
-| `/v8-package-architect` | Package structure, dependencies, circular dep detection | Nov 08 2025 |
-| `/v8-ios26-design-expert` | iOS 26 Liquid Glass, design system | Nov 15 2025 |
+| Skill | When to use |
+|-------|-------------|
+| `/v8-data-models-expert` | Core Data entities, persistence, relationships |
+| `/v8-thompson-mathematician` | Thompson Sampling math, FastBetaSampler, <10ms performance |
+| `/v8-job-sources-expert` | API integrations, rate limiting, job fetching |
+| `/v8-coresignal-integration-expert` | CoreSignal API, Elasticsearch DSL |
+| `/v8-ai-systems-expert` | iOS 26 Foundation Models, AI features |
+| `/v8-data-flows-expert` | End-to-end flows, swipe handling, pipelines |
+| `/v8-ui-components-expert` | SwiftUI views, accessibility, DeckScreen (3,353 lines) |
+| `/v8-package-architect` | Package structure, dependencies, circular dep detection |
+| `/v8-ios26-design-expert` | iOS 26 Liquid Glass, design system |
 
-**Architecture + process skills:**
-| Skill | Purpose | Status |
-|-------|---------|--------|
-| `/v7-architecture-guardian` | Enforces MV pattern, no ViewModels, package rules | Oct 27 — may be stale |
-| `/swift-concurrency-enforcer` | Swift 6 strict concurrency, @MainActor, Sendable | Oct 27 — may be stale |
-| `/swiftui-specialist` | SwiftUI patterns, @State, @Binding, ForEach | Oct 27 — may be stale |
-| `/core-data-specialist` | Core Data patterns, FetchRequest optimization | Oct 27 — may be stale |
-| `/thompson-performance-guardian` | Enforces <10ms Thompson requirement | Oct 27 — may be stale |
-| `/accessibility-compliance-enforcer` | VoiceOver, Dynamic Type, WCAG 2.1 AA | Oct 18 — stale |
-| `/performance-regression-detector` | Catches performance regressions | Oct 26 — stale |
-| `/privacy-security-guardian` | Privacy manifest, data handling | Oct 18 — stale |
+**Architecture + process skills (pattern knowledge — doesn't go stale):**
+| Skill | Purpose |
+|-------|---------|
+| `/v7-architecture-guardian` | MV pattern, no ViewModels, package rules, sacred constraints |
+| `/swift-concurrency-enforcer` | Swift 6 strict concurrency, @MainActor, Sendable |
+| `/swiftui-specialist` | SwiftUI patterns, @State, @Binding, ForEach |
+| `/core-data-specialist` | Core Data patterns, FetchRequest optimization |
+| `/thompson-performance-guardian` | <10ms Thompson requirement enforcement |
+| `/thompson-sampling-mathematician` | Mathematical correctness (Beta distribution, Bayesian theory) |
+| `/accessibility-compliance-enforcer` | VoiceOver, Dynamic Type, WCAG 2.1 AA |
+| `/performance-regression-detector` | Performance regression detection |
+| `/privacy-security-guardian` | Privacy manifest, data handling |
+| `/ai-error-handling-enforcer` | Defensive AI patterns, never trust AI outputs |
+| `/manifestandmatch-v7-coding-standards` | Deep Swift code patterns for this codebase |
+| `/manifestandmatch-skills-guardian` | SkillTaxonomy, EnhancedSkillsMatcher architecture |
 
 **Integration + coordination skills:**
-| Skill | Purpose | Status |
-|-------|---------|--------|
-| `/ios26-specialist` | iOS 26 specific APIs and patterns | Oct 27 — stale |
-| `/ios26-migration-orchestrator` | Migration strategy from older iOS | Oct 27 — stale |
-| `/onet-implementation-coordinator` | O*NET data integration | Nov 06 — semi-current |
-| `/job-source-integration-validator` | Validates job source implementations | Oct 26 — stale |
-| `/job-card-validator` | Job card data validation | Oct 22 — stale |
-| `/api-integration-builder` | Building new API integrations | Oct 26 — stale |
-| `/skill-builder` | Building new skills (meta) | Nov 02 — semi-current |
+| Skill | Purpose |
+|-------|---------|
+| `/ios26-specialist` | iOS 26 APIs, Liquid Glass, Foundation Models, April 2026 deadline |
+| `/ios26-development-guide` | Daily iOS 26 dev workflow, migration steps |
+| `/job-source-integration-validator` | Validates new job source implementations |
+| `/job-card-validator` | Job card data structure validation |
+| `/api-integration-builder` | Scaffolds new API integrations with rate limiting, circuit breakers |
+| `/onet-career-integration` | O*NET API, Swift models, career data enrichment |
+| `/skill-builder` | Building/updating Claude skills (meta) |
+| `/xcode-project-specialist` | SPM, build settings, signing, schemes, App Store pipeline |
+| `/ios-app-architect` | Generic iOS/Swift/SwiftUI baseline |
 
-**Narrative + business skills:**
-| Skill | Purpose | Status |
-|-------|---------|--------|
-| `/app-narrative-guide` | Keeps work aligned with app's story | Oct 18 — stale |
-| `/business-planning-manager` | Business planning, connects to MCP | Oct 27 — stale |
-| `/professional-user-profile` | User persona knowledge | Oct 26 — stale |
-| `/cost-optimization-watchdog` | Tracks cost implications | Oct 18 — stale |
+**Roadmap + business skills:**
+| Skill | Purpose |
+|-------|---------|
+| `/v7-expansion-architect` | 3-feature expansion: AI Questions, Ad Cards, Career Building (Phase 5) |
+| `/app-narrative-guide` | Mission alignment: career awakening, not just a job board |
+| `/business-planning-manager` | Business planning, connects to Business System MCP |
+| `/professional-user-profile` | Profile data model, ATS optimization (for Phase 5 Manifest Profile) |
+| `/cost-optimization-watchdog` | AI API cost control, caching strategies |
 
-### ⚠️ Important: Skills Are 6 Months Stale
-All skills were last updated October–November 2025. The codebase has evolved since then. Skills provide good structural knowledge but **always verify against actual code** before acting on skill knowledge. Skills don't know about: logging conversion done May 2026, icon changes, API key updates, or any post-November work.
+### Note on Staleness
+Pattern-based skills (guardians, enforcers, specialists) don't go stale — they encode rules, not codebase state. V8-prefixed skills were patched in May 2026 with current-state notes. Always verify against actual code before acting on any skill's knowledge of specific files or line numbers.
 
 ---
 

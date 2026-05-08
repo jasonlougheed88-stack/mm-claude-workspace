@@ -24,6 +24,16 @@ Master of Thompson Sampling algorithm in Manifest & Match V8:
 **Docs**: `/Users/jasonl/Desktop/ios26_manifest_and_match/C4_ARCHITECTURE_ANALYSIS/technical/08_THOMPSON_SAMPLING_MATHEMATICS.md`
 **28 Swift files in V7Thompson package**
 
+
+## ⚠️ Critical Gap (2026-05-08)
+**Thompson persistence is NOT wired.** `OptimizedThompsonEngine` updates `amberSampler`/`tealSampler` alpha/beta in memory during a session but NEVER saves to `ThompsonArm` Core Data entity. Every cold launch resets to alpha=1.0, beta=1.0. This is Phase 1 — the highest priority fix in the project.
+
+**Files to connect:**
+- `OptimizedThompsonEngine.swift` — add load on init, save on processInteraction()
+- `ThompsonArm+CoreData.swift` — has recordSuccess()/recordFailure() methods, never called
+- Arm IDs to use: `"amber_primary"` and `"teal_primary"`
+
+
 ## Algorithm Overview
 
 ### Thompson Sampling for Multi-Armed Bandits

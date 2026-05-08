@@ -30,7 +30,7 @@ Master of all UI components in Manifest & Match V8:
 ```
 AppRootView
 ├── HomeScreen (tab 1)
-│   ├── DeckScreen (2,903 lines - verified)
+│   ├── DeckScreen (3,353 lines — verified May 2026)
 │   │   ├── JobCard
 │   │   ├── SwipeOverlay
 │   │   └── ExplainFitSheet

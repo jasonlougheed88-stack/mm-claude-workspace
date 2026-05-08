@@ -25,6 +25,18 @@ Master of all job source integrations in Manifest & Match V8:
 **Docs**: `/Users/jasonl/Desktop/ios26_manifest_and_match/C4_ARCHITECTURE_ANALYSIS/technical/07_JOB_SOURCE_INTEGRATIONS.md`
 **57 Swift files in V7Services package**
 
+
+## ⚠️ Current Active Sources (2026-05-08)
+**Only JSearch is active.** All others are disabled.
+- ✅ JSearch (OpenWebNinja) — env var `JSEARCH_API_KEY` in Xcode scheme
+- ❌ CoreSignal — invalid key ("no Route matched"), disabled
+- ❌ Greenhouse — built, free, no key needed, commented out
+- ❌ Lever — built, free, no key needed, commented out
+- ❌ All others — no keys or disabled per user request
+
+**Phase 4 work:** Enable Greenhouse + Lever (free, no keys), then evaluate Adzuna/Jobicy.
+
+
 ## API Clients (9 Total)
 
 ### 1. Adzuna API Client

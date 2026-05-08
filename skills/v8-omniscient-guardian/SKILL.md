@@ -3,10 +3,21 @@ description: Master meta-skill with complete V8 codebase knowledge, self-updatin
 version: 2.3.0
 author: V8 Development Team
 tags: [meta-skill, v8, ios26, thompson-sampling, onet, self-updating, diagnostics, foundation-models, coresignal, design]
-updated: 2025-11-12
+updated: 2026-05-08
 ---
 
 # V8-Omniscient-Guardian Meta-Skill
+
+## ⚠️ Current State (2026-05-08)
+- **Active job source: JSearch ONLY** (OpenWebNinja, env var `JSEARCH_API_KEY`)
+- **Thompson persistence GAP**: OptimizedThompsonEngine never saves alpha/beta to ThompsonArm Core Data entity — learning resets every launch. This is Phase 1 priority.
+- **DeckScreen**: 3,353 lines (not 2,903)
+- CoreSignal: disabled (invalid key)
+- Greenhouse/Lever: disabled (no keys, commented out)
+- App icon: amber-teal gradient M&M (1024x1024)
+- Logging: print() converted to Logger/os_log across 4 key files
+
+
 
 **The all-knowing, self-updating meta-skill system for Manifest & Match V8**
 

@@ -27,7 +27,9 @@ These are built into me. No setup required. Use them freely.
 
 ## 2. MCP Servers (Configured — Verify Active at Session Start)
 
-MCP servers extend what I can do beyond the filesystem. Three are configured:
+MCP servers extend what I can do beyond the filesystem. Three are configured in `~/.claude/claude_desktop_config.json`.
+
+**⚠️ MCP servers load at session start.** If tools aren't responding, the server may not be running. XcodeBuildMCP and GitHub MCP were previously only in the Claude Desktop app config (`~/Library/Application Support/Claude/claude_desktop_config.json`) — now mirrored to Claude Code CLI config.
 
 ### 2a. GitHub MCP (`@modelcontextprotocol/server-github`)
 **Config:** `~/.claude/config.json`  

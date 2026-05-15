@@ -124,6 +124,21 @@
 
 ## UI / Design
 
+### App Structure — Use Existing as Guide
+**Date:** 2026-05-15
+**Decision:** The existing V7/V8 app structure is the visual and UX reference for the fresh build. Keep the working skeleton, rebuild everything fresh from it. New buttons and user flows are allowed within the structure. Names can change.
+**What stays:** 4-tab bottom navigation, DeckScreen swipe mechanics, job card layout, question card injection, tab structure order (Discover=0, History=1, Profile=2, Manifest=3).
+**What can change:** Tab names, screen names, any broken flows (ProfileScreen stubs → real views), new flows added within existing tabs.
+**Why:** The working parts of V7 are genuinely good UX. Starting fresh doesn't mean ignoring what works — it means building the good parts correctly the first time and fixing the broken parts.
+
+### Tab Structure
+**Date:** 2026-05-15
+**Decision:** 4 tabs in this order — Discover (0), History (1), Profile (2), Manifest (3). Order is SACRED (validated by hook).
+**Tab 0 — Discover:** DeckScreen. Swipeable job cards. Question card injection every ~5 jobs. Amber/Teal slider. "Why?" button on each card.
+**Tab 1 — History:** CRM — shows all interactions (saved, applied, passed). The Apply Now → "applied" status fix must work correctly here.
+**Tab 2 — Profile:** User settings, data management. Privacy Policy, Terms of Service, Data Management — real views (not Text() stubs).
+**Tab 3 — Manifest:** Career building hub. Sub-tabs: Overview, Skills Gap, Career Path. Courses destination lives here (not a 5th tab).
+
 ### Amber/Teal Hue Constants
 **Date:** 2026-05-14
 **Decision:** Amber hue = 45/360 (0.125). Teal hue = 174/360 (0.483). These are SACRED — they encode the dual-track product concept visually.

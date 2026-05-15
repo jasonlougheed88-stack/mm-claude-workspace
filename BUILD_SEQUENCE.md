@@ -15,15 +15,18 @@ All planning docs, folder structure, repos, and session tooling are in place.
 
 ## Immediate Next Task
 
-**Phase 1 — Scaffold the Xcode project in `ios-app/`**
+**Pre-Phase 1 — Rename packages to reflect what they actually are**
 
-1. Use XcodeBuildMCP to scaffold the iOS project
-2. Create the 15-package DAG structure (see PACKAGE_BUILD_PLAN.md)
-3. Build V7Core first — zero dependencies, SacredUIConstants, sacred constraint values
-4. Then V7Data — Core Data schema, 21 entities
-5. Confirm clean build before moving to next package
+The current package names (V7Core, V7Data, V7Thompson, V7AI, V7UI, etc.) are version-numbered labels from previous iterations that do not describe what each package actually does.
 
-Reference codebase for working code to adapt (not copy blindly): `/Users/jasonl/Desktop/ios26_manifest_and_match/manifest_and_match_V8/Packages/`
+Before building anything:
+1. Read every package in the reference codebase at `/Users/jasonl/Desktop/ios26_manifest_and_match/manifest_and_match_V8/Packages/`
+2. For each package, write one sentence describing what it actually does in plain terms
+3. Propose a new name that reflects that — no version numbers, no internal jargon
+4. Present the full list to Jason for approval before any code is written
+5. Once approved, those names are the names used in the new build
+
+Do not start scaffolding until naming is approved.
 
 ---
 

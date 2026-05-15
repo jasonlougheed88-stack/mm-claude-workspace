@@ -141,13 +141,14 @@
 
 ### The Role Slider
 **Date:** 2026-05-15
-**Decision:** The slider controls whether the user is looking for their current role or a future role. One end = match against what's on their resume now. Other end = explore career paths they haven't taken yet. This drives the weight distribution across Thompson Sampling levers.
-**Old name:** "Amber/Teal slider" — internal code naming that was incorrect and bled into the UI. Do not use Amber/Teal as user-facing language.
-**What it is not:** A visual theme toggle. A mood selector. An exploration knob. It is a role intent signal.
+**Decision:** One slider in the app. Controls the weight distribution across Thompson Sampling levers. One end = looking for jobs matching their current role/resume. Other end = planning for a future role the system can map them toward. The user decides their intent. The scoring system responds to it.
 
-### Color System (Internal)
-**Date:** 2026-05-14
-**Note:** Amber hue = 45/360 (0.125). Teal hue = 174/360 (0.483). These are internal color constants only — not user-facing labels.
+### Job Card Color — Current/Future Fit Spectrum
+**Date:** 2026-05-15
+**Decision:** Each job card displays a color on the amber-to-teal spectrum. The color represents where that specific job falls between current-role fit and future-role fit. A job scoring 80% current / 20% future shows closer to amber. A job scoring 20% current / 80% future shows closer to teal. The color IS the score ratio, made visual.
+**What this is:** Per-job feedback to the user about what the system determined for that card.
+**What this is not:** A global UI theme. A mood. The same thing as the slider.
+**Amber hue:** 45/360 (0.125). **Teal hue:** 174/360 (0.483). Color interpolates between these based on the ratio.
 
 ### Question Card Injection — Need-Based Pull, Not Scheduled Push
 **Date:** 2026-05-15

@@ -8,16 +8,22 @@ Format: question → why it's blocking → what I'll do if not answered (default
 
 ## Navigation & Structure
 
-### Q1: Tab names — keep or rename?
-**Current names:** Discover / History / Profile / Manifest
-**Why it matters:** Tab labels are the first thing users read. "Manifest" is abstract and product-specific. "Discover" is clean. No wrong answer — just need a decision before I write the tab enum.
-**Default if not answered:** Keep current names exactly.
+### Q1: What is Tab 1 (the CRM tab) called and what exactly does it show?
+**Confirmed:** Tab 1 is a job CRM — active pipeline management, not a passive history log. "History" is the wrong name.
+**What needs deciding:**
+- What's the tab name? (Pipeline / Jobs / Tracker / Applied / something else?)
+- What's the primary view — a list of jobs by status (applied, saved, interviewing, offer, rejected)?
+- Can the user manually update a job's status (e.g., mark "interviewing" after they get a call)?
+- Is there a notes field per job?
+**Why it matters:** The CRM is where Apply Now feeds into. Getting the data model right in Phase 2 depends on knowing what fields the CRM needs.
+**Default if not answered:** Will not build Tab 1 until this is answered — don't want to guess at a CRM schema.
 
-### Q2: Does the Manifest tab get a new name now that it includes Courses?
-**Current:** "Manifest" — career building hub, skills gap, career path, courses
-**Option:** Rename to "Grow" / "Build" / "Learn" / keep "Manifest"
-**Why it matters:** Courses + career path + skills gap together might feel like a different concept than "Manifest."
-**Default if not answered:** Keep "Manifest."
+### Q2: Tab names for Discover, Profile, and Manifest — keep or rename?
+**Confirmed:** Tab 1 name is TBD (Q1 above). The others:
+- "Discover" — clean, accurate. Keep?
+- "Profile" — standard iOS convention. Keep?
+- "Manifest" — product-specific term. Keep?
+**Default if not answered:** Keep Discover, Profile, Manifest.
 
 ---
 

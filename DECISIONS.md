@@ -134,8 +134,8 @@
 ### Tab Structure
 **Date:** 2026-05-15
 **Decision:** 4 tabs in this order — Discover (0), History (1), Profile (2), Manifest (3). Order is SACRED (validated by hook).
-**Tab 0 — Discover:** DeckScreen. Swipeable job cards. Question card injection every ~5 jobs. Amber/Teal slider. "Why?" button on each card.
-**Tab 1 — History:** CRM — shows all interactions (saved, applied, passed). The Apply Now → "applied" status fix must work correctly here.
+**Tab 0 — Discover:** DeckScreen. Swipeable job cards. Amber/Teal slider. "Why?" button on each card. Question cards are need-based (see Question Card Injection decision below).
+**Tab 1 — CRM tab (name TBD):** Active job pipeline management. User tracks applications, status, and their job search. Not a passive history log — a working CRM. The Apply Now → "applied" write feeds into this.
 **Tab 2 — Profile:** User settings, data management. Privacy Policy, Terms of Service, Data Management — real views (not Text() stubs).
 **Tab 3 — Manifest:** Career building hub. Sub-tabs: Overview, Skills Gap, Career Path. Courses destination lives here (not a 5th tab).
 
@@ -143,6 +143,16 @@
 **Date:** 2026-05-14
 **Decision:** Amber hue = 45/360 (0.125). Teal hue = 174/360 (0.483). These are SACRED — they encode the dual-track product concept visually.
 **Source:** SacredUI.Preferences entity, SacredUIConstants.swift
+
+### Question Card Injection — Need-Based Pull, Not Scheduled Push
+**Date:** 2026-05-15
+**Decision:** Question cards are NOT injected on a fixed schedule (not every 5 jobs, not every N jobs). They are pulled when the system has a specific information need.
+**Trigger conditions:**
+- The user's RIASEC profile has gaps that would improve job scoring if filled
+- The slider is in a position that indicates career-building intent (toward Teal) — at full Amber the user is matching a known role, questions are not relevant
+- ManifestInferenceActor identifies that additional data would meaningfully change the InferredManifestProfile
+**What this means for implementation:** The question card decision is made by the scoring/inference layer, not by a UI timer or counter. DeckScreen asks the engine "do you need anything?" — the engine answers yes/no based on data completeness and slider position.
+**What this is NOT:** A fixed-interval interruption. A gamification mechanic. A forced engagement driver.
 
 ### Amber/Teal Score Label
 **Date:** 2026-05-14

@@ -3,47 +3,55 @@
 
 ---
 
-## Workspace
+## New Build Location
+```
+/Users/jasonl/Desktop/Claudes-Man&Man-build/ios-app/
+```
+
+## Reference Codebase (read-only)
 ```
 /Users/jasonl/Desktop/ios26_manifest_and_match/manifest_and_match_V8/ManifestAndMatchV7.xcworkspace
 ```
 
-## Package Dependency Order (bottom → top)
+## Package Names
+New build uses new names. Reference codebase uses V7* names. Full mapping: `context/PACKAGE_NAMES.md`
+
+## Package Dependency Order (bottom → top) — New Build Names
+
 ```
-V7Core          ← zero dependencies (sacred)
-V7Data          ← V7Core
-V7Thompson      ← V7Core, V7Data, V7Embeddings
-V7Services      ← V7Core, V7Data, V7Thompson
-V7UI            ← V7Core, V7Data, V7Thompson, V7Services
-V7AI            ← V7Core, V7Data
-V7AIParsing     ← V7Core, V7Data
-V7Career        ← V7Core, V7Data, V7Thompson
-V7Embeddings    ← V7Core
-V7JobParsing    ← V7Core, V7Data
-V7Performance   ← V7Core
-V7ResumeAnalysis← V7Core, V7Data
-V7Ads           ← V7Core (inactive)
-ManifestAndMatchV7Package ← all above
-ManifestAndMatchV7 (app target) ← ManifestAndMatchV7Package
+CoreTaxonomy    ← zero dependencies (sacred)
+Persistence     ← CoreTaxonomy
+JobNormalizer   ← CoreTaxonomy
+SemanticMatch   ← CoreTaxonomy
+ScoringEngine   ← CoreTaxonomy, Persistence, SemanticMatch
+Monitoring      ← CoreTaxonomy, ScoringEngine
+ResumeParsing   ← CoreTaxonomy, ScoringEngine, Monitoring
+JobPipeline     ← CoreTaxonomy, ScoringEngine, JobNormalizer, ResumeParsing, Persistence
+Intelligence    ← CoreTaxonomy, Persistence, JobPipeline, ScoringEngine, Monitoring
+CareerGrowth    ← CoreTaxonomy, Persistence, ScoringEngine, Intelligence, Monitoring
+ProfileExtraction ← CoreTaxonomy, Persistence, CareerGrowth, Intelligence
+DeckUI          ← CoreTaxonomy, JobPipeline, ScoringEngine, Monitoring, Intelligence, Persistence, CareerGrowth
+AdCards         ← CoreTaxonomy, DeckUI, Monitoring  (inactive — Phase 5 only)
+AppShell        ← all above
+App Target      ← AppShell
 ```
 
-## Key Files
-| File | Package | What it is |
-|------|---------|-----------|
-| `SacredUIConstants.swift` | V7Core | Sacred values — never touch |
-| `PersistenceController.swift` | V7Data | Core Data stack |
-| `V7DataModel.xcdatamodeld` | V7Data | 18 Core Data entities |
-| `OptimizedThompsonEngine.swift` | V7Thompson | Production ML engine |
-| `FastBetaSampler.swift` | V7Thompson | Beta distribution math |
-| `ThompsonArm+CoreData.swift` | V7Data | Persistence entity for Thompson |
-| `JobDiscoveryCoordinator.swift` | V7Services | Job pipeline orchestrator (3,682 lines) |
-| `JSearchAPIClient.swift` | V7Services | Primary job source |
-| `GreenhouseAPIClient.swift` | V7Services | 62 companies, free |
-| `LeverAPIClient.swift` | V7Services | 50 companies, free |
-| `DeckScreen.swift` | V7UI | Main swipe UI (3,353 lines) |
-| `ContentView.swift` | ManifestAndMatchV7Package | Root view + onboarding gate |
-| `OnboardingFlow.swift` | ManifestAndMatchV7Package | 12-step onboarding |
-| `ManifestTabView.swift` | V7Career | Career hub (1,500+ lines) |
+## Key Files — Reference Codebase (use these paths to READ source code)
+| File | Reference Package | New Build Package | What it is |
+|------|------------------|-------------------|------------|
+| `SacredUIConstants.swift` | V7Core | CoreTaxonomy | Sacred values — never touch |
+| `PersistenceController.swift` | V7Data | Persistence | Core Data stack |
+| `V7DataModel.xcdatamodeld` | V7Data | Persistence | 18 Core Data entities |
+| `OptimizedThompsonEngine.swift` | V7Thompson | ScoringEngine | Production ML engine |
+| `FastBetaSampler.swift` | V7Thompson | ScoringEngine | Beta distribution math |
+| `ThompsonArm+CoreData.swift` | V7Data | Persistence | Thompson persistence entity |
+| `JobDiscoveryCoordinator.swift` | V7Services | JobPipeline | Job pipeline orchestrator |
+| `JSearchAPIClient.swift` | V7Services | JobPipeline | Primary job source |
+| `DeckScreen.swift` | V7UI | DeckUI | Main swipe UI (decompose in new build) |
+| `ContentView.swift` | ManifestAndMatchV7Package | AppShell | Root view + onboarding gate |
+| `OnboardingFlow.swift` | ManifestAndMatchV7Package | AppShell | 12-step onboarding |
+| `ManifestTabView.swift` | V7Career | CareerGrowth | Career hub UI |
+| `SacredUIConstants.swift` | V7Core | CoreTaxonomy | Constants, never touch |
 
 ## App Entry Point Flow
 ```
@@ -52,22 +60,22 @@ ManifestAndMatchV7 (app target) ← ManifestAndMatchV7Package
     → if incomplete: OnboardingFlow (12 steps)
     → if complete:   TabView
         Tab 0: DeckScreen (Discover) ← primary
-        Tab 1: History
+        Tab 1: Tracker (CRM — name TBD, see OPEN_QUESTIONS.md Q1)
         Tab 2: Profile
-        Tab 3: Analytics
+        Tab 3: Manifest
 ```
 
 ## Tab Order (Sacred)
 ```
 Discover = 0
-History  = 1
+Tracker  = 1   (name TBD)
 Profile  = 2
-Analytics = 3
+Manifest = 3
 ```
 
 ## Build Target
 - **Bundle ID:** `com.manifest.match.v7`
 - **Device:** iPhone 16 Pro Max, UDID `00008140-001244112E43801C`
-- **Min deployment:** iOS 18
+- **Min deployment:** iOS 17+
 - **Target:** iOS 26+
-- **Total codebase:** ~187,000 lines across 14 packages
+- **Reference codebase total:** ~187,000 lines across 15 packages

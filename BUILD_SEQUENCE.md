@@ -4,31 +4,66 @@ Last updated: 2026-05-15
 
 ---
 
+## ⚠️ CURRENT SESSION STATUS — READ BEFORE DOING ANYTHING
+
+**We are NOT yet on Phase 1. Do not touch `ios-app/`.**
+
+---
+
+## IMMEDIATE NEXT TASK — Scaffold Design (fresh session picks up here)
+
+**Pre-Phase 1 work is COMPLETE.**
+- Inventory: ✅ `schematics/SYSTEM_INVENTORY.md`
+- Untangling Guide: ✅ `schematics/UNTANGLING_GUIDE.md`
+
+**Next:** Scaffold design — plan the v1.1 Xcode workspace structure before touching `ios-app/`.
+
+Read the Untangling Guide (especially Layer 2 structural conclusions) before designing the scaffold. The lift/rebuild/drop/defer tables tell you exactly which systems go into Phase 1 vs later.
+
+---
+
 ## Where We Are
 
 **Phase 0 — Workspace Setup: COMPLETE**
 All planning docs, folder structure, repos, and session tooling are in place.
 
-**Current task: PRE-BUILD AUDIT — Read before writing a single line of app code.**
+**Pre-Phase 1 work (session 2026-05-15):**
+- Package naming audit: ✅ COMPLETE
+- System inventory (initial): ✅ COMPLETE (`schematics/SYSTEM_INVENTORY.md`)
+- Inventory verified against 8 schematics: ✅ COMPLETE (significant corrections made)
+- Inventory verified by running app / reading UNKNOWN items: ✅ COMPLETE (deep codebase read, 2026-05-15)
+- Untangling guide: ✅ COMPLETE (`schematics/UNTANGLING_GUIDE.md`)
+- Scaffold design: ⬜ NOT STARTED
+
+**Current task: Phase 1 — Scaffold the new Xcode workspace in `ios-app/`**
+**STATUS: BLOCKED — complete pre-Phase 1 work above first.**
+
+---
+
+## Pre-Build Audit: COMPLETE (2026-05-15)
+
+Package naming audit done. All 15 packages audited against live workspace (confirmed via XcodeBuildMCP). Names approved. Authoritative mapping: `context/PACKAGE_NAMES.md`. DECISIONS.md updated.
 
 ---
 
 ## Immediate Next Task
 
-**Pre-Phase 1 — Rename packages to reflect what they actually are**
+**Phase 1 — Scaffold new Xcode workspace**
 
-The current package names (V7Core, V7Data, V7Thompson, V7AI, V7UI, etc.) are version-numbered labels from previous iterations that do not describe what each package actually does.
+New build location: `/Users/jasonl/Desktop/Claudes-Man&Man-build/ios-app/`
+Reference codebase: `/Users/jasonl/Desktop/ios26_manifest_and_match/manifest_and_match_V8/`
 
-Before building anything:
-1. Read every package in the reference codebase at `/Users/jasonl/Desktop/ios26_manifest_and_match/manifest_and_match_V8/Packages/`
-2. For each package, write one sentence describing what it actually does in plain terms
-3. Propose a new name that reflects that — no version numbers, no internal jargon
-4. Present the full list to Jason for approval before any code is written
-5. Once approved, those names are the names used in the new build
+Scaffold in this order (per `new_build_requirements/package_architecture/PACKAGE_BUILD_PLAN.md`):
+1. Create new Xcode workspace: `ManifestAndMatch.xcworkspace`
+2. Create 15 Swift packages with approved names (see `context/PACKAGE_NAMES.md`)
+3. Wire Package.swift dependencies per the DAG in PACKAGE_NAMES.md
+4. Add CoreTaxonomy/SacredUIConstants.swift — copy sacred values from reference, validate at runtime
+5. Add Persistence/PersistenceController.swift + Core Data model (21 entities, minus JobCache)
+6. Verify clean build (no errors, no circular dependencies)
 
-Do not start scaffolding until naming is approved.
+Do NOT copy code wholesale from the reference codebase. Build each piece intentionally.
 
-**Note:** OPEN_QUESTIONS.md contains questions with unverified assumptions — do not treat as decisions. DECISIONS.md is the only source of confirmed decisions.
+**Note:** OPEN_QUESTIONS.md Q1 (Tab 1 name/CRM schema) must be answered before Phase 4 but does not block Phase 1-3.
 
 ---
 

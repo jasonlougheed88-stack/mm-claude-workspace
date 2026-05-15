@@ -40,14 +40,21 @@
 **Why:** Foundation Models (iOS 26 on-device LLM) is a key differentiator. `#if canImport(FoundationModels)` + `@available(iOS 26.0, *)` guards ensure pre-26 devices fall back cleanly to RIASECKeywordMapper.
 
 ### Package Naming
-**Date:** 2026-05-14
-**Decision:** Keep V7 prefix on all packages (V7Core, V7Data, V7Thompson, etc.). Do not rename to V8.
-**Why:** Internal naming only — not user-visible. Renaming cost (every import statement) > benefit (accurate version number in package name).
+**Date:** 2026-05-14 → SUPERSEDED 2026-05-15**
+**Decision (superseded):** Keep V7 prefix. Do not rename. — This decision applied to the reference codebase. It does not apply to the new build.
+
+### Package Naming — New Build
+**Date:** 2026-05-15
+**Decision:** All packages in the new build use descriptive names with no version numbers. V7* prefix is retired. Full mapping in `context/PACKAGE_NAMES.md`.
+**Summary:** V7Core→CoreTaxonomy, V7Data→Persistence, V7Thompson→ScoringEngine, V7Services→JobPipeline, V7UI→DeckUI, V7AI→Intelligence, V7AIParsing→ResumeParsing, V7Career→CareerGrowth, V7Embeddings→SemanticMatch, V7JobParsing→JobNormalizer, V7Performance→Monitoring, V7ResumeAnalysis→ProfileExtraction, V7Ads→AdCards, ManifestAndMatchV7Package→AppShell, ChartsColorTestPackage→ChartsLab
+**Why:** Names were version jargon from prior iterations. New build names reflect what each package actually does. No user-visible impact — all internal.
+**Reference codebase** (`manifest_and_match_V8/`) retains V7* names — don't rename the reference, only the new build uses new names.
 
 ### Package DAG Shape
-**Date:** 2026-05-14
-**Decision:** Maintain the 15-package DAG structure from V7. Zero circular dependencies. V7Core has zero dependencies and must never have any added.
-**DAG:** V7Core → V7Data/V7JobParsing/V7Embeddings → V7Thompson → V7Performance → V7AIParsing → V7Services → V7AI → V7Career → V7ResumeAnalysis → V7UI → ManifestAndMatchV7Feature → App Target
+**Date:** 2026-05-14 (updated names 2026-05-15)
+**Decision:** 15-package DAG. Zero circular dependencies. CoreTaxonomy has zero dependencies and must never have any added.
+**DAG:** CoreTaxonomy → Persistence/JobNormalizer/SemanticMatch → ScoringEngine → Monitoring → ResumeParsing → JobPipeline → Intelligence → CareerGrowth → ProfileExtraction → DeckUI → AppShell → App Target
+**Full DAG with all edges:** see `context/PACKAGE_NAMES.md`
 
 ### V7Ads Package
 **Date:** 2026-05-14

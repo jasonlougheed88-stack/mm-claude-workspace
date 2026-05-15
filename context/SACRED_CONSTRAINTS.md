@@ -1,5 +1,6 @@
 # Sacred Constraints
-**Source of truth:** `Packages/V7Core/Sources/V7Core/SacredUIConstants.swift`
+**Source of truth (reference codebase):** `Packages/V7Core/Sources/V7Core/SacredUIConstants.swift`
+**New build package:** `CoreTaxonomy` — file lives at same relative path inside CoreTaxonomy
 Never change these values. They encode preserved muscle memory from V5.7.
 
 ---
@@ -44,9 +45,10 @@ emergencyMemoryMB:      Double = 250.0
 totalPipelineTarget:    TimeInterval = 5.0
 ```
 
-## V7Core Zero Dependencies
-`Packages/V7Core/Package.swift` must have zero `.package(url:)` entries.
-Everything else depends on V7Core. It depends on nothing.
+## CoreTaxonomy Zero Dependencies
+`CoreTaxonomy/Package.swift` must have zero `.package(url:)` entries.
+Everything else depends on CoreTaxonomy. It depends on nothing.
+(Reference codebase equivalent: `Packages/V7Core/Package.swift`)
 
 ---
 

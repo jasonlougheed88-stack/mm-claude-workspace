@@ -1,5 +1,6 @@
 # Thompson Sampling — Reference
-**Source:** `Packages/V7Thompson/Sources/V7Thompson/OptimizedThompsonEngine.swift`
+**Reference codebase source:** `Packages/V7Thompson/Sources/V7Thompson/OptimizedThompsonEngine.swift`
+**New build package:** `ScoringEngine`
 
 ---
 
@@ -31,13 +32,13 @@ Updates alpha/beta → saves to `ThompsonArm` Core Data entity.
 **After 20 right swipes on tech roles:** alpha grows, beta stays low → tech jobs score higher
 
 ## Key Types
-| Type | File | Purpose |
-|------|------|---------|
-| `OptimizedThompsonEngine` | V7Thompson | Production engine, @MainActor |
-| `FastBetaSampler` | V7Thompson | Beta distribution math, SIMD |
-| `ThompsonArm` | V7Data | Core Data entity — persists alpha/beta |
-| `ThompsonCache` | V7Thompson | In-memory score cache |
-| `SwipePatternAnalyzer` | V7Thompson | Detects patterns in swipe history |
+| Type | New Build Package | Reference Package | Purpose |
+|------|------------------|-------------------|---------|
+| `OptimizedThompsonEngine` | ScoringEngine | V7Thompson | Production engine, @MainActor |
+| `FastBetaSampler` | ScoringEngine | V7Thompson | Beta distribution math, SIMD |
+| `ThompsonArm` | Persistence | V7Data | Core Data entity — persists alpha/beta |
+| `ThompsonCache` | ScoringEngine | V7Thompson | In-memory score cache |
+| `SwipePatternAnalyzer` | ScoringEngine | V7Thompson | Detects patterns in swipe history |
 
 ## Performance Budget
 Target: **< 10ms** per `scoreJobs()` call.

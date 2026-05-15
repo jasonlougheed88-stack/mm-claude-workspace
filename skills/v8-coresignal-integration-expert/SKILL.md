@@ -7,6 +7,32 @@ created: 2025-11-10
 updated: 2025-11-10
 ---
 
+---
+**PACKAGE NAMES — approved 2026-05-15. New build uses these names, NOT V7\* prefixes.**
+Full mapping + DAG: `context/PACKAGE_NAMES.md` in the build folder.
+
+| New Name | Old Name |
+|---|---|
+| CoreTaxonomy | V7Core |
+| Persistence | V7Data |
+| ScoringEngine | V7Thompson |
+| JobPipeline | V7Services |
+| DeckUI | V7UI |
+| Intelligence | V7AI |
+| ResumeParsing | V7AIParsing |
+| CareerGrowth | V7Career |
+| SemanticMatch | V7Embeddings |
+| JobNormalizer | V7JobParsing |
+| Monitoring | V7Performance |
+| ProfileExtraction | V7ResumeAnalysis |
+| AdCards | V7Ads |
+| AppShell | ManifestAndMatchV7Package |
+
+Reference codebase paths still use V7\* names — only NEW BUILD code uses new names.
+---
+
+
+
 # v8-coresignal-integration-expert
 
 **Complete CoreSignal Jobs API Integration Expert for Manifest & Match V8**

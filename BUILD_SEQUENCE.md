@@ -28,6 +28,8 @@ Before building anything:
 
 Do not start scaffolding until naming is approved.
 
+**Note:** OPEN_QUESTIONS.md contains questions with unverified assumptions — do not treat as decisions. DECISIONS.md is the only source of confirmed decisions.
+
 ---
 
 ## Key Decisions Already Made (read DECISIONS.md for full detail)

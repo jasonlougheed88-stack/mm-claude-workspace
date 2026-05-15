@@ -15,28 +15,15 @@ All planning docs, folder structure, repos, and session tooling are in place.
 
 ## Immediate Next Task
 
-### Read the AI systems and ad card code from the V7 reference codebase.
+**Phase 1 — Scaffold the Xcode project in `ios-app/`**
 
-No implementation decisions have been made about these two systems yet. The schematics and build plans contain assumptions that may be wrong. The source code is the only truth.
+1. Use XcodeBuildMCP to scaffold the iOS project
+2. Create the 15-package DAG structure (see PACKAGE_BUILD_PLAN.md)
+3. Build V7Core first — zero dependencies, SacredUIConstants, sacred constraint values
+4. Then V7Data — Core Data schema, 21 entities
+5. Confirm clean build before moving to next package
 
-**Reference codebase location:** `/Users/jasonl/Desktop/ios26_manifest_and_match/manifest_and_match_V8/Packages/`
-
-**What to read and understand:**
-
-1. **AI Systems** — understand what is actually built, what it does, how it connects
-   - `V7AI/Sources/V7AI/` — all files
-   - `V7Thompson/Sources/V7Thompson/` — all files
-   - Focus: what does the scoring pipeline actually do end to end. How do the AI components feed into job scoring. What is broken vs working.
-
-2. **Ad Cards** — understand what is actually built and how it injects into the job card space
-   - `V7Ads/Sources/V7Ads/` — all files
-   - Focus: how ad cards are injected into the deck alongside job cards. What state they carry. How they interact with the scoring/swipe system.
-
-3. **Job Card space** — both ad cards and AI-driven question cards live here alongside job cards
-   - `V7UI/Sources/V7UI/Views/DeckScreen.swift` — understand the card space architecture
-   - How are different card types (job, question, ad) managed in the same deck
-
-**After reading:** Report what is actually there — correct any wrong assumptions in DECISIONS.md and OPEN_QUESTIONS.md before any code is written.
+Reference codebase for working code to adapt (not copy blindly): `/Users/jasonl/Desktop/ios26_manifest_and_match/manifest_and_match_V8/Packages/`
 
 ---
 

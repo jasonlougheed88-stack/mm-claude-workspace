@@ -10,15 +10,41 @@ Last updated: 2026-05-15
 
 ---
 
-## IMMEDIATE NEXT TASK — Scaffold Design (fresh session picks up here)
+## IMMEDIATE NEXT TASK — Scaffold Phase 1 (fresh session picks up here)
 
 **Pre-Phase 1 work is COMPLETE.**
 - Inventory: ✅ `schematics/SYSTEM_INVENTORY.md`
 - Untangling Guide: ✅ `schematics/UNTANGLING_GUIDE.md`
+- Architecture diagrams: ✅ `diagrams/`
+- Controller skill: ✅ v3.0.0 deployed
 
-**Next:** Scaffold design — plan the v1.1 Xcode workspace structure before touching `ios-app/`.
+**Phase 1 scaffold is ready to begin — two blockers must be cleared first.**
 
-Read the Untangling Guide (especially Layer 2 structural conclusions) before designing the scaffold. The lift/rebuild/drop/defer tables tell you exactly which systems go into Phase 1 vs later.
+### Blockers Before First Line of Scaffold Code
+
+**BLOCKER 1 — XcodeBuildMCP not connecting**
+`claude mcp list` shows XcodeBuildMCP as `✗ Failed to connect`. Without it we cannot build-verify after each scaffold step. Fix this before starting. Attempt restart: `npx -y xcodebuildmcp@latest` — if that fails, check MCP config in `~/.claude.json`.
+
+**BLOCKER 2 — Bundle ID for v1.1 not decided**
+Reference codebase uses `com.manifest.match.v7`. Does v1.1 keep that or get a new one? This goes into the app target before anything else. Needs Jason's answer.
+
+### Already Decided — Not Blockers
+- iOS deployment target: **iOS 17+ minimum, iOS 26 optimized** (DECISIONS.md) — goes into every Package.swift as `.iOS(.v17)`
+- Package names: **15 packages, new descriptive names** — `context/PACKAGE_NAMES.md` is the blueprint
+- Package DAG: **locked** — `context/PACKAGE_NAMES.md` has all dependency edges
+- Build plan for reference codebase is in `new_build_requirements/package_architecture/PACKAGE_BUILD_PLAN.md` — note it uses V7* names, translate to new names when scaffolding
+
+### Scaffold Sequence (once blockers cleared)
+1. Fix XcodeBuildMCP
+2. Confirm bundle ID
+3. Create Xcode workspace + app target in `ios-app/`
+4. Create 15 packages in DAG order (CoreTaxonomy first, AppShell last)
+5. Wire Package.swift dependencies per `context/PACKAGE_NAMES.md`
+6. Add `CoreTaxonomy/Sources/CoreTaxonomy/SacredUIConstants.swift` — sacred values from reference
+7. Verify clean build — zero errors, zero circular deps
+8. Add Core Data model (21 entities, JobCache excluded)
+9. Add `Persistence/Sources/Persistence/PersistenceController.swift`
+10. Verify clean build again
 
 ---
 

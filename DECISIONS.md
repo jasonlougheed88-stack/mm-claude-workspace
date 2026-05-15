@@ -139,10 +139,15 @@
 **Tab 2 — Profile:** User settings, data management. Privacy Policy, Terms of Service, Data Management — real views (not Text() stubs).
 **Tab 3 — Manifest:** Career building hub. Sub-tabs: Overview, Skills Gap, Career Path. Courses destination lives here (not a 5th tab).
 
-### Amber/Teal Hue Constants
+### The Role Slider
+**Date:** 2026-05-15
+**Decision:** The slider controls whether the user is looking for their current role or a future role. One end = match against what's on their resume now. Other end = explore career paths they haven't taken yet. This drives the weight distribution across Thompson Sampling levers.
+**Old name:** "Amber/Teal slider" — internal code naming that was incorrect and bled into the UI. Do not use Amber/Teal as user-facing language.
+**What it is not:** A visual theme toggle. A mood selector. An exploration knob. It is a role intent signal.
+
+### Color System (Internal)
 **Date:** 2026-05-14
-**Decision:** Amber hue = 45/360 (0.125). Teal hue = 174/360 (0.483). These are SACRED — they encode the dual-track product concept visually.
-**Source:** SacredUI.Preferences entity, SacredUIConstants.swift
+**Note:** Amber hue = 45/360 (0.125). Teal hue = 174/360 (0.483). These are internal color constants only — not user-facing labels.
 
 ### Question Card Injection — Need-Based Pull, Not Scheduled Push
 **Date:** 2026-05-15

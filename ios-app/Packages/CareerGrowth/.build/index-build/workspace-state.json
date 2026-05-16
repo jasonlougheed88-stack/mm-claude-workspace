@@ -1,0 +1,139 @@
+{
+  "object" : {
+    "artifacts" : [
+
+    ],
+    "dependencies" : [
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "coretaxonomy",
+          "kind" : "fileSystem",
+          "location" : "/Users/jasonl/Desktop/Claudes-Man&Man-build/ios-app/Packages/CoreTaxonomy",
+          "name" : "CoreTaxonomy"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/jasonl/Desktop/Claudes-Man&Man-build/ios-app/Packages/CoreTaxonomy"
+        },
+        "subpath" : "coretaxonomy"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "intelligence",
+          "kind" : "fileSystem",
+          "location" : "/Users/jasonl/Desktop/Claudes-Man&Man-build/ios-app/Packages/Intelligence",
+          "name" : "Intelligence"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/jasonl/Desktop/Claudes-Man&Man-build/ios-app/Packages/Intelligence"
+        },
+        "subpath" : "intelligence"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "jobnormalizer",
+          "kind" : "fileSystem",
+          "location" : "/Users/jasonl/Desktop/Claudes-Man&Man-build/ios-app/Packages/JobNormalizer",
+          "name" : "JobNormalizer"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/jasonl/Desktop/Claudes-Man&Man-build/ios-app/Packages/JobNormalizer"
+        },
+        "subpath" : "jobnormalizer"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "jobpipeline",
+          "kind" : "fileSystem",
+          "location" : "/Users/jasonl/Desktop/Claudes-Man&Man-build/ios-app/Packages/JobPipeline",
+          "name" : "JobPipeline"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/jasonl/Desktop/Claudes-Man&Man-build/ios-app/Packages/JobPipeline"
+        },
+        "subpath" : "jobpipeline"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "monitoring",
+          "kind" : "fileSystem",
+          "location" : "/Users/jasonl/Desktop/Claudes-Man&Man-build/ios-app/Packages/Monitoring",
+          "name" : "Monitoring"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/jasonl/Desktop/Claudes-Man&Man-build/ios-app/Packages/Monitoring"
+        },
+        "subpath" : "monitoring"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "persistence",
+          "kind" : "fileSystem",
+          "location" : "/Users/jasonl/Desktop/Claudes-Man&Man-build/ios-app/Packages/Persistence",
+          "name" : "Persistence"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/jasonl/Desktop/Claudes-Man&Man-build/ios-app/Packages/Persistence"
+        },
+        "subpath" : "persistence"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "resumeparsing",
+          "kind" : "fileSystem",
+          "location" : "/Users/jasonl/Desktop/Claudes-Man&Man-build/ios-app/Packages/ResumeParsing",
+          "name" : "ResumeParsing"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/jasonl/Desktop/Claudes-Man&Man-build/ios-app/Packages/ResumeParsing"
+        },
+        "subpath" : "resumeparsing"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "scoringengine",
+          "kind" : "fileSystem",
+          "location" : "/Users/jasonl/Desktop/Claudes-Man&Man-build/ios-app/Packages/ScoringEngine",
+          "name" : "ScoringEngine"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/jasonl/Desktop/Claudes-Man&Man-build/ios-app/Packages/ScoringEngine"
+        },
+        "subpath" : "scoringengine"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "semanticmatch",
+          "kind" : "fileSystem",
+          "location" : "/Users/jasonl/Desktop/Claudes-Man&Man-build/ios-app/Packages/SemanticMatch",
+          "name" : "SemanticMatch"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/jasonl/Desktop/Claudes-Man&Man-build/ios-app/Packages/SemanticMatch"
+        },
+        "subpath" : "semanticmatch"
+      }
+    ],
+    "prebuilts" : [
+
+    ]
+  },
+  "version" : 7
+}

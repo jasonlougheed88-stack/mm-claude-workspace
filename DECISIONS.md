@@ -66,6 +66,11 @@
 **Decision:** No external Swift packages. All frameworks are system: Charts, NaturalLanguage, CoreML, FoundationModels, Foundation, UIKit, SwiftUI.
 **Exception:** Google AdMob SDK added in Phase 5 only (required for real ads). This is the only external dependency.
 
+### Bundle ID
+**Date:** 2026-05-15
+**Decision:** Bundle ID for v1.1 is `com.manifestandmatch.app`. Registered in Apple Developer Portal (Team ID: 5U9GNHH75M).
+**Why:** Clean break from reference codebase (`com.manifest.match.v7`). No version numbers, no internal jargon.
+
 ---
 
 ## Data

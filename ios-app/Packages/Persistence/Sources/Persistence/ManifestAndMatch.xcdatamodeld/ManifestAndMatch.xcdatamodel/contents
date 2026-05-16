@@ -1,0 +1,544 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="24A348" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="v1.1_Phase1_Scaffold">
+
+    <entity name="UserProfile" representedClassName="UserProfile" syncable="YES">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="createdDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="lastModified" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="email" attributeType="String"/>
+        <attribute name="phone" optional="YES" attributeType="String"/>
+        <attribute name="location" optional="YES" attributeType="String"/>
+        <attribute name="linkedInURL" optional="YES" attributeType="String"/>
+        <attribute name="githubURL" optional="YES" attributeType="String"/>
+        <attribute name="professionalSummary" optional="YES" attributeType="String"/>
+        <attribute name="skills" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" defaultValueString="[]"/>
+        <attribute name="resumeSkills" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" defaultValueString="[]"/>
+        <attribute name="onetSkills" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" defaultValueString="[]"/>
+        <attribute name="currentDomain" attributeType="String" defaultValueString="technology"/>
+        <attribute name="experienceLevel" attributeType="String" defaultValueString="mid"/>
+        <attribute name="currentJobTitle" optional="YES" attributeType="String"/>
+        <attribute name="desiredRoles" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer"/>
+        <attribute name="locations" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer"/>
+        <attribute name="remotePreference" attributeType="String"/>
+        <attribute name="salaryMin" optional="YES" attributeType="Integer 32" defaultValueString="0"/>
+        <attribute name="salaryMax" optional="YES" attributeType="Integer 32" defaultValueString="0"/>
+        <attribute name="amberTealPosition" attributeType="Double" defaultValueString="0.5" usesScalarValueType="YES"/>
+        <attribute name="explorationRate" attributeType="Double" defaultValueString="0.3" usesScalarValueType="YES"/>
+        <attribute name="confidenceThreshold" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="onetEducationLevel" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="onetWorkActivities" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData"/>
+        <attribute name="onetRIASECRealistic" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="onetRIASECInvestigative" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="onetRIASECArtistic" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="onetRIASECSocial" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="onetRIASECEnterprising" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="onetRIASECConventional" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="onetWorkStyleAchievement" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="onetWorkStyleSocialInfluence" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="onetWorkStyleInterpersonal" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="onetWorkStyleAdjustment" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="onetWorkStyleConscientiousness" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="onetWorkStyleIndependence" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="onetWorkStylePracticalIntelligence" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="declaredCareerGoal" optional="YES" attributeType="String"/>
+        <attribute name="careerGoalSetDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="preferredLearningPath" attributeType="String" defaultValueString="both"/>
+        <attribute name="careerLadderJSON" optional="YES" attributeType="Binary"/>
+        <attribute name="primaryLocationCity" optional="YES" attributeType="String"/>
+        <attribute name="primaryLocationCountry" optional="YES" attributeType="String"/>
+        <attribute name="primaryLocationTimezone" optional="YES" attributeType="String"/>
+        <attribute name="primaryLocationLatitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="primaryLocationLongitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="workExperience" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="WorkExperience" inverseName="profile" inverseEntity="WorkExperience"/>
+        <relationship name="education" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Education" inverseName="profile" inverseEntity="Education"/>
+        <relationship name="certifications" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Certification" inverseName="profile" inverseEntity="Certification"/>
+        <relationship name="projects" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Project" inverseName="profile" inverseEntity="Project"/>
+        <relationship name="volunteerExperience" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="VolunteerExperience" inverseName="profile" inverseEntity="VolunteerExperience"/>
+        <relationship name="awards" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Award" inverseName="profile" inverseEntity="Award"/>
+        <relationship name="publications" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Publication" inverseName="profile" inverseEntity="Publication"/>
+        <relationship name="manifestProfile" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="InferredManifestProfile" inverseName="userProfile" inverseEntity="InferredManifestProfile"/>
+        <relationship name="jobInteractions" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="JobInteraction" inverseName="userProfile" inverseEntity="JobInteraction"/>
+        <relationship name="enrolledCourses" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="EnrolledCourse" inverseName="userProfile" inverseEntity="EnrolledCourse"/>
+        <relationship name="affiliateClicks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="AffiliateClick" inverseName="userProfile" inverseEntity="AffiliateClick"/>
+        <relationship name="convergenceMetrics" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="SwipeConvergenceMetrics" inverseName="userProfile" inverseEntity="SwipeConvergenceMetrics"/>
+        <relationship name="sliderTestSessions" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SliderTestSession" inverseName="userProfile" inverseEntity="SliderTestSession"/>
+        <fetchIndex name="byIdIndex">
+            <fetchIndexElement property="id" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byEmailIndex">
+            <fetchIndexElement property="email" type="Binary" order="ascending"/>
+        </fetchIndex>
+    </entity>
+
+    <entity name="WorkExperience" representedClassName="WorkExperience" syncable="YES">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="company" attributeType="String"/>
+        <attribute name="title" attributeType="String"/>
+        <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="endDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="isCurrent" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="jobDescription" optional="YES" attributeType="String"/>
+        <attribute name="achievements" optional="YES" attributeType="Transformable" valueTransformerName="StringArrayTransformer"/>
+        <attribute name="technologies" optional="YES" attributeType="Transformable" valueTransformerName="StringArrayTransformer"/>
+        <relationship name="profile" maxCount="1" deletionRule="No Action" destinationEntity="UserProfile" inverseName="workExperience" inverseEntity="UserProfile"/>
+        <fetchIndex name="byIdIndex">
+            <fetchIndexElement property="id" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byStartDateIndex">
+            <fetchIndexElement property="startDate" type="Binary" order="descending"/>
+        </fetchIndex>
+    </entity>
+
+    <entity name="Education" representedClassName="Education" syncable="YES">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="institution" attributeType="String"/>
+        <attribute name="degree" optional="YES" attributeType="String"/>
+        <attribute name="fieldOfStudy" optional="YES" attributeType="String"/>
+        <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="endDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="gpa" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="educationLevelValue" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="profile" maxCount="1" deletionRule="No Action" destinationEntity="UserProfile" inverseName="education" inverseEntity="UserProfile"/>
+        <fetchIndex name="byIdIndex">
+            <fetchIndexElement property="id" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byEducationLevelIndex">
+            <fetchIndexElement property="educationLevelValue" type="Binary" order="descending"/>
+        </fetchIndex>
+    </entity>
+
+    <entity name="Certification" representedClassName="Certification" syncable="YES">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="issuer" optional="YES" attributeType="String"/>
+        <attribute name="issueDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="expirationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="credentialId" optional="YES" attributeType="String"/>
+        <attribute name="verificationURL" optional="YES" attributeType="String"/>
+        <attribute name="doesNotExpire" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <relationship name="profile" maxCount="1" deletionRule="No Action" destinationEntity="UserProfile" inverseName="certifications" inverseEntity="UserProfile"/>
+        <fetchIndex name="byIdIndex">
+            <fetchIndexElement property="id" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byExpirationDateIndex">
+            <fetchIndexElement property="expirationDate" type="Binary" order="ascending"/>
+        </fetchIndex>
+    </entity>
+
+    <entity name="Project" representedClassName="Project" syncable="YES">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="projectDescription" optional="YES" attributeType="String"/>
+        <attribute name="highlights" attributeType="Transformable" valueTransformerName="StringArrayTransformer"/>
+        <attribute name="technologies" attributeType="Transformable" valueTransformerName="StringArrayTransformer"/>
+        <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="endDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="isCurrent" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="url" optional="YES" attributeType="String"/>
+        <attribute name="repositoryURL" optional="YES" attributeType="String"/>
+        <attribute name="entityValue" attributeType="String" defaultValueString="personal"/>
+        <attribute name="typeValue" attributeType="String" defaultValueString="application"/>
+        <attribute name="roles" attributeType="Transformable" valueTransformerName="StringArrayTransformer"/>
+        <relationship name="profile" maxCount="1" deletionRule="No Action" destinationEntity="UserProfile" inverseName="projects" inverseEntity="UserProfile"/>
+        <fetchIndex name="byIdIndex">
+            <fetchIndexElement property="id" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byStartDateIndex">
+            <fetchIndexElement property="startDate" type="Binary" order="descending"/>
+        </fetchIndex>
+    </entity>
+
+    <entity name="VolunteerExperience" representedClassName="VolunteerExperience" syncable="YES">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="organization" attributeType="String"/>
+        <attribute name="role" attributeType="String"/>
+        <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="endDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="isCurrent" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="volunteerDescription" optional="YES" attributeType="String"/>
+        <attribute name="hoursPerWeek" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="achievements" attributeType="Transformable" valueTransformerName="StringArrayTransformer"/>
+        <attribute name="skills" attributeType="Transformable" valueTransformerName="StringArrayTransformer"/>
+        <relationship name="profile" maxCount="1" deletionRule="No Action" destinationEntity="UserProfile" inverseName="volunteerExperience" inverseEntity="UserProfile"/>
+        <fetchIndex name="byIdIndex">
+            <fetchIndexElement property="id" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byStartDateIndex">
+            <fetchIndexElement property="startDate" type="Binary" order="descending"/>
+        </fetchIndex>
+    </entity>
+
+    <entity name="Award" representedClassName="Award" syncable="YES">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="title" attributeType="String"/>
+        <attribute name="issuer" attributeType="String"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="awardDescription" optional="YES" attributeType="String"/>
+        <relationship name="profile" maxCount="1" deletionRule="No Action" destinationEntity="UserProfile" inverseName="awards" inverseEntity="UserProfile"/>
+        <fetchIndex name="byIdIndex">
+            <fetchIndexElement property="id" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byDateIndex">
+            <fetchIndexElement property="date" type="Binary" order="descending"/>
+        </fetchIndex>
+    </entity>
+
+    <entity name="Publication" representedClassName="Publication" syncable="YES">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="title" attributeType="String"/>
+        <attribute name="publisher" optional="YES" attributeType="String"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="url" optional="YES" attributeType="String"/>
+        <attribute name="authors" attributeType="Transformable" valueTransformerName="StringArrayTransformer"/>
+        <attribute name="publicationDescription" optional="YES" attributeType="String"/>
+        <relationship name="profile" maxCount="1" deletionRule="No Action" destinationEntity="UserProfile" inverseName="publications" inverseEntity="UserProfile"/>
+        <fetchIndex name="byIdIndex">
+            <fetchIndexElement property="id" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byDateIndex">
+            <fetchIndexElement property="date" type="Binary" order="descending"/>
+        </fetchIndex>
+    </entity>
+
+    <entity name="Preferences" representedClassName="Preferences" syncable="YES">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="swipeRightThreshold" attributeType="Double" defaultValueString="100.0" usesScalarValueType="YES"/>
+        <attribute name="swipeLeftThreshold" attributeType="Double" defaultValueString="-100.0" usesScalarValueType="YES"/>
+        <attribute name="swipeUpThreshold" attributeType="Double" defaultValueString="-80.0" usesScalarValueType="YES"/>
+        <attribute name="springResponse" attributeType="Double" defaultValueString="0.6" usesScalarValueType="YES"/>
+        <attribute name="springDamping" attributeType="Double" defaultValueString="0.8" usesScalarValueType="YES"/>
+        <attribute name="cardWidthRatio" attributeType="Double" defaultValueString="0.92" usesScalarValueType="YES"/>
+        <attribute name="cardHeightRatio" attributeType="Double" defaultValueString="0.85" usesScalarValueType="YES"/>
+        <attribute name="amberHue" attributeType="Double" defaultValueString="0.125" usesScalarValueType="YES"/>
+        <attribute name="tealHue" attributeType="Double" defaultValueString="0.483" usesScalarValueType="YES"/>
+        <fetchIndex name="byIdIndex">
+            <fetchIndexElement property="id" type="Binary" order="ascending"/>
+        </fetchIndex>
+    </entity>
+
+    <entity name="ThompsonArm" representedClassName="ThompsonArm" syncable="YES">
+        <attribute name="armId" attributeType="String"/>
+        <attribute name="alpha" attributeType="Double" defaultValueString="1.0" usesScalarValueType="YES"/>
+        <attribute name="beta" attributeType="Double" defaultValueString="1.0" usesScalarValueType="YES"/>
+        <attribute name="domain" attributeType="String"/>
+        <attribute name="lastUpdated" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="explorationBonus" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="crossDomainMultiplier" attributeType="Double" defaultValueString="1.0" usesScalarValueType="YES"/>
+        <attribute name="confidence" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <fetchIndex name="byArmIdIndex">
+            <fetchIndexElement property="armId" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byDomainIndex">
+            <fetchIndexElement property="domain" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byLastUpdatedIndex">
+            <fetchIndexElement property="lastUpdated" type="Binary" order="descending"/>
+        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="armId"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+
+    <entity name="SwipeHistory" representedClassName="SwipeHistory" syncable="YES">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="jobId" attributeType="String"/>
+        <attribute name="jobTitle" attributeType="String"/>
+        <attribute name="company" attributeType="String"/>
+        <attribute name="action" attributeType="String"/>
+        <attribute name="fitScore" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="dwellTime" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <fetchIndex name="byTimestampIndex">
+            <fetchIndexElement property="timestamp" type="Binary" order="descending"/>
+        </fetchIndex>
+        <fetchIndex name="byJobIdIndex">
+            <fetchIndexElement property="jobId" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byActionIndex">
+            <fetchIndexElement property="action" type="Binary" order="ascending"/>
+        </fetchIndex>
+    </entity>
+
+    <entity name="CareerQuestion" representedClassName="CareerQuestion" syncable="YES">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="questionText" attributeType="String"/>
+        <attribute name="category" attributeType="String"/>
+        <attribute name="type" attributeType="String"/>
+        <attribute name="priority" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="relevanceScore" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="isActive" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="createdDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="askedDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="answeredDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="lastModified" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="skippedCount" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="answerOptionsData" optional="YES" attributeType="Binary"/>
+        <attribute name="responseData" optional="YES" attributeType="Binary"/>
+        <attribute name="metadataData" optional="YES" attributeType="Binary"/>
+        <attribute name="generationMethod" optional="YES" attributeType="String"/>
+        <attribute name="confidenceLevel" optional="YES" attributeType="String"/>
+        <attribute name="impactOnTruths" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="minJobCount" attributeType="Integer 16" defaultValueString="5" usesScalarValueType="YES"/>
+        <attribute name="maxJobCount" attributeType="Integer 16" defaultValueString="20" usesScalarValueType="YES"/>
+        <attribute name="purpose" optional="YES" attributeType="String"/>
+        <relationship name="responses" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="QuestionResponse" inverseName="question" inverseEntity="QuestionResponse"/>
+        <fetchIndex name="byIdIndex">
+            <fetchIndexElement property="id" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byCategoryIndex">
+            <fetchIndexElement property="category" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byPriorityIndex">
+            <fetchIndexElement property="priority" type="Binary" order="descending"/>
+        </fetchIndex>
+        <fetchIndex name="byIsActiveIndex">
+            <fetchIndexElement property="isActive" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+
+    <entity name="UserTruths" representedClassName="UserTruths" syncable="YES">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="userId" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="createdDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="lastModified" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="loveTasksData" optional="YES" attributeType="Binary"/>
+        <attribute name="hateTasksData" optional="YES" attributeType="Binary"/>
+        <attribute name="workValuesData" optional="YES" attributeType="Binary"/>
+        <attribute name="interestsData" optional="YES" attributeType="Binary"/>
+        <attribute name="confidenceMapData" optional="YES" attributeType="Binary"/>
+        <fetchIndex name="byIdIndex">
+            <fetchIndexElement property="id" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byUserIdIndex">
+            <fetchIndexElement property="userId" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byLastModifiedIndex">
+            <fetchIndexElement property="lastModified" type="Binary" order="descending"/>
+        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+            <uniquenessConstraint>
+                <constraint value="userId"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+
+    <entity name="FallbackCareerQuestion" representedClassName="FallbackCareerQuestion" syncable="YES">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="text" attributeType="String"/>
+        <attribute name="category" attributeType="String"/>
+        <attribute name="onetEducationSignal" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="onetWorkActivitiesJSON" attributeType="String" defaultValueString="[]"/>
+        <attribute name="onetRIASECDimensionsJSON" attributeType="String" defaultValueString="[]"/>
+        <attribute name="aiProcessingHints" attributeType="String" defaultValueString=""/>
+        <attribute name="displayOrder" attributeType="Integer 16" usesScalarValueType="YES"/>
+        <attribute name="conditionalLogic" optional="YES" attributeType="String"/>
+        <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="updatedAt" attributeType="Date" usesScalarValueType="NO"/>
+        <fetchIndex name="byDisplayOrderIndex">
+            <fetchIndexElement property="displayOrder" type="Binary" order="ascending"/>
+        </fetchIndex>
+    </entity>
+
+    <entity name="JobInteraction" representedClassName="JobInteraction" syncable="YES">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="sessionID" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="jobID" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="jobTitle" attributeType="String"/>
+        <attribute name="jobCompany" attributeType="String"/>
+        <attribute name="jobRole" attributeType="String"/>
+        <attribute name="jobSkillsData" optional="YES" attributeType="Binary"/>
+        <attribute name="jobONETCode" optional="YES" attributeType="String"/>
+        <attribute name="thompsonScore" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="amberTealPosition" attributeType="Double" defaultValueString="0.5" usesScalarValueType="YES"/>
+        <attribute name="userSkillsSnapshotData" optional="YES" attributeType="Binary"/>
+        <attribute name="action" attributeType="String"/>
+        <attribute name="actionWeight" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="informationGain" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="isAspirationSignal" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <relationship name="userProfile" maxCount="1" deletionRule="Nullify" destinationEntity="UserProfile" inverseName="jobInteractions" inverseEntity="UserProfile"/>
+        <fetchIndex name="byUserProfileIndex">
+            <fetchIndexElement property="userProfile" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byTimestampIndex">
+            <fetchIndexElement property="timestamp" type="Binary" order="descending"/>
+        </fetchIndex>
+        <fetchIndex name="byAspirationSignalIndex">
+            <fetchIndexElement property="isAspirationSignal" type="Binary" order="ascending"/>
+        </fetchIndex>
+    </entity>
+
+    <entity name="InferredManifestProfile" representedClassName="InferredManifestProfile" syncable="YES">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="userProfileID" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="lastUpdated" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="totalSwipesAnalyzed" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="targetRole" optional="YES" attributeType="String"/>
+        <attribute name="targetRoleConfidence" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="careerNarrative" optional="YES" attributeType="String"/>
+        <attribute name="targetSkillsData" optional="YES" attributeType="Binary"/>
+        <attribute name="skillConfidencesData" optional="YES" attributeType="Binary"/>
+        <attribute name="riasecRealisticDirect" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="riasecInvestigativeDirect" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="riasecArtisticDirect" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="riasecSocialDirect" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="riasecEnterprisingDirect" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="riasecConventionalDirect" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="riasecDirectConfidence" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="riasecRealisticInferred" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="riasecInvestigativeInferred" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="riasecArtisticInferred" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="riasecSocialInferred" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="riasecEnterprisingInferred" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="riasecConventionalInferred" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="riasecInferredConfidence" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="workActivitiesData" optional="YES" attributeType="Binary"/>
+        <attribute name="workActivitiesConfidence" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="weeklyGoalsData" optional="YES" attributeType="Binary"/>
+        <attribute name="hiddenStrengthsData" optional="YES" attributeType="Binary"/>
+        <attribute name="confidenceBoostsData" optional="YES" attributeType="Binary"/>
+        <attribute name="unexpectedPathsData" optional="YES" attributeType="Binary"/>
+        <attribute name="convergenceError" attributeType="Double" defaultValueString="1.0" usesScalarValueType="YES"/>
+        <attribute name="minSwipesForConfident" attributeType="Integer 32" defaultValueString="100" usesScalarValueType="YES"/>
+        <attribute name="hasConverged" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <relationship name="userProfile" maxCount="1" deletionRule="Nullify" destinationEntity="UserProfile" inverseName="manifestProfile" inverseEntity="UserProfile"/>
+        <fetchIndex name="byUserProfileIDIndex">
+            <fetchIndexElement property="userProfileID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byLastUpdatedIndex">
+            <fetchIndexElement property="lastUpdated" type="Binary" order="descending"/>
+        </fetchIndex>
+    </entity>
+
+    <entity name="QuestionResponse" representedClassName="QuestionResponse" syncable="YES">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="answer" attributeType="String"/>
+        <attribute name="purpose" attributeType="String"/>
+        <attribute name="generatedInsight" optional="YES" attributeType="String"/>
+        <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="lastModified" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="userProfileID" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="question" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CareerQuestion" inverseName="responses" inverseEntity="CareerQuestion"/>
+        <fetchIndex name="byPurposeIndex">
+            <fetchIndexElement property="purpose" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byCreatedAtIndex">
+            <fetchIndexElement property="createdAt" type="Binary" order="descending"/>
+        </fetchIndex>
+        <fetchIndex name="byUserProfileIDIndex">
+            <fetchIndexElement property="userProfileID" type="Binary" order="ascending"/>
+        </fetchIndex>
+    </entity>
+
+    <entity name="EnrolledCourse" representedClassName="EnrolledCourse" syncable="YES">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="courseID" attributeType="String"/>
+        <attribute name="enrolledDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="completionProgress" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="lastAccessed" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="certificateURL" optional="YES" attributeType="String"/>
+        <relationship name="userProfile" maxCount="1" deletionRule="Nullify" destinationEntity="UserProfile" inverseName="enrolledCourses" inverseEntity="UserProfile"/>
+        <fetchIndex name="byIdIndex">
+            <fetchIndexElement property="id" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byCourseIDIndex">
+            <fetchIndexElement property="courseID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byEnrolledDateIndex">
+            <fetchIndexElement property="enrolledDate" type="Binary" order="descending"/>
+        </fetchIndex>
+        <fetchIndex name="byCompletionProgressIndex">
+            <fetchIndexElement property="completionProgress" type="Binary" order="descending"/>
+        </fetchIndex>
+    </entity>
+
+    <entity name="AffiliateClick" representedClassName="AffiliateClick" syncable="YES">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="courseID" attributeType="String"/>
+        <attribute name="courseTitle" attributeType="String"/>
+        <attribute name="provider" attributeType="String"/>
+        <attribute name="affiliateURL" attributeType="String"/>
+        <attribute name="converted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="conversionTimestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="estimatedCommission" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="coursePrice" attributeType="Double" defaultValueString="79.0" usesScalarValueType="YES"/>
+        <relationship name="userProfile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserProfile" inverseName="affiliateClicks" inverseEntity="UserProfile"/>
+        <fetchIndex name="byIdIndex">
+            <fetchIndexElement property="id" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byTimestampIndex">
+            <fetchIndexElement property="timestamp" type="Binary" order="descending"/>
+        </fetchIndex>
+        <fetchIndex name="byProviderIndex">
+            <fetchIndexElement property="provider" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byConvertedIndex">
+            <fetchIndexElement property="converted" type="Binary" order="ascending"/>
+        </fetchIndex>
+    </entity>
+
+    <entity name="SwipeConvergenceMetrics" representedClassName="SwipeConvergenceMetrics" syncable="YES">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="totalSwipeCount" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="convergenceRate" attributeType="Double" defaultValueString="1.0" usesScalarValueType="YES"/>
+        <attribute name="lastCalibrationDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="confidenceLevel" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="hasConverged" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="swipesUntilConvergence" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="userProfile" maxCount="1" deletionRule="Nullify" destinationEntity="UserProfile" inverseName="convergenceMetrics" inverseEntity="UserProfile"/>
+        <fetchIndex name="byIdIndex">
+            <fetchIndexElement property="id" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byTotalSwipeCountIndex">
+            <fetchIndexElement property="totalSwipeCount" type="Binary" order="descending"/>
+        </fetchIndex>
+        <fetchIndex name="byLastCalibrationDateIndex">
+            <fetchIndexElement property="lastCalibrationDate" type="Binary" order="descending"/>
+        </fetchIndex>
+        <fetchIndex name="byHasConvergedIndex">
+            <fetchIndexElement property="hasConverged" type="Binary" order="ascending"/>
+        </fetchIndex>
+    </entity>
+
+    <entity name="SliderTestSession" representedClassName="SliderTestSession" syncable="YES">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="sessionID" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="sliderPosition" attributeType="Double" usesScalarValueType="YES"/>
+        <attribute name="startTime" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="endTime" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="totalSwipes" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="rightSwipeCount" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="leftSwipeCount" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="saveSwipeCount" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="engagementScore" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="averageSwipeTime" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="testPositionLabel" attributeType="String"/>
+        <attribute name="notes" optional="YES" attributeType="String"/>
+        <relationship name="userProfile" maxCount="1" deletionRule="Nullify" destinationEntity="UserProfile" inverseName="sliderTestSessions" inverseEntity="UserProfile"/>
+        <fetchIndex name="byIdIndex">
+            <fetchIndexElement property="id" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="bySessionIDIndex">
+            <fetchIndexElement property="sessionID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byStartTimeIndex">
+            <fetchIndexElement property="startTime" type="Binary" order="descending"/>
+        </fetchIndex>
+        <fetchIndex name="bySliderPositionIndex">
+            <fetchIndexElement property="sliderPosition" type="Binary" order="ascending"/>
+        </fetchIndex>
+    </entity>
+
+</model>

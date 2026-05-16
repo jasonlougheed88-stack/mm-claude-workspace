@@ -77,13 +77,13 @@ All planning docs, folder structure, repos, and session tooling are in place.
 - Clean build: ✅ zero errors, zero warnings
 
 **Phase 3 — Remaining (do in this order):**
-1. ⬜ `ThompsonWeights` struct in ScoringEngine — slider interpolation (t=0 Match → t=1 Manifest), weights sum to 1.0
-2. ⬜ `scoreJobs([Job], profile: UserProfile) async -> [Job]` on OptimizedThompsonEngine
-3. ⬜ 3-tier title match: exact substring=1.0, shared significant words=0.6–0.8, no match=0.0
-4. ⬜ 6-component combinedScore: 5 professional components × 0.92 + baseThompsonScore × 0.08
-5. ⬜ Location scoring (Haversine, job-type-aware — LocationData.distanceTo() is ready)
-6. ⬜ RIASEC cosine similarity (RIASECProfile.cosineSimilarity() is ready)
-7. ⬜ Work activities cosine similarity
+1. ✅ `ThompsonWeights` struct — slider interpolation (t=0 Match → t=1 Manifest), weights sum to 1.0
+2. ✅ `scoreJobs([Job], profile: UserProfile) -> [Job]` on OptimizedThompsonEngine
+3. ✅ 3-tier title match: exact substring=1.0, shared significant words=0.6–0.8, no match=0.0
+4. ✅ 6-component combinedScore: 5 professional components × 0.92 + baseThompsonScore × 0.08
+5. ✅ Location scoring (Haversine + timezone-aware for remote, distance-aware for onsite/hybrid)
+6. ✅ RIASEC cosine similarity (RIASECProfile.cosineSimilarity() wired)
+7. ✅ Work activities cosine similarity (dict-based, falls back to 0.5 when no O*NET data)
 8. ⬜ Performance gate: <10ms for 100-job batch (sacred budget — must verify before Phase 4)
 
 **Current task: Phase 3 — Scoring (items 1–8 above)**

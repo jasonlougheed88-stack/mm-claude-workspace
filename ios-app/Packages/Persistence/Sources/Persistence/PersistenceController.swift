@@ -24,7 +24,7 @@ public final class PersistenceController: ObservableObject, @unchecked Sendable 
 
     // MARK: - Properties
 
-    public let container: NSPersistentContainer
+    nonisolated public let container: NSPersistentContainer
 
     public var viewContext: NSManagedObjectContext {
         container.viewContext

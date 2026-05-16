@@ -1,38 +1,41 @@
 # Build Sequence — Manifest & Match
 **Read this first. Every session. Before touching anything.**
-Last updated: 2026-05-15
+Last updated: 2026-05-16
 
 ---
 
 ## ⚠️ CURRENT SESSION STATUS — READ BEFORE DOING ANYTHING
 
-**Phase 1 scaffold is COMPLETE. Phase 2 is next.**
+**Phase 2 data flow is COMPLETE. Phase 3 (Scoring) is next.**
 
 ---
 
-## IMMEDIATE NEXT TASK — Phase 2: Data Flow
+## IMMEDIATE NEXT TASK — Phase 3: Scoring
 
-**Phase 1 scaffold is DONE. Clean build confirmed twice (zero errors, zero warnings).**
+**Phase 2 is DONE. Clean build confirmed (zero errors, zero warnings).**
 
-### What was built in Phase 1 (2026-05-15)
-1. ✅ XcodeBuildMCP — connected
-2. ✅ Bundle ID — `com.manifestandmatch.app` (Team ID: 5U9GNHH75M, registered in Apple Developer Portal)
-3. ✅ Xcode project — `ios-app/ManifestAndMatch.xcodeproj` (xcodegen 2.45.4)
-4. ✅ 15 packages — created in DAG order at `ios-app/Packages/`
-5. ✅ Package.swift DAG — wired per `context/PACKAGE_NAMES.md`
-6. ✅ SacredUIConstants — `CoreTaxonomy/Sources/CoreTaxonomy/SacredUIConstants.swift`
-7. ✅ Clean build — zero errors, zero warnings
-8. ✅ Core Data model — 21 entities (JobCache excluded) at `Persistence/Sources/Persistence/ManifestAndMatch.xcdatamodeld/`
-9. ✅ PersistenceController — `Persistence/Sources/Persistence/PersistenceController.swift`
-10. ✅ Final clean build — zero errors, zero warnings
+### What was built in Phase 2 (2026-05-16)
+1. ✅ `PersistenceController.container` — marked `nonisolated` (enables cross-actor access)
+2. ✅ `ThompsonArm.swift` — NSManagedObject subclass with `createOrUpdate`/`fetch`/`recordSuccess`/`recordFailure`
+3. ✅ `JobInteraction.swift` — NSManagedObject subclass with `fetchAll(in:)` and `jobSkills` computed property
+4. ✅ `InferredManifestProfile.swift` — NSManagedObject subclass with `fetchOrCreate(in:)`, JSON-coded arrays
+5. ✅ `FastBetaSampler.swift` — Kumaraswamy approximation, SIMD batch sampling, `FastLookupTable` (O(1))
+6. ✅ `OptimizedThompsonEngine.swift` — actor, `initialize()` loads persisted arms, `processInteraction()` saves after every swipe
+7. ✅ `ManifestInferenceActor.swift` — actor, threshold = 3 (not 10), 5s debounce, skill/role inference
+8. ✅ Clean build — zero errors, zero warnings
 
-### Phase 2 Next Task
-Read `new_build_requirements/` for the Phase 2 data flow build plan before writing any code.
-Key Phase 2 work:
-- ThompsonArm persistence — load on init, save on every swipe (arm IDs: `"amber_primary"`, `"teal_primary"`)
-- ManifestInferenceActor threshold = 3 (not 10)
-- Slider drives profileBlend → ThompsonWeights
-- Gate: swipe → save arms → relaunch → arms match last session
+### Phase 2 persistence gate
+- Gate test: Call `await OptimizedThompsonEngine.shared.initialize()` at launch, call `processInteraction(action: .interested, thompsonScore: 0.5)` 5 times, kill app, relaunch, call `initialize()` again — `amberAlpha` should be 6 (not 1).
+- NOT YET verified via running simulator (requires Phase 4 DeckUI swipe UI to exist)
+
+### Phase 3 Next Task
+Read `new_build_requirements/` for the Phase 3 scoring build plan.
+Key Phase 3 work:
+- 6-component combinedScore: title + skills + location + workActivities + riasec + baseThompsonScore
+- 3-tier title match (exact/synonym/fuzzy)
+- ThompsonBridge: wires OptimizedThompsonEngine → DeckUI card scoring
+- `ThompsonWeights` slider interpolation (Match mode ↔ Manifest mode)
+- Performance gate: <10ms for 100-job batch (sacred budget)
 
 ---
 
@@ -56,7 +59,16 @@ All planning docs, folder structure, repos, and session tooling are in place.
 - PersistenceController: ✅ `Persistence/Sources/Persistence/PersistenceController.swift`
 - Clean build: ✅ zero errors, zero warnings
 
-**Current task: Phase 2 — Data Flow**
+**Phase 2 — Data Flow: COMPLETE (2026-05-16)**
+- ThompsonArm NSManagedObject: ✅
+- JobInteraction NSManagedObject: ✅
+- InferredManifestProfile NSManagedObject: ✅
+- FastBetaSampler (Kumaraswamy + SIMD): ✅
+- OptimizedThompsonEngine (actor + persistence): ✅
+- ManifestInferenceActor (threshold=3): ✅
+- Clean build: ✅ zero errors, zero warnings
+
+**Current task: Phase 3 — Scoring**
 
 ---
 

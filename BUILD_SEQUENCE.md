@@ -6,29 +6,20 @@ Last updated: 2026-05-16
 
 ## ⚠️ CURRENT SESSION STATUS — READ BEFORE DOING ANYTHING
 
-**Phases 1, 2, 3 are COMPLETE. Phase 4 (User Flow) is next.**
-**Last updated: 2026-05-16. Build: zero errors, zero warnings on all three phases.**
+**Phases 1–4 are COMPLETE. Phase 5 (Revenue) is next.**
+**Last updated: 2026-05-16. Build: zero errors, zero warnings on all four phases.**
 
 ---
 
-## IMMEDIATE NEXT TASK — Phase 4: User Flow
+## IMMEDIATE NEXT TASK — Phase 5: Revenue
 
-**Step 1: Read `new_build_requirements/user_flow/` before writing any code.**
+**Step 1: Read `new_build_requirements/` for Phase 5 plan before writing any code.**
 
-Key Phase 4 work (in order):
-1. 4-tab root: Discover (0), Tracker (1), Profile (2), Manifest (3) — wire into `AppShell`
-2. DeckScreen in `DeckUI` package — card stack, swipe gesture, calls `OptimizedThompsonEngine.scoreJobs()` + `processInteraction()`
-3. Onboarding flow — profile setup, skills entry, desired roles, location → writes `UserProfile` to Core Data
-4. Slider in DeckScreen — calls `OptimizedThompsonEngine.setProfileBlend(_:)`
-5. Gate: app boots in simulator, swipe registers, kill+relaunch → `amberAlpha` incremented (Phase 2 persistence gate verified)
-
-**Key wiring facts for Phase 4:**
-- `OptimizedThompsonEngine.shared` — call `await initialize()` in App.swift `@main` body on launch
-- `scoreJobs([Job], profile: UserProfile) -> [Job]` — non-async, actor-isolated, call with `await`
-- `processInteraction(action: SwipeAction, thompsonScore: Double)` — async, call after every swipe
-- `ManifestInferenceActor.shared.updateManifestProfile(in:)` — call after every swipe (debounced internally)
-- `DeckUI` package already exists at `ios-app/Packages/DeckUI/` — currently a stub
-- `AppShell` package already exists — depends on DeckUI and all other packages
+Key Phase 5 work:
+1. Ad cards — Google AdMob integration, ad card in job card space (every N cards)
+2. Course affiliate cards — in Manifest tab, triggered by RIASEC data gaps + slider position
+3. Wire `JobPipeline` to real job data source (replaces SyntheticJobs.swift in DeckUI)
+4. Gate: ad card renders in deck, affiliate card renders in Manifest tab, revenue events fire
 
 ---
 
@@ -86,14 +77,19 @@ All planning docs, folder structure, repos, and session tooling are in place.
 **Phase 3 — Scoring: COMPLETE (2026-05-16)**
 Clean build confirmed. Performance test written — execution deferred to Phase 4 simulator.
 
-**Current task: Phase 4 — User Flow**
-Read `new_build_requirements/user_flow/` before writing any code.
-Key Phase 4 work:
-- 4-tab structure: Discover (0), Tracker (1), Profile (2), Manifest (3)
-- DeckScreen: swipe UI, card stack, calls OptimizedThompsonEngine.scoreJobs() + processInteraction()
-- Onboarding flow: profile setup, skills entry, desired roles, location
-- Slider: drives OptimizedThompsonEngine.setProfileBlend()
-- Gate: app boots in simulator, swipe works, Thompson arms persist across relaunches
+**Phase 4 — User Flow: COMPLETE (2026-05-16)**
+- 4-tab root (Discover/Tracker/Profile/Manifest) in AppShell ✅
+- DeckScreen: card stack, drag gesture, triggerSwipe, Thompson wiring ✅
+- JobCardView: score badge, swipe overlays, skills chips ✅
+- SyntheticJobs: 20 hardcoded jobs, isolated for Phase 5 replacement ✅
+- OnboardingView: 3-step (name → roles → location) → writes Core Data UserProfile ✅
+- CDUserProfile NSManagedObject with KVC for Transformable arrays ✅
+- OptimizedThompsonEngine.scoreJobs signature: `JobNormalizer.UserProfile` (resolved ambiguity) ✅
+- ManifestAndMatchApp.swift wired: initialize() at launch, viewContext injected ✅
+- Gate PASSED: amber_primary alpha=4.0 (was 1.0), teal_primary alpha=14.0 — persistence confirmed across kill+relaunch ✅
+
+**Current task: Phase 5 — Revenue**
+Read `new_build_requirements/` for Phase 5 plan before writing any code.
 
 ---
 

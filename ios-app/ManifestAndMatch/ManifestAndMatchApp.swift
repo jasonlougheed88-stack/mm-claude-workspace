@@ -1,18 +1,20 @@
 import SwiftUI
+import Persistence
+import ScoringEngine
+import AppShell
 
 @main
 struct ManifestAndMatchApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentPlaceholderView()
+            AppShell.RootView()
+                .environment(
+                    \.managedObjectContext,
+                    PersistenceController.shared.container.viewContext
+                )
+                .task {
+                    await OptimizedThompsonEngine.shared.initialize()
+                }
         }
-    }
-}
-
-// Replaced in Phase 4 when AppShell.RootView is ready.
-private struct ContentPlaceholderView: View {
-    var body: some View {
-        Text("Manifest & Match")
-            .font(.largeTitle)
     }
 }

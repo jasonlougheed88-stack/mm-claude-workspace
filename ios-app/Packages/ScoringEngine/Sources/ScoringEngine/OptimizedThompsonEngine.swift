@@ -4,6 +4,7 @@ import os
 import JobNormalizer
 import Persistence
 
+
 private let logger = Logger(subsystem: "com.manifestandmatch.app", category: "OptimizedThompsonEngine")
 
 /// Thompson Sampling engine with Core Data persistence.
@@ -73,7 +74,7 @@ public actor OptimizedThompsonEngine {
 
     /// Score a batch of jobs against the user's profile and current Thompson arm state.
     /// Non-async — runs synchronously on the actor's executor (<10ms for 100 jobs).
-    public func scoreJobs(_ jobs: [Job], profile: UserProfile) -> [Job] {
+    public func scoreJobs(_ jobs: [Job], profile: JobNormalizer.UserProfile) -> [Job] {
         let weights = ThompsonWeights(sliderValue: _profileBlend)
         let features = precomputeUserFeatures(from: profile)
 
@@ -175,7 +176,7 @@ public actor OptimizedThompsonEngine {
 
     // MARK: - Feature Precomputation
 
-    private func precomputeUserFeatures(from profile: UserProfile) -> UserFeatures {
+    private func precomputeUserFeatures(from profile: JobNormalizer.UserProfile) -> UserFeatures {
         let allSkills = profile.professionalProfile.resumeSkills +
                         profile.professionalProfile.onetSkills +
                         profile.professionalProfile.skills

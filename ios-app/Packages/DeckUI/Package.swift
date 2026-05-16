@@ -9,6 +9,7 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../CoreTaxonomy"),
+        .package(path: "../JobNormalizer"),
         .package(path: "../JobPipeline"),
         .package(path: "../ScoringEngine"),
         .package(path: "../Monitoring"),
@@ -21,6 +22,7 @@ let package = Package(
             name: "DeckUI",
             dependencies: [
                 .product(name: "CoreTaxonomy", package: "CoreTaxonomy"),
+                .product(name: "JobNormalizer", package: "JobNormalizer"),
                 .product(name: "JobPipeline", package: "JobPipeline"),
                 .product(name: "ScoringEngine", package: "ScoringEngine"),
                 .product(name: "Monitoring", package: "Monitoring"),

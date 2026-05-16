@@ -10,6 +10,7 @@ let package = Package(
     dependencies: [
         .package(path: "../CoreTaxonomy"),
         .package(path: "../Persistence"),
+        .package(path: "../JobNormalizer"),
         .package(path: "../SemanticMatch")
     ],
     targets: [
@@ -18,6 +19,7 @@ let package = Package(
             dependencies: [
                 .product(name: "CoreTaxonomy", package: "CoreTaxonomy"),
                 .product(name: "Persistence", package: "Persistence"),
+                .product(name: "JobNormalizer", package: "JobNormalizer"),
                 .product(name: "SemanticMatch", package: "SemanticMatch")
             ]
         ),

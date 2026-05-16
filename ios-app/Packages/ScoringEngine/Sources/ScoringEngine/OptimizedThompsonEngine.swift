@@ -1,16 +1,10 @@
 import CoreData
 import Foundation
 import os
+import JobNormalizer
 import Persistence
 
 private let logger = Logger(subsystem: "com.manifestandmatch.app", category: "OptimizedThompsonEngine")
-
-public enum SwipeAction: String, Sendable {
-    case interested
-    case pass
-    case save
-    case applied
-}
 
 /// Thompson Sampling engine with Core Data persistence.
 ///

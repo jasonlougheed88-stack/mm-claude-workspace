@@ -6,36 +6,29 @@ Last updated: 2026-05-16
 
 ## ⚠️ CURRENT SESSION STATUS — READ BEFORE DOING ANYTHING
 
-**Phase 2 data flow is COMPLETE. Phase 3 (Scoring) is next.**
+**Phases 1, 2, 3 are COMPLETE. Phase 4 (User Flow) is next.**
+**Last updated: 2026-05-16. Build: zero errors, zero warnings on all three phases.**
 
 ---
 
-## IMMEDIATE NEXT TASK — Phase 3: Scoring
+## IMMEDIATE NEXT TASK — Phase 4: User Flow
 
-**Phase 2 is DONE. Clean build confirmed (zero errors, zero warnings).**
+**Step 1: Read `new_build_requirements/user_flow/` before writing any code.**
 
-### What was built in Phase 2 (2026-05-16)
-1. ✅ `PersistenceController.container` — marked `nonisolated` (enables cross-actor access)
-2. ✅ `ThompsonArm.swift` — NSManagedObject subclass with `createOrUpdate`/`fetch`/`recordSuccess`/`recordFailure`
-3. ✅ `JobInteraction.swift` — NSManagedObject subclass with `fetchAll(in:)` and `jobSkills` computed property
-4. ✅ `InferredManifestProfile.swift` — NSManagedObject subclass with `fetchOrCreate(in:)`, JSON-coded arrays
-5. ✅ `FastBetaSampler.swift` — Kumaraswamy approximation, SIMD batch sampling, `FastLookupTable` (O(1))
-6. ✅ `OptimizedThompsonEngine.swift` — actor, `initialize()` loads persisted arms, `processInteraction()` saves after every swipe
-7. ✅ `ManifestInferenceActor.swift` — actor, threshold = 3 (not 10), 5s debounce, skill/role inference
-8. ✅ Clean build — zero errors, zero warnings
+Key Phase 4 work (in order):
+1. 4-tab root: Discover (0), Tracker (1), Profile (2), Manifest (3) — wire into `AppShell`
+2. DeckScreen in `DeckUI` package — card stack, swipe gesture, calls `OptimizedThompsonEngine.scoreJobs()` + `processInteraction()`
+3. Onboarding flow — profile setup, skills entry, desired roles, location → writes `UserProfile` to Core Data
+4. Slider in DeckScreen — calls `OptimizedThompsonEngine.setProfileBlend(_:)`
+5. Gate: app boots in simulator, swipe registers, kill+relaunch → `amberAlpha` incremented (Phase 2 persistence gate verified)
 
-### Phase 2 persistence gate
-- Gate test: Call `await OptimizedThompsonEngine.shared.initialize()` at launch, call `processInteraction(action: .interested, thompsonScore: 0.5)` 5 times, kill app, relaunch, call `initialize()` again — `amberAlpha` should be 6 (not 1).
-- NOT YET verified via running simulator (requires Phase 4 DeckUI swipe UI to exist)
-
-### Phase 3 Next Task
-Read `new_build_requirements/` for the Phase 3 scoring build plan.
-Key Phase 3 work:
-- 6-component combinedScore: title + skills + location + workActivities + riasec + baseThompsonScore
-- 3-tier title match (exact/synonym/fuzzy)
-- ThompsonBridge: wires OptimizedThompsonEngine → DeckUI card scoring
-- `ThompsonWeights` slider interpolation (Match mode ↔ Manifest mode)
-- Performance gate: <10ms for 100-job batch (sacred budget)
+**Key wiring facts for Phase 4:**
+- `OptimizedThompsonEngine.shared` — call `await initialize()` in App.swift `@main` body on launch
+- `scoreJobs([Job], profile: UserProfile) -> [Job]` — non-async, actor-isolated, call with `await`
+- `processInteraction(action: SwipeAction, thompsonScore: Double)` — async, call after every swipe
+- `ManifestInferenceActor.shared.updateManifestProfile(in:)` — call after every swipe (debounced internally)
+- `DeckUI` package already exists at `ios-app/Packages/DeckUI/` — currently a stub
+- `AppShell` package already exists — depends on DeckUI and all other packages
 
 ---
 
@@ -107,27 +100,6 @@ Key Phase 4 work:
 ## Pre-Build Audit: COMPLETE (2026-05-15)
 
 Package naming audit done. All 15 packages audited against live workspace (confirmed via XcodeBuildMCP). Names approved. Authoritative mapping: `context/PACKAGE_NAMES.md`. DECISIONS.md updated.
-
----
-
-## Immediate Next Task
-
-**Phase 1 — Scaffold new Xcode workspace**
-
-New build location: `/Users/jasonl/Desktop/Claudes-Man&Man-build/ios-app/`
-Reference codebase: `/Users/jasonl/Desktop/ios26_manifest_and_match/manifest_and_match_V8/`
-
-Scaffold in this order (per `new_build_requirements/package_architecture/PACKAGE_BUILD_PLAN.md`):
-1. Create new Xcode workspace: `ManifestAndMatch.xcworkspace`
-2. Create 15 Swift packages with approved names (see `context/PACKAGE_NAMES.md`)
-3. Wire Package.swift dependencies per the DAG in PACKAGE_NAMES.md
-4. Add CoreTaxonomy/SacredUIConstants.swift — copy sacred values from reference, validate at runtime
-5. Add Persistence/PersistenceController.swift + Core Data model (21 entities, minus JobCache)
-6. Verify clean build (no errors, no circular dependencies)
-
-Do NOT copy code wholesale from the reference codebase. Build each piece intentionally.
-
-**Note:** OPEN_QUESTIONS.md Q1 (Tab 1 name/CRM schema) must be answered before Phase 4 but does not block Phase 1-3.
 
 ---
 

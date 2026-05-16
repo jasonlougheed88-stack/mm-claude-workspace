@@ -68,7 +68,25 @@ All planning docs, folder structure, repos, and session tooling are in place.
 - ManifestInferenceActor (threshold=3): ✅
 - Clean build: ✅ zero errors, zero warnings
 
-**Current task: Phase 3 — Scoring**
+**Phase 3 — Scoring: IN PROGRESS (2026-05-16)**
+- Job/ThompsonScore/SwipeAction types → `JobNormalizer/Sources/JobNormalizer/Job.swift` ✅
+- LocationData/JobLocationData/WorkLocationType/RIASECProfile → `JobNormalizer/Sources/JobNormalizer/Location.swift` ✅
+- UserProfile/UserPreferences/ProfessionalProfile → `JobNormalizer/Sources/JobNormalizer/UserProfile.swift` ✅
+- ScoringEngine Package.swift wired to JobNormalizer ✅
+- SwipeAction moved from ScoringEngine to JobNormalizer (single source of truth) ✅
+- Clean build: ✅ zero errors, zero warnings
+
+**Phase 3 — Remaining (do in this order):**
+1. ⬜ `ThompsonWeights` struct in ScoringEngine — slider interpolation (t=0 Match → t=1 Manifest), weights sum to 1.0
+2. ⬜ `scoreJobs([Job], profile: UserProfile) async -> [Job]` on OptimizedThompsonEngine
+3. ⬜ 3-tier title match: exact substring=1.0, shared significant words=0.6–0.8, no match=0.0
+4. ⬜ 6-component combinedScore: 5 professional components × 0.92 + baseThompsonScore × 0.08
+5. ⬜ Location scoring (Haversine, job-type-aware — LocationData.distanceTo() is ready)
+6. ⬜ RIASEC cosine similarity (RIASECProfile.cosineSimilarity() is ready)
+7. ⬜ Work activities cosine similarity
+8. ⬜ Performance gate: <10ms for 100-job batch (sacred budget — must verify before Phase 4)
+
+**Current task: Phase 3 — Scoring (items 1–8 above)**
 
 ---
 

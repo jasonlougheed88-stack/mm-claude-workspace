@@ -2,3 +2,7 @@
 *.log
 *.tmp
 ios-app/.git
+ios-app/Packages/*/.build/
+ios-app/*.xcodeproj/xcuserdata/
+ios-app/*.xcworkspace/xcuserdata/
+ios-app/DerivedData/

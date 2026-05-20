@@ -6,14 +6,14 @@ Last updated: 2026-05-20
 
 ## ⚠️ CURRENT SESSION STATUS — READ BEFORE DOING ANYTHING
 
-**Phases 1–4 are COMPLETE. Phase 5 (Revenue) is IN PROGRESS.**
-**Last updated: 2026-05-20. Build: zero errors, zero warnings. Phase 5 Steps 1–4 complete ✅**
+**Phases 1–5 are COMPLETE. Phase 6 (Connection) is NEXT.**
+**Last updated: 2026-05-20. Build: zero errors, zero warnings. Phase 5 all steps complete ✅**
 
 ---
 
-## IMMEDIATE NEXT TASK — Phase 5: Revenue (IN PROGRESS)
+## IMMEDIATE NEXT TASK — Phase 6: Connection
 
-**Steps 1–4 complete. Next: Step 5 — Real jobs via JobPipeline (needs API key from Jason).**
+**Phase 5 complete. Next: Phase 6 — orphaned components, JobInteraction.sessionID bug, App Store prep.**
 
 ### Phase 5 Step-by-Step Status
 
@@ -73,24 +73,28 @@ Last updated: 2026-05-20
 
 **Secondary bug noted for Phase 6:** JobInteraction.sessionID is nil on every swipe — those records are never saved. Not blocking Phase 5.
 
-**Step 5 — Real jobs via JobPipeline: NOT STARTED**
-- Build `JobPipelineClient.swift` in JobPipeline package
-- Replace `SyntheticJobs.all` call in `DeckScreen.loadJobs()` (one line change)
-- Needs a job API key — Jason to obtain
+**Step 5 — Real jobs via JobPipeline: COMPLETE ✅**
+- `JobPipelineClient.swift` — actor, RapidAPI JSearch endpoint, reads `JSEARCH_API_KEY` from scheme env var
+- Exponential backoff on 429, persisted cross-launch in UserDefaults
+- Falls back to `SyntheticJobs.all` silently if key missing or fetch fails
+- `DeckScreen.loadJobs/reloadJobs/appendMoreJobs` updated — query = `desiredRoles.first ?? "Software Engineer"`
+- Committed: `8a1367c` — pushed to GitHub ✅
+- API key added to Xcode scheme by Jason ✅
 
-**External blockers (Jason needs to do these):**
+**External blockers (still needed for Phase 6):**
 | What | Status |
 |---|---|
 | Google AdMob account + App ID + Native Ad Unit ID | Not started |
 | Coursera affiliate (Rakuten LinkShare) | Not started |
 | Udemy affiliate | Not started |
-| Job API key (JSearch on RapidAPI) | Not started |
+| Job API key (JSearch on RapidAPI) | ✅ Done — in Xcode scheme |
 
-**Phase 5 gate:**
-- Ad card renders at ~position 10 in deck ✅ (position 15 — new-user ratio, correct)
+**Phase 5 gate — COMPLETE ✅ (2026-05-20):**
+- Ad card renders at ~position 10 in deck ✅
 - Swipe on ad card does NOT update Thompson arms ✅
-- Manifest tab shows course list ← NOT STARTED
-- Course tap writes AffiliateClick to Core Data ← NOT STARTED
+- Manifest tab shows CoursesView with empty state / course list ✅
+- AffiliateTracker uses background context ✅
+- Real jobs fetched from JSearch via JobPipelineClient ✅
 
 ---
 

@@ -6,21 +6,28 @@ Last updated: 2026-05-20
 
 ## ⚠️ CURRENT SESSION STATUS — READ BEFORE DOING ANYTHING
 
-**Phases 1–4 are COMPLETE. Phase 5 revenue infrastructure is built but NOT fully live.**
+**Phases 1–5 are COMPLETE. Ready to start Phase 6 (Connection).**
 **Last updated: 2026-05-20. Build: zero errors, zero warnings.**
 
 ---
 
-## IMMEDIATE NEXT TASK — Phase 5: Revenue (INFRASTRUCTURE COMPLETE, CREDENTIALS PENDING)
+## IMMEDIATE NEXT TASK — Phase 6: Connection
 
-**Revenue infrastructure is built. Real ad serving and real affiliate links are blocked on external accounts Jason needs to create.**
+**All revenue infrastructure is live with test credentials. Phase 5 is fully gated. Start Phase 6.**
 
-### What is working now:
-- Ad cards inject into the deck at the correct ratio (placeholder UI, no real SDK)
-- ATT consent fires on onboarding
-- Manifest tab loads course recommendations from static bundled JSON
-- AffiliateTracker writes clicks to Core Data
-- Real jobs fetched from JSearch via `JSEARCH_API_KEY` scheme env var
+Read `new_build_requirements/` for Phase 6 plan before writing any code.
+
+### Phase 5 final state:
+- Ad cards inject at correct ratio — real GoogleMobileAds SDK (11.13.0) with test IDs ✅
+- AdMob native ad validator: no implementation issues ✅
+- ATT consent fires on onboarding ✅
+- Affiliate links built — empty production credential strings (swap when accounts ready) ✅
+- Real jobs from JSearch ✅
+
+### Still needs production credentials (swap when ready, no code changes needed):
+- `NativeAdLoader.swift:14` — replace test native ad unit ID
+- `Info.plist` — replace test App ID with real AdMob App ID
+- `AffiliateURLBuilder` — Coursera Rakuten ID + Udemy affiliate ID
 
 ### What is NOT live yet (blocked on external accounts):
 - **Ads**: AdMob SDK not added. Placeholder UI only. Needs: AdMob account → App ID → Native Ad Unit ID → swap `AdPlaceholderTypes.swift` stubs for real SDK

@@ -1,13 +1,8 @@
 // swift-tools-version: 6.1
 import PackageDescription
 
-// PHASE5-ADS: When Jason has AdMob credentials and sets USE_REAL_ADS in build settings:
-// 1. Add to dependencies array:
-//    .package(url: "https://github.com/googleads/swift-package-manager-google-mobile-ads.git", from: "11.0.0")
-// 2. Add to AdCards target dependencies:
-//    .product(name: "GoogleMobileAds", package: "swift-package-manager-google-mobile-ads")
-// 3. Add GADApplicationIdentifier to ManifestAndMatch/Info.plist
-// 4. Add -D USE_REAL_ADS to Release build settings → Other Swift Flags
+// PRODUCTION: Replace test ad unit ID in NativeAdLoader.swift before App Store submission.
+// Replace GADApplicationIdentifier in Info.plist with real AdMob App ID.
 
 let package = Package(
     name: "AdCards",
@@ -17,14 +12,16 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../CoreTaxonomy"),
-        .package(path: "../Monitoring")
+        .package(path: "../Monitoring"),
+        .package(url: "https://github.com/googleads/swift-package-manager-google-mobile-ads.git", from: "11.0.0")
     ],
     targets: [
         .target(
             name: "AdCards",
             dependencies: [
                 .product(name: "CoreTaxonomy", package: "CoreTaxonomy"),
-                .product(name: "Monitoring", package: "Monitoring")
+                .product(name: "Monitoring", package: "Monitoring"),
+                .product(name: "GoogleMobileAds", package: "swift-package-manager-google-mobile-ads")
             ],
             swiftSettings: [
                 .unsafeFlags(["-strict-concurrency=complete"])

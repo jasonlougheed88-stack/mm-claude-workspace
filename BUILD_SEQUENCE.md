@@ -7,13 +7,13 @@ Last updated: 2026-05-20
 ## ⚠️ CURRENT SESSION STATUS — READ BEFORE DOING ANYTHING
 
 **Phases 1–4 are COMPLETE. Phase 5 (Revenue) is IN PROGRESS.**
-**Last updated: 2026-05-20. Build: zero errors, zero warnings. Phase 5 ad cards committed ✅**
+**Last updated: 2026-05-20. Build: zero errors, zero warnings. Phase 5 Steps 1–4 complete ✅**
 
 ---
 
 ## IMMEDIATE NEXT TASK — Phase 5: Revenue (IN PROGRESS)
 
-**Ad cards: COMPLETE and committed. Next: CareerGrowth package (Step 4).**
+**Steps 1–4 complete. Next: Step 5 — Real jobs via JobPipeline (needs API key from Jason).**
 
 ### Phase 5 Step-by-Step Status
 
@@ -44,7 +44,7 @@ Last updated: 2026-05-20
 - Swipe on ad card advances deck only — Thompson NOT called ✅
 - Committed: `4f71aed` — pushed to GitHub ✅
 
-**Step 4 — CareerGrowth package: BUILT, GATE IN PROGRESS ⚠️**
+**Step 4 — CareerGrowth package: COMPLETE ✅**
 - `AffiliateClick.swift` — NSManagedObject subclass in Persistence package
 - `CourseModels.swift` — RecommendedCourse, CourseProvider, CoursePrice, DifficultyLevel, Skill, SkillsGap
 - `CourseDatabase.swift` — actor, Bundle.module, correct flat-array JSON schema
@@ -64,13 +64,14 @@ Last updated: 2026-05-20
 - Build `AffiliateTracker.swift` — writes AffiliateClick to Core Data; affiliate URL construction goes through Cloudflare Workers proxy (credentials NOT in binary — see DECISIONS.md)
 - Wire ManifestTab stub → CoursesView
 
-**Phase 5 gate — Step 4 (IN PROGRESS):**
+**Phase 5 gate — Step 4 (COMPLETE ✅ 2026-05-20):**
 - ManifestTab shows CoursesView (not stub) ✅
 - Empty state renders correctly — "Keep Swiping", teal sparkles ✅
 - Course list loads after 3+ swipes ✅ (70% match scores visible)
-- Course tap writes AffiliateClick to Core Data ← BUG FOUND + FIX WRITTEN, NOT YET BUILT/TESTED
+- AffiliateTracker uses background context — save can never fail from viewContext dirty objects ✅
+- Committed: `71940e5` — pushed to GitHub ✅
 
-**⚠️ RESUME HERE next session — Step 4 gate not complete. Read session-notes/phase5-step4-resume.md**
+**Secondary bug noted for Phase 6:** JobInteraction.sessionID is nil on every swipe — those records are never saved. Not blocking Phase 5.
 
 **Step 5 — Real jobs via JobPipeline: NOT STARTED**
 - Build `JobPipelineClient.swift` in JobPipeline package

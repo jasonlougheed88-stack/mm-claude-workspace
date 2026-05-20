@@ -1,19 +1,19 @@
 # Build Sequence — Manifest & Match
 **Read this first. Every session. Before touching anything.**
-Last updated: 2026-05-16
+Last updated: 2026-05-20
 
 ---
 
 ## ⚠️ CURRENT SESSION STATUS — READ BEFORE DOING ANYTHING
 
-**Phases 1–4 are COMPLETE. Phase 5 (Revenue) is next.**
-**Last updated: 2026-05-16. Build: zero errors, zero warnings on all four phases.**
+**Phases 1–4 are COMPLETE. Phase 5 (Revenue) is IN PROGRESS.**
+**Last updated: 2026-05-20. Build: zero errors, zero warnings. Phase 5 ad cards committed ✅**
 
 ---
 
 ## IMMEDIATE NEXT TASK — Phase 5: Revenue (IN PROGRESS)
 
-**Ad cards: built and compiling. Gate test in progress (need to verify ad card appears at deck position ~10).**
+**Ad cards: COMPLETE and committed. Next: CareerGrowth package (Step 4).**
 
 ### Phase 5 Step-by-Step Status
 
@@ -38,9 +38,11 @@ Last updated: 2026-05-16
 
 **Build status: zero errors, zero warnings ✅ App launches ✅**
 
-**Gate test — IN PROGRESS:**
-- Need to swipe ~10 cards and confirm ad card appears with SPONSORED badge
-- Was attempting AppleScript tap automation when interrupted
+**Gate test — PASSED ✅ (2026-05-20):**
+- Ad card rendered at position 15 (new-user protection: 1:15 ratio for first 50 interactions, expected)
+- AdCardView confirmed: teal border, graduation cap, "Advance Your Career", "Learn More" CTA
+- Swipe on ad card advances deck only — Thompson NOT called ✅
+- Committed: `4f71aed` — pushed to GitHub ✅
 
 **Step 4 — CareerGrowth package: NOT STARTED**
 - Port `courses_v1.json` from V7 reference into CareerGrowth package Resources
@@ -63,11 +65,11 @@ Last updated: 2026-05-16
 | Udemy affiliate | Not started |
 | Job API key (JSearch on RapidAPI) | Not started |
 
-**Phase 5 gate (not yet passed):**
-- Ad card renders at ~position 10 in deck ← in progress
-- Swipe on ad card does NOT update Thompson arms
-- Manifest tab shows course list
-- Course tap writes AffiliateClick to Core Data
+**Phase 5 gate:**
+- Ad card renders at ~position 10 in deck ✅ (position 15 — new-user ratio, correct)
+- Swipe on ad card does NOT update Thompson arms ✅
+- Manifest tab shows course list ← NOT STARTED
+- Course tap writes AffiliateClick to Core Data ← NOT STARTED
 
 ---
 

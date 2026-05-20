@@ -1,8 +1,11 @@
 import SwiftUI
 import CoreData
+import OSLog
 import CareerGrowth
 import Persistence
 import CoreTaxonomy
+
+private let coursesLogger = Logger(subsystem: "com.manifestandmatch.app", category: "CoursesView")
 
 @MainActor
 public struct CoursesView: View {
@@ -102,13 +105,18 @@ public struct CoursesView: View {
     }
 
     private func openCourse(_ course: RecommendedCourse) {
+        coursesLogger.debug("openCourse called: \(course.title)")
         let affiliateURL = AffiliateURLBuilder.shared.buildAffiliateURL(for: course)
+        coursesLogger.debug("affiliateURL: \(affiliateURL.absoluteString)")
         Task {
-            try? await AffiliateTracker.shared.recordClickInCoreData(
-                course: course,
-                affiliateURL: affiliateURL,
-                context: viewContext
-            )
+            do {
+                try await AffiliateTracker.shared.recordClickInCoreData(
+                    course: course,
+                    affiliateURL: affiliateURL
+                )
+            } catch {
+                coursesLogger.error("AffiliateClick write failed: \(error)")
+            }
         }
         openURL(affiliateURL)
     }

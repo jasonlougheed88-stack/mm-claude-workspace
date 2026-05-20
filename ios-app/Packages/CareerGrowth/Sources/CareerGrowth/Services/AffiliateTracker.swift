@@ -1,6 +1,9 @@
 import Foundation
 import CoreData
+import OSLog
 import Persistence
+
+private let logger = Logger(subsystem: "com.manifestandmatch.app", category: "AffiliateTracker")
 
 // MARK: - AffiliateTracker
 
@@ -10,9 +13,11 @@ public actor AffiliateTracker {
 
     public func recordClickInCoreData(
         course: RecommendedCourse,
-        affiliateURL: URL,
-        context: NSManagedObjectContext
+        affiliateURL: URL
     ) async throws {
+        // Use an isolated background context so we never save other views' pending
+        // dirty objects (e.g. JobInteraction with nil sessionID) alongside this click.
+        let context = PersistenceController.shared.container.newBackgroundContext()
         let objectID = try await context.perform {
             let click = AffiliateClick.create(in: context)
             click.courseID = course.id
@@ -25,9 +30,10 @@ public actor AffiliateTracker {
             }()
             click.estimatedCommission = click.coursePrice * 0.10
             try context.save()
+            logger.debug("AffiliateClick saved — course: \(course.title), provider: \(course.provider.rawValue)")
             return click.objectID
         }
-        _ = objectID // saved; objectID available for cross-context use if needed
+        _ = objectID
     }
 }
 

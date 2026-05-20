@@ -1,6 +1,7 @@
 import SwiftUI
 import CoreData
 import JobNormalizer
+import JobPipeline
 import Persistence
 import ScoringEngine
 import Intelligence
@@ -259,14 +260,18 @@ public struct DeckScreen: View {
 
     private func loadJobs() async {
         isLoading = true
-        let scored = await OptimizedThompsonEngine.shared.scoreJobs(SyntheticJobs.all, profile: userProfile)
+        let fetched = await JobPipelineClient.shared.fetchJobs(for: userProfile.preferences.desiredRoles.first ?? "Software Engineer")
+        let batch = fetched.isEmpty ? SyntheticJobs.all : fetched
+        let scored = await OptimizedThompsonEngine.shared.scoreJobs(batch, profile: userProfile)
         cards = await buildCards(from: scored)
         isLoading = false
     }
 
     private func reloadJobs() async {
         isLoading = true
-        let scored = await OptimizedThompsonEngine.shared.scoreJobs(SyntheticJobs.all, profile: userProfile)
+        let fetched = await JobPipelineClient.shared.fetchJobs(for: userProfile.preferences.desiredRoles.first ?? "Software Engineer")
+        let batch = fetched.isEmpty ? SyntheticJobs.all : fetched
+        let scored = await OptimizedThompsonEngine.shared.scoreJobs(batch, profile: userProfile)
         cards = await buildCards(from: scored)
         currentIndex = 0
         sessionAdsSeen = 0
@@ -275,7 +280,9 @@ public struct DeckScreen: View {
     }
 
     private func appendMoreJobs() async {
-        let scored = await OptimizedThompsonEngine.shared.scoreJobs(SyntheticJobs.all, profile: userProfile)
+        let fetched = await JobPipelineClient.shared.fetchJobs(for: userProfile.preferences.desiredRoles.first ?? "Software Engineer")
+        let batch = fetched.isEmpty ? SyntheticJobs.all : fetched
+        let scored = await OptimizedThompsonEngine.shared.scoreJobs(batch, profile: userProfile)
         let newCards = await buildCards(from: scored)
         cards.append(contentsOf: newCards)
     }

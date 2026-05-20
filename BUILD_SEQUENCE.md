@@ -6,14 +6,30 @@ Last updated: 2026-05-20
 
 ## ⚠️ CURRENT SESSION STATUS — READ BEFORE DOING ANYTHING
 
-**Phases 1–5 are COMPLETE. Phase 6 (Connection) is NEXT.**
-**Last updated: 2026-05-20. Build: zero errors, zero warnings. Phase 5 all steps complete ✅**
+**Phases 1–4 are COMPLETE. Phase 5 revenue infrastructure is built but NOT fully live.**
+**Last updated: 2026-05-20. Build: zero errors, zero warnings.**
 
 ---
 
-## IMMEDIATE NEXT TASK — Phase 6: Connection
+## IMMEDIATE NEXT TASK — Phase 5: Revenue (INFRASTRUCTURE COMPLETE, CREDENTIALS PENDING)
 
-**Phase 5 complete. Next: Phase 6 — orphaned components, JobInteraction.sessionID bug, App Store prep.**
+**Revenue infrastructure is built. Real ad serving and real affiliate links are blocked on external accounts Jason needs to create.**
+
+### What is working now:
+- Ad cards inject into the deck at the correct ratio (placeholder UI, no real SDK)
+- ATT consent fires on onboarding
+- Manifest tab loads course recommendations from static bundled JSON
+- AffiliateTracker writes clicks to Core Data
+- Real jobs fetched from JSearch via `JSEARCH_API_KEY` scheme env var
+
+### What is NOT live yet (blocked on external accounts):
+- **Ads**: AdMob SDK not added. Placeholder UI only. Needs: AdMob account → App ID → Native Ad Unit ID → swap `AdPlaceholderTypes.swift` stubs for real SDK
+- **Course affiliates**: Credential strings are empty. Links fall back to direct course URLs. Needs: Coursera Rakuten LinkShare ID + Udemy affiliate ID → add to `AffiliateURLBuilder` (or via Cloudflare proxy in Phase 6)
+
+### Next session options:
+1. If Jason has AdMob account ready — wire real AdMob SDK
+2. If Jason has affiliate IDs ready — add to AffiliateURLBuilder
+3. Otherwise — move to Phase 6 (Connection) and come back to credentials later
 
 ### Phase 5 Step-by-Step Status
 
@@ -89,12 +105,14 @@ Last updated: 2026-05-20
 | Udemy affiliate | Not started |
 | Job API key (JSearch on RapidAPI) | ✅ Done — in Xcode scheme |
 
-**Phase 5 gate — COMPLETE ✅ (2026-05-20):**
+**Phase 5 gate — INFRASTRUCTURE GATE PASSED ✅ (2026-05-20). Revenue gate PENDING credentials:**
 - Ad card renders at ~position 10 in deck ✅
 - Swipe on ad card does NOT update Thompson arms ✅
 - Manifest tab shows CoursesView with empty state / course list ✅
 - AffiliateTracker uses background context ✅
-- Real jobs fetched from JSearch via JobPipelineClient ✅
+- Real jobs fetched from JSearch ✅
+- Real AdMob ads serving ← BLOCKED on AdMob account
+- Real affiliate commission links ← BLOCKED on Coursera + Udemy affiliate IDs
 
 ---
 

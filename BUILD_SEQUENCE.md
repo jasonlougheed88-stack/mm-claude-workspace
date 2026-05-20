@@ -44,7 +44,7 @@ Last updated: 2026-05-20
 - Swipe on ad card advances deck only — Thompson NOT called ✅
 - Committed: `4f71aed` — pushed to GitHub ✅
 
-**Step 4 — CareerGrowth package: COMPLETE ✅**
+**Step 4 — CareerGrowth package: BUILT, GATE IN PROGRESS ⚠️**
 - `AffiliateClick.swift` — NSManagedObject subclass in Persistence package
 - `CourseModels.swift` — RecommendedCourse, CourseProvider, CoursePrice, DifficultyLevel, Skill, SkillsGap
 - `CourseDatabase.swift` — actor, Bundle.module, correct flat-array JSON schema
@@ -64,11 +64,13 @@ Last updated: 2026-05-20
 - Build `AffiliateTracker.swift` — writes AffiliateClick to Core Data; affiliate URL construction goes through Cloudflare Workers proxy (credentials NOT in binary — see DECISIONS.md)
 - Wire ManifestTab stub → CoursesView
 
-**Phase 5 gate — Step 4:**
+**Phase 5 gate — Step 4 (IN PROGRESS):**
 - ManifestTab shows CoursesView (not stub) ✅
-- Empty state renders when no converged InferredManifestProfile ← verify in simulator
-- Course tap writes AffiliateClick to Core Data ← verify in simulator
-- Build: zero errors, zero warnings ✅
+- Empty state renders correctly — "Keep Swiping", teal sparkles ✅
+- Course list loads after 3+ swipes ✅ (70% match scores visible)
+- Course tap writes AffiliateClick to Core Data ← BUG FOUND + FIX WRITTEN, NOT YET BUILT/TESTED
+
+**⚠️ RESUME HERE next session — Step 4 gate not complete. Read session-notes/phase5-step4-resume.md**
 
 **Step 5 — Real jobs via JobPipeline: NOT STARTED**
 - Build `JobPipelineClient.swift` in JobPipeline package

@@ -400,10 +400,11 @@ Skills are invoked via `/skill-name`. They are instruction sets that change how 
 Active skills live at `~/.claude/skills/`. Local copies at `skills/` in this repo.
 Deploy updates: `bash tools/sync-skills.sh deploy`
 
-#### This skill (invoke first each session)
+#### These skills (invoke at every session start, in order)
 | Skill | Purpose |
 |---|---|
-| `/manifest-match-guide` | **This skill.** North star, routing guide, mission context. |
+| `/manifest-match-guide` | **This skill.** North star, routing guide, mission context. Invoke first. |
+| `/session-continuity` | Operational state. Reads last checkpoint, presents exact next action. Invoke second. |
 
 #### Master/Orchestration
 | Skill | Purpose |
@@ -486,10 +487,11 @@ Agents run in parallel and protect the main context window. Use them when the ta
 
 ### Every Session Start
 ```
-1. Read BUILD_SEQUENCE.md — what phase, what task, what's blocked
-2. claude mcp list — verify all 3 MCPs connected
-3. git status + git log --oneline -5
-4. session_show_defaults — if touching ios-app/ Xcode project
+1. /manifest-match-guide — mission, architecture, sacred constraints, tool routing (this skill)
+2. /session-continuity — reads checkpoint.md, presents exact next action
+3. claude mcp list — verify all 3 MCPs connected
+4. git status + git log --oneline -5
+5. session_show_defaults — if touching ios-app/ Xcode project
 ```
 
 ### Before Writing Any Code

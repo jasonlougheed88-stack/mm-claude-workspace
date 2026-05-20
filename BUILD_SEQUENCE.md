@@ -44,14 +44,31 @@ Last updated: 2026-05-20
 - Swipe on ad card advances deck only — Thompson NOT called ✅
 - Committed: `4f71aed` — pushed to GitHub ✅
 
-**Step 4 — CareerGrowth package: NOT STARTED — blueprint ready**
-⚠️ Read `session-notes/phase5-step4-blueprint.md` BEFORE writing any code for this step.
+**Step 4 — CareerGrowth package: COMPLETE ✅**
+- `AffiliateClick.swift` — NSManagedObject subclass in Persistence package
+- `CourseModels.swift` — RecommendedCourse, CourseProvider, CoursePrice, DifficultyLevel, Skill, SkillsGap
+- `CourseDatabase.swift` — actor, Bundle.module, correct flat-array JSON schema
+- `CourseRecommendationEngine.swift` — actor, NSCache nonisolated(unsafe), getRecommendations(targetSkills:targetRole:limit:)
+- `AffiliateTracker.swift` — actor + AffiliateURLBuilder, empty credential strings for Phase 6
+- `Color+Hex.swift` — SwiftUI extension in AppShell
+- `CourseCardView.swift` — provider icon, match %, price, accessibility labels
+- `CoursesView.swift` — @FetchRequest on InferredManifestProfile, LazyVStack, empty state, openURL affiliate tap
+- `CareerGrowth/Package.swift` — resources: .copy("Resources/Courses.bundle") added
+- `TabViews.swift` — ManifestTab stub replaced with NavigationStack { CoursesView() }
+- `courses_v1.json` (3.9MB) copied to CareerGrowth/Resources/Courses.bundle/
+- Build: zero errors, zero warnings ✅
 - Port `courses_v1.json` from V7 reference into CareerGrowth package Resources
 - Build `CourseRecommendationEngine.swift` — reads InferredManifestProfile, matches skill gaps to courses
 - Build `CourseCardView.swift` — provider, match %, price, CTA
 - Build `CoursesView.swift` — LazyVStack, empty state, affiliate click tracking
 - Build `AffiliateTracker.swift` — writes AffiliateClick to Core Data; affiliate URL construction goes through Cloudflare Workers proxy (credentials NOT in binary — see DECISIONS.md)
 - Wire ManifestTab stub → CoursesView
+
+**Phase 5 gate — Step 4:**
+- ManifestTab shows CoursesView (not stub) ✅
+- Empty state renders when no converged InferredManifestProfile ← verify in simulator
+- Course tap writes AffiliateClick to Core Data ← verify in simulator
+- Build: zero errors, zero warnings ✅
 
 **Step 5 — Real jobs via JobPipeline: NOT STARTED**
 - Build `JobPipelineClient.swift` in JobPipeline package

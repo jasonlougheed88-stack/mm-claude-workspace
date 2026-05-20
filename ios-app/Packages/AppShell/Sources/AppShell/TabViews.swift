@@ -1,5 +1,6 @@
 import SwiftUI
 import CoreTaxonomy
+import CareerGrowth
 
 // MARK: - Tracker Tab
 // Phase 4 stub. Full CRM (applied jobs list, status tracking) is Phase 4 continued / Phase 5.
@@ -57,7 +58,6 @@ public struct ProfileTab: View {
 }
 
 // MARK: - Manifest Tab
-// Phase 4 stub. Career growth hub is Phase 5+.
 
 @MainActor
 public struct ManifestTab: View {
@@ -65,21 +65,8 @@ public struct ManifestTab: View {
 
     public var body: some View {
         NavigationStack {
-            VStack(spacing: SacredUI.Spacing.section) {
-                Spacer()
-                Image(systemName: "sparkles")
-                    .font(.system(size: SacredUI.Icon.hero))
-                    .foregroundStyle(SacredUI.SemanticColor.teal)
-                Text("Your Manifest")
-                    .font(SacredUI.Typography.title2)
-                Text("Skill gaps, career path, and growth opportunities appear here as you swipe.")
-                    .font(SacredUI.Typography.body2)
-                    .foregroundStyle(SacredUI.SemanticColor.textSecondary)
-                    .multilineTextAlignment(.center)
-                Spacer()
-            }
-            .padding()
-            .navigationTitle("Manifest")
+            CoursesView()
+                .navigationTitle("Manifest")
         }
     }
 }

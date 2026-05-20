@@ -23,7 +23,8 @@ let package = Package(
                 .product(name: "ScoringEngine", package: "ScoringEngine"),
                 .product(name: "Intelligence", package: "Intelligence"),
                 .product(name: "Monitoring", package: "Monitoring")
-            ]
+            ],
+            resources: [.copy("Resources/Courses.bundle")]
         ),
         .testTarget(name: "CareerGrowthTests", dependencies: ["CareerGrowth"])
     ]

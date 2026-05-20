@@ -26,6 +26,11 @@
 	<string>Used to find jobs near you</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Used to upload your resume</string>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>Allow tracking to see ads relevant to your career goals. You can use the app with contextual ads only if you prefer.</string>
+	<!-- PHASE5-ADS: Replace XXXXXXXXXXXXXXXX~XXXXXXXXXX with real AdMob App ID after creating account at admob.google.com -->
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-3940256099942544~3347511713</string>
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UIColorName</key>

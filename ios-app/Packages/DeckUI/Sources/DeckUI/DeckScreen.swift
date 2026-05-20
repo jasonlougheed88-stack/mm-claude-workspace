@@ -5,21 +5,34 @@ import Persistence
 import ScoringEngine
 import Intelligence
 import CoreTaxonomy
+import AdCards
+
+// MARK: - Card Item
+
+/// Union type for the deck. Thompson scoring only fires on .job cards — never .ad.
+enum CardItem: Sendable {
+    case job(Job)
+    case ad
+
+    var asJob: Job? {
+        if case .job(let j) = self { return j }
+        return nil
+    }
+}
 
 @MainActor
 public struct DeckScreen: View {
-    // Both Persistence and JobNormalizer define UserProfile. This stored property uses only
-    // JobNormalizer.UserProfile — the fully-qualified name eliminates ambiguity.
     let userProfile: JobNormalizer.UserProfile
 
     @Environment(\.managedObjectContext) private var context
 
-    @State private var jobs: [Job] = []
+    @State private var cards: [CardItem] = []
     @State private var currentIndex: Int = 0
     @State private var dragOffset: CGSize = .zero
     @State private var isAnimatingOut: Bool = false
     @State private var profileBlend: Double = 0.5
     @State private var isLoading: Bool = true
+    @State private var sessionAdsSeen: Int = 0
 
     public init(userProfile: JobNormalizer.UserProfile) {
         self.userProfile = userProfile
@@ -32,7 +45,7 @@ public struct DeckScreen: View {
             Group {
                 if isLoading {
                     loadingView
-                } else if currentIndex >= jobs.count {
+                } else if currentIndex >= cards.count {
                     emptyView
                 } else {
                     cardStack
@@ -94,24 +107,36 @@ public struct DeckScreen: View {
                 ForEach(visibleIndices, id: \.self) { index in
                     let depth = index - currentIndex
                     let isTop = depth == 0
-                    JobCardView(
-                        job: jobs[index],
-                        profileBlend: profileBlend,
-                        dragOffset: isTop ? dragOffset : .zero,
-                        isTop: isTop
-                    )
-                    .frame(width: w, height: h)
-                    .scaleEffect(isTop ? 1.0 : max(0.90, 1.0 - Double(depth) * 0.04))
-                    .offset(y: isTop ? 0 : CGFloat(depth) * 10)
-                    .offset(isTop ? dragOffset : .zero)
-                    .rotationEffect(
-                        isTop ? .degrees(Double(dragOffset.width) / SacredUI.Swipe.rotationDivisor) : .zero
-                    )
-                    .zIndex(isTop ? 100 : Double(50 - depth))
-                    .gesture(isTop && !isAnimatingOut ? dragGesture : nil)
+                    cardView(for: cards[index], width: w, height: h, depth: depth, isTop: isTop)
+                        .scaleEffect(isTop ? 1.0 : max(0.90, 1.0 - Double(depth) * 0.04))
+                        .offset(y: isTop ? 0 : CGFloat(depth) * 10)
+                        .offset(isTop ? dragOffset : .zero)
+                        .rotationEffect(
+                            isTop ? .degrees(Double(dragOffset.width) / SacredUI.Swipe.rotationDivisor) : .zero
+                        )
+                        .zIndex(isTop ? 100 : Double(50 - depth))
+                        .gesture(isTop && !isAnimatingOut ? dragGesture : nil)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+    }
+
+    @ViewBuilder
+    private func cardView(for card: CardItem, width: CGFloat, height: CGFloat, depth: Int, isTop: Bool) -> some View {
+        switch card {
+        case .job(let job):
+            JobCardView(
+                job: job,
+                profileBlend: profileBlend,
+                dragOffset: isTop ? dragOffset : .zero,
+                isTop: isTop
+            )
+            .frame(width: width, height: height)
+        case .ad:
+            AdCardView()
+                .frame(width: width)
+                .padding(.horizontal, SacredUI.Spacing.standard)
         }
     }
 
@@ -188,10 +213,9 @@ public struct DeckScreen: View {
     // MARK: - Swipe action
 
     private func triggerSwipe(_ action: SwipeAction) {
-        guard currentIndex < jobs.count, !isAnimatingOut else { return }
+        guard currentIndex < cards.count, !isAnimatingOut else { return }
         isAnimatingOut = true
-        let job = jobs[currentIndex]
-        let score = job.thompsonScore?.combinedScore ?? 0.5
+        let currentCard = cards[currentIndex]
 
         let targetOffset: CGSize
         switch action {
@@ -207,13 +231,25 @@ public struct DeckScreen: View {
 
         Task {
             try? await Task.sleep(nanoseconds: 350_000_000)
-            await OptimizedThompsonEngine.shared.processInteraction(action: action, thompsonScore: score)
-            await ManifestInferenceActor.shared.updateManifestProfile(in: context)
-            recordInteraction(job: job, action: action, score: score)
+
+            switch currentCard {
+            case .job(let job):
+                let score = job.thompsonScore?.combinedScore ?? 0.5
+                await OptimizedThompsonEngine.shared.processInteraction(action: action, thompsonScore: score)
+                await ManifestInferenceActor.shared.updateManifestProfile(in: context)
+                recordInteraction(job: job, action: action, score: score)
+
+            case .ad:
+                // Ad swipe: advance deck only. Thompson must not learn from ad interactions.
+                sessionAdsSeen += 1
+                await AdCardInjector.shared.recordAdShown(at: currentIndex)
+            }
+
             currentIndex += 1
             dragOffset = .zero
             isAnimatingOut = false
-            if currentIndex >= jobs.count - 5 {
+
+            if currentIndex >= cards.count - 5 {
                 await appendMoreJobs()
             }
         }
@@ -224,21 +260,40 @@ public struct DeckScreen: View {
     private func loadJobs() async {
         isLoading = true
         let scored = await OptimizedThompsonEngine.shared.scoreJobs(SyntheticJobs.all, profile: userProfile)
-        jobs = scored
+        cards = await buildCards(from: scored)
         isLoading = false
     }
 
     private func reloadJobs() async {
         isLoading = true
         let scored = await OptimizedThompsonEngine.shared.scoreJobs(SyntheticJobs.all, profile: userProfile)
-        jobs = scored
+        cards = await buildCards(from: scored)
         currentIndex = 0
+        sessionAdsSeen = 0
+        await AdCardInjector.shared.resetSession()
         isLoading = false
     }
 
     private func appendMoreJobs() async {
         let scored = await OptimizedThompsonEngine.shared.scoreJobs(SyntheticJobs.all, profile: userProfile)
-        jobs.append(contentsOf: scored)
+        let newCards = await buildCards(from: scored)
+        cards.append(contentsOf: newCards)
+    }
+
+    /// Inserts ad cards at injector-calculated positions within a job batch.
+    private func buildCards(from jobs: [Job]) async -> [CardItem] {
+        let isNewUser = (currentIndex + sessionAdsSeen) < 50
+        let positions = await AdCardInjector.shared.calculateAdPositions(
+            totalJobs: jobs.count,
+            sessionAdCount: sessionAdsSeen,
+            isNewUser: isNewUser
+        )
+        var result: [CardItem] = jobs.map { .job($0) }
+        for pos in positions.sorted().reversed() {
+            let clampedPos = min(pos, result.count)
+            result.insert(.ad, at: clampedPos)
+        }
+        return result
     }
 
     // MARK: - Core Data: record swipe
@@ -266,8 +321,8 @@ public struct DeckScreen: View {
     // MARK: - Helpers
 
     private var visibleIndices: [Int] {
-        guard currentIndex < jobs.count else { return [] }
-        return Array(currentIndex..<min(currentIndex + 3, jobs.count))
+        guard currentIndex < cards.count else { return [] }
+        return Array(currentIndex..<min(currentIndex + 3, cards.count))
     }
 
     private var blendColor: Color {

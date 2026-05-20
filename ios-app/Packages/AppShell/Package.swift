@@ -1,7 +1,6 @@
 // swift-tools-version: 6.1
 import PackageDescription
 
-// AdCards excluded until Phase 5.
 let package = Package(
     name: "AppShell",
     platforms: [.iOS(.v17)],
@@ -20,7 +19,8 @@ let package = Package(
         .package(path: "../Intelligence"),
         .package(path: "../CareerGrowth"),
         .package(path: "../ProfileExtraction"),
-        .package(path: "../DeckUI")
+        .package(path: "../DeckUI"),
+        .package(path: "../AdCards")
     ],
     targets: [
         .target(
@@ -37,7 +37,8 @@ let package = Package(
                 .product(name: "Intelligence", package: "Intelligence"),
                 .product(name: "CareerGrowth", package: "CareerGrowth"),
                 .product(name: "ProfileExtraction", package: "ProfileExtraction"),
-                .product(name: "DeckUI", package: "DeckUI")
+                .product(name: "DeckUI", package: "DeckUI"),
+                .product(name: "AdCards", package: "AdCards")
             ]
         ),
         .testTarget(name: "AppShellTests", dependencies: ["AppShell"])

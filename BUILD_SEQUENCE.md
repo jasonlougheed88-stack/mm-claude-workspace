@@ -11,15 +11,63 @@ Last updated: 2026-05-16
 
 ---
 
-## IMMEDIATE NEXT TASK — Phase 5: Revenue
+## IMMEDIATE NEXT TASK — Phase 5: Revenue (IN PROGRESS)
 
-**Step 1: Read `new_build_requirements/` for Phase 5 plan before writing any code.**
+**Ad cards: built and compiling. Gate test in progress (need to verify ad card appears at deck position ~10).**
 
-Key Phase 5 work:
-1. Ad cards — Google AdMob integration, ad card in job card space (every N cards)
-2. Course affiliate cards — in Manifest tab, triggered by RIASEC data gaps + slider position
-3. Wire `JobPipeline` to real job data source (replaces SyntheticJobs.swift in DeckUI)
-4. Gate: ad card renders in deck, affiliate card renders in Manifest tab, revenue events fire
+### Phase 5 Step-by-Step Status
+
+**Step 1 — AdCards package: COMPLETE ✅**
+- `AdPlaceholderTypes.swift` — placeholder GADNativeAd/GADNativeAdImage stubs for development (no real SDK needed)
+- `AdCardInjector.swift` — actor, 1:10 ratio, ±1 variance, anti-clustering, session limits
+- `ATTConsentManager.swift` — actor, ATT prompt, persists hasRequested to UserDefaults
+- `AdCardView.swift` — MV-compliant (no ViewModel), placeholder content, SPONSORED badge, teal border
+- `AdCards/Package.swift` — CoreTaxonomy + Monitoring deps. GoogleMobileAds NOT added yet (needs AdMob account first — see PHASE5-ADS comments in file)
+
+**Step 2 — DeckScreen ad injection: COMPLETE ✅**
+- `CardItem` enum added: `.job(Job)` and `.ad`
+- `buildCards(from:)` calls `AdCardInjector.shared.calculateAdPositions()` and inserts `.ad` at calculated positions
+- `triggerSwipe()`: `.job` path calls Thompson + recordInteraction; `.ad` path increments sessionAdsSeen + records ad shown — Thompson is NOT called
+- `DeckUI/Package.swift` updated to depend on AdCards
+- `AppShell/Package.swift` updated to depend on AdCards
+
+**Step 3 — ATT consent in OnboardingView: COMPLETE ✅**
+- `import AdCards` added to OnboardingView.swift
+- `ATTConsentManager.shared.requestTrackingAuthorization()` called in `completeOnboarding()` after Core Data save
+- `Info.plist`: `NSUserTrackingUsageDescription` + `GADApplicationIdentifier` (test value) added
+
+**Build status: zero errors, zero warnings ✅ App launches ✅**
+
+**Gate test — IN PROGRESS:**
+- Need to swipe ~10 cards and confirm ad card appears with SPONSORED badge
+- Was attempting AppleScript tap automation when interrupted
+
+**Step 4 — CareerGrowth package: NOT STARTED**
+- Port `courses_v1.json` from V7 reference into CareerGrowth package Resources
+- Build `CourseRecommendationEngine.swift` — reads InferredManifestProfile, matches skill gaps to courses
+- Build `CourseCardView.swift` — provider, match %, price, CTA
+- Build `CoursesView.swift` — LazyVStack, empty state, affiliate click tracking
+- Build `AffiliateTracker.swift` — writes AffiliateClick to Core Data; affiliate URL construction goes through Cloudflare Workers proxy (credentials NOT in binary — see DECISIONS.md)
+- Wire ManifestTab stub → CoursesView
+
+**Step 5 — Real jobs via JobPipeline: NOT STARTED**
+- Build `JobPipelineClient.swift` in JobPipeline package
+- Replace `SyntheticJobs.all` call in `DeckScreen.loadJobs()` (one line change)
+- Needs a job API key — Jason to obtain
+
+**External blockers (Jason needs to do these):**
+| What | Status |
+|---|---|
+| Google AdMob account + App ID + Native Ad Unit ID | Not started |
+| Coursera affiliate (Rakuten LinkShare) | Not started |
+| Udemy affiliate | Not started |
+| Job API key (JSearch on RapidAPI) | Not started |
+
+**Phase 5 gate (not yet passed):**
+- Ad card renders at ~position 10 in deck ← in progress
+- Swipe on ad card does NOT update Thompson arms
+- Manifest tab shows course list
+- Course tap writes AffiliateClick to Core Data
 
 ---
 

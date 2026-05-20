@@ -15,7 +15,8 @@ let package = Package(
         .package(path: "../Monitoring"),
         .package(path: "../Intelligence"),
         .package(path: "../Persistence"),
-        .package(path: "../CareerGrowth")
+        .package(path: "../CareerGrowth"),
+        .package(path: "../AdCards")
     ],
     targets: [
         .target(
@@ -28,7 +29,8 @@ let package = Package(
                 .product(name: "Monitoring", package: "Monitoring"),
                 .product(name: "Intelligence", package: "Intelligence"),
                 .product(name: "Persistence", package: "Persistence"),
-                .product(name: "CareerGrowth", package: "CareerGrowth")
+                .product(name: "CareerGrowth", package: "CareerGrowth"),
+                .product(name: "AdCards", package: "AdCards")
             ]
         ),
         .testTarget(name: "DeckUITests", dependencies: ["DeckUI"])

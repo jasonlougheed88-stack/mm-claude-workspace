@@ -1,6 +1,7 @@
 import SwiftUI
 import CoreData
 import Persistence
+import AdCards
 
 @MainActor
 public struct OnboardingView: View {
@@ -190,6 +191,8 @@ public struct OnboardingView: View {
 
         try? context.save()
         UserDefaults.standard.set(true, forKey: "hasCompletedOnboarding")
+        // ATT prompt fires after onboarding so users have seen the app value first.
+        Task { await ATTConsentManager.shared.requestTrackingAuthorization() }
         onComplete()
     }
 }

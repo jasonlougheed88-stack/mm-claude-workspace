@@ -1,35 +1,45 @@
-# Checkpoint — 2026-05-20 (end of session)
+# Checkpoint — 2026-05-20 (session end — roadmap session)
 
 ## CURRENT STATE
-Phase 5 is fully complete. Real GoogleMobileAds SDK (11.13.0) is wired with Google's test IDs.
-Test ad rendered in simulator, AdMob native ad validator confirmed no implementation issues.
-Build: zero errors, zero warnings. Committed `53c908f`, pushed to GitHub.
+Phase 5 complete. Roadmap to completion documented in BUILD_SEQUENCE.md.
+Build: zero errors, zero warnings. Last commit: `99ff73e`.
 
 ## WHAT WAS DONE THIS SESSION
-- Added GoogleMobileAds 11.13.0 via SPM to AdCards/Package.swift
-- Created NativeAdLoader.swift — @MainActor ObservableObject, GADAdLoader + delegate, @preconcurrency import for Swift 6 compliance
-- Created NativeAdView.swift — UIViewRepresentable wrapping GADNativeAdView with styled layout
-- Rewrote AdCardView.swift — dropped #if USE_REAL_ADS, always uses real SDK, placeholder as loading state
-- Cleared AdPlaceholderTypes.swift (real SDK replaces stubs)
-- Gate PASSED: test ad rendered with "Test mode: Google Ads" headline, INSTALL CTA, teal border, SPONSORED badge, AdMob validator shows no issues
+- Wired real Google Mobile Ads SDK (11.13.0) with test IDs — gate passed (`53c908f`)
+- Audited what's actually in the build vs. what the Untangling Guide specified
+- Found: CoreTaxonomy is just SacredUIConstants, Intelligence has 1 file, JobPipeline has 1 file
+- Confirmed: Core Data schema is complete (all 21 entities), package DAG is correct — skeleton is solid
+- Revised phase order: Taxonomy (Phase 7) BEFORE Intelligence (Phase 8) — dependency reason documented in BUILD_SEQUENCE.md
+- Documented full 12-phase roadmap in BUILD_SEQUENCE.md under "ROADMAP TO COMPLETION"
 
-## PRODUCTION SWAP (no code changes needed, just string constants)
-- `ios-app/Packages/AdCards/Sources/AdCards/NativeAdLoader.swift:14` — replace `ca-app-pub-3940256099942544/3986624511` with real native ad unit ID
-- `ios-app/ManifestAndMatch/Info.plist` — replace `ca-app-pub-3940256099942544~3347511713` with real AdMob App ID
-- `ios-app/Packages/CareerGrowth/Sources/CareerGrowth/Services/AffiliateTracker.swift` — AffiliateURLBuilder has empty Coursera/Udemy credential strings
+## NEXT ACTION (Phase 6 — Close the Gaps)
+1. `/manifest-match-guide` then `/session-continuity`
+2. Read `new_build_requirements/connection_status/CONNECTION_BUILD_PLAN.md` in full
+3. Read `schematics/UNTANGLING_GUIDE.md` Tangles 2, 3, 4, 10 (the Phase 6 work)
+4. Read reference: `ThompsonBridge.swift` in V7/V8 — understand bonus calculation logic before touching ScoringEngine
+5. Read reference: `ThompsonCareerIntegrator.swift` — understand career bonus formula
+6. Read reference: `DualProfileColorSystem.swift` — understand fitScoreColor() signature
+7. Inline ThompsonBridge bonus into `OptimizedThompsonEngine.fastProfessionalScore()` in `ScoringEngine`
+8. Inline ThompsonCareerIntegrator bonus (reads InferredManifestProfile)
+9. Add amberContribution + tealContribution fields to ThompsonScore struct
+10. Wire DualProfileColorSystem in DeckScreen card rendering (replace interpolateColor)
+11. Fix Apply Now → ApplicationTracker write in DeckScreen
+12. Wire SwipePatternAnalyzer to ManifestInferenceActor
+13. Implement question card injection in DeckScreen (replace the comment at QuestionTimingCoordinator check)
+14. Build and gate test. Commit.
 
-## NEXT ACTION (Phase 6 — Connection)
-1. Read `new_build_requirements/` — find the Phase 6 plan file and read it in full
-2. Read `schematics/SYSTEM_INVENTORY.md` for any system from Phase 6 scope
-3. Check `DECISIONS.md` and `OPEN_QUESTIONS.md` for anything blocking Phase 6
-4. Fix `JobInteraction.sessionID nil` bug — swipe interactions never reach Core Data (pre-existing, noted in Phase 5)
-5. Wire orphaned components per Untangling Guide decisions
-6. App Store prep
+## KEY FACTS TO REMEMBER
+- riasecScore needs BOTH job O*NET data (Phase 7) AND user RIASEC (Phase 8) — neither alone fixes it
+- ThompsonBridge reads UserTruths Core Data entity — entity exists in schema, no data until Phase 8
+- ThompsonCareerIntegrator reads InferredManifestProfile — entity exists and has data after 3+ swipes
+- Reference codebase: `/Users/jasonl/Desktop/ios26_manifest_and_match/manifest_and_match_V8/`
+- Production AdMob swap: NativeAdLoader.swift:14 + Info.plist GADApplicationIdentifier
 
-## OPEN BUGS (carry into Phase 6)
-- `JobInteraction.sessionID` is nil on every swipe — interaction records never saved to Core Data
-- `ZINFERREDMANIFESTPROFILE` test record inserted directly into simulator DB last session — reset simulator or clear app data before next gate test if manifest inference is being tested
+## OPEN BUGS (Phase 6+)
+- JobInteraction.sessionID nil on every swipe — pre-existing, Phase 6
+- Card color uses quality score not fit ratio — Phase 6 fix
+- Apply Now never writes to ApplicationTracker — Phase 6 fix
+- Question cards never fire — Phase 6 starts injection, Phase 8 completes pipeline
 
-## KEY COMMITS THIS SESSION
-- `53c908f` — Phase 5 AdMob real SDK with test IDs (this session)
-- `6c9e60e` — Previous session end
+## ACTIVE FILES
+All files clean and committed.

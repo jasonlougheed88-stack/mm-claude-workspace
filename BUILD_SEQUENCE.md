@@ -188,8 +188,69 @@ Clean build confirmed. Performance test written — execution deferred to Phase 
 - ManifestAndMatchApp.swift wired: initialize() at launch, viewContext injected ✅
 - Gate PASSED: amber_primary alpha=4.0 (was 1.0), teal_primary alpha=14.0 — persistence confirmed across kill+relaunch ✅
 
-**Current task: Phase 5 — Revenue**
-Read `new_build_requirements/` for Phase 5 plan before writing any code.
+**Current task: Phase 6 — Close the Gaps**
+Read `new_build_requirements/connection_status/CONNECTION_BUILD_PLAN.md` before writing any code.
+
+---
+
+## ROADMAP TO COMPLETION — Rough Goal (2026-05-20)
+
+This is the honest picture of what remains. Skeleton is complete (15 packages, 21 Core Data entities, clean build). The systems that make the app what it's supposed to be are mostly unbuilt — they exist in the V7/V8 reference and the Untangling Guide has decisions for all of them.
+
+**Why this order:** `riasecScore` and `workActivitiesScore` both need data on the JOB side (O*NET enrichment — Phase 7) AND the USER side (question cards — Phase 8). Building Taxonomy before Intelligence means as soon as question cards fire, both sides have data and scoring becomes fully functional immediately.
+
+### Phase 6 — Close the Gaps *(1–2 sessions)*
+Finish work that was supposed to be in Phases 3–4 but wasn't done.
+- ThompsonBridge + ThompsonCareerIntegrator bonuses inlined into `fastProfessionalScore()`
+- Card color fixed: DualProfileColorSystem using amberContribution/tealContribution (not quality score)
+- Apply Now → ApplicationTracker write (CRM currently blind to every application)
+- Question card injection in DeckScreen (replace comment with actual code)
+- SwipePatternAnalyzer wired to ManifestInferenceActor
+- **Gate:** UserTruths bonus applies to scored jobs. Card colors reflect current/future fit ratio. Tracker tab captures applications.
+
+### Phase 7 — Taxonomy + Job Pipeline *(2–3 sessions)*
+Fill CoreTaxonomy and rebuild JobPipeline properly. Do this BEFORE Intelligence — O*NET enrichment feeds the job side of riasecScore and workActivitiesScore. Without it, question cards fire but scoring can't use the data.
+- `CoreTaxonomy` filled: SkillTaxonomy (787 skills, 36 categories), O*NET data bundle (13 JSON files), EnhancedSkillsMatcher, OccupationAdjacencyService, CareerRelationshipDiscovery, AppState
+- `JobPipeline` filled: JobONetEnricher, ONetCodeMapper, LocationScoringEngine, JobDiscoveryCoordinator, SmartSourceSelector, RateLimitManager, ProfileEnrichmentService
+- At profile creation: run JobONetEnricher on user's declared role → populates onetWorkActivities + RIASEC on UserProfile
+- **Gate:** Jobs have real O*NET data. workActivitiesScore works. riasecScore has job-side data. Skills matching is semantic.
+
+### Phase 8 — Intelligence Pipeline *(3–4 sessions)*
+Lift ~18 systems from V7/V8 reference into Intelligence package. All are "lift as-is" per Untangling Guide.
+- Question cards end-to-end: QuestionTimingCoordinator, SmartQuestionGenerator, ManifestAwareQuestionGenerator, FallbackQuestionCoordinator, CareerQuestionsSeed
+- Answer pipeline: UserTruthsExtractionActor, AnswerParsingActor, RIASECScorer (iOS 26), RIASECKeywordMapper (fallback)
+- FastBehavioralLearning, DeepBehavioralAnalysis, SwipePatternAnalyzer
+- KeychainManager, CoverLetterService, MatchExplanationGenerator, TealPathGenerator, AICareerProfileBuilder
+- **Gate:** Question cards fire. User RIASEC profile builds from answers. ThompsonBridge activates. Both sides of riasecScore now have data — Teal mode works. Cover letters generate.
+
+### Phase 9 — Career Track *(1–2 sessions)*
+Wire Manifest tab career intelligence. Requires both Phase 7 (SkillTaxonomy for cross-industry paths) and Phase 8 (InferredManifestProfile quality from question cards).
+- CareerPathEngine wired into ManifestTabView
+- SkillsGapAnalyzer wired
+- MarketDemandAPI (bundled BLS labor demand data)
+- **Gate:** Manifest tab is a map — career paths, skill gaps, courses that close specific gaps. Track 2 complete.
+
+### Phase 10 — Resume + Profile *(1–2 sessions)*
+Fill ResumeParsing package and wire into onboarding.
+- ResumeParsingService, OpenAIClient, PDFTextExtractor, SkillsExtractor
+- Onboarding resume upload actually parses (currently fails silently — ResumeParser called with nil API key)
+- KeychainManager wired at call site
+- **Gate:** Resume upload populates skills, work history, RIASEC data on day one.
+
+### Phase 11 — User Flow Polish *(1 session)*
+No dead ends. Legal pages required for App Store.
+- ProfileScreen settings stubs → real views (Privacy Policy, Terms of Service, Data Management — required for App Store + GDPR/CCPA)
+- Onboarding Step 7 preview → real scored jobs instead of hardcoded 87%/72%/91%
+- Tracker tab ApplicationHistoryView fully wired
+- ThompsonExplanationEngine inline card explanation
+- **Gate:** End-to-end user flow test passes. No blank screens. Legal requirements met.
+
+### Phase 12 — Backend + Launch *(1–2 sessions)*
+- Cloudflare Workers proxy (API keys never in app binary — BACKEND_PLAN.md exists)
+- Production credentials: AdMob App ID (swap 2 string constants), Coursera Rakuten ID + Udemy affiliate ID
+- Privacy manifest (required for App Store 2025)
+- TestFlight build → App Store submission
+- **Gate:** App ships.
 
 ---
 

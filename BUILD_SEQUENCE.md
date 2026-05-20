@@ -44,7 +44,8 @@ Last updated: 2026-05-20
 - Swipe on ad card advances deck only — Thompson NOT called ✅
 - Committed: `4f71aed` — pushed to GitHub ✅
 
-**Step 4 — CareerGrowth package: NOT STARTED**
+**Step 4 — CareerGrowth package: NOT STARTED — blueprint ready**
+⚠️ Read `session-notes/phase5-step4-blueprint.md` BEFORE writing any code for this step.
 - Port `courses_v1.json` from V7 reference into CareerGrowth package Resources
 - Build `CourseRecommendationEngine.swift` — reads InferredManifestProfile, matches skill gaps to courses
 - Build `CourseCardView.swift` — provider, match %, price, CTA

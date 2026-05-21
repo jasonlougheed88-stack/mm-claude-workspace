@@ -7,6 +7,9 @@ import ScoringEngine
 import Intelligence
 import CoreTaxonomy
 import AdCards
+import os
+
+private let deckLogger = Logger(subsystem: "com.manifestandmatch.app", category: "DeckScreen")
 
 // MARK: - Card Item
 
@@ -324,7 +327,13 @@ public struct DeckScreen: View {
         if let data = try? JSONEncoder().encode(job.requirements) {
             interaction.jobSkillsData = data
         }
-        try? context.save()
+        interaction.userProfile = Persistence.UserProfile.fetchCurrent(in: context)
+        do {
+            try context.save()
+            deckLogger.debug("JobInteraction saved — action: \(action.rawValue) job: \(job.title)")
+        } catch {
+            deckLogger.error("JobInteraction save FAILED: \(error)")
+        }
     }
 
     // MARK: - Helpers

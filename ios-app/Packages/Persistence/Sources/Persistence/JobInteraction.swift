@@ -19,6 +19,7 @@ public final class JobInteraction: NSManagedObject {
     @NSManaged public var actionWeight: Double
     @NSManaged public var informationGain: Double
     @NSManaged public var isAspirationSignal: Bool
+    @NSManaged public var userProfile: UserProfile?
 
     public var jobSkills: [String] {
         guard let data = jobSkillsData else { return [] }

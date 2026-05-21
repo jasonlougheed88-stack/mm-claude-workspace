@@ -13,13 +13,13 @@
         <attribute name="githubURL" optional="YES" attributeType="String"/>
         <attribute name="professionalSummary" optional="YES" attributeType="String"/>
         <attribute name="skills" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" defaultValueString="[]"/>
-        <attribute name="resumeSkills" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" defaultValueString="[]"/>
-        <attribute name="onetSkills" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" defaultValueString="[]"/>
+        <attribute name="resumeSkills" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" defaultValueString="[]"/>
+        <attribute name="onetSkills" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" defaultValueString="[]"/>
         <attribute name="currentDomain" attributeType="String" defaultValueString="technology"/>
         <attribute name="experienceLevel" attributeType="String" defaultValueString="mid"/>
         <attribute name="currentJobTitle" optional="YES" attributeType="String"/>
         <attribute name="desiredRoles" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer"/>
-        <attribute name="locations" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer"/>
+        <attribute name="locations" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData"/>
         <attribute name="remotePreference" attributeType="String"/>
         <attribute name="salaryMin" optional="YES" attributeType="Integer 32" defaultValueString="0"/>
         <attribute name="salaryMax" optional="YES" attributeType="Integer 32" defaultValueString="0"/>
@@ -367,7 +367,7 @@
         <attribute name="actionWeight" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="informationGain" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="isAspirationSignal" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
-        <relationship name="userProfile" maxCount="1" deletionRule="Nullify" destinationEntity="UserProfile" inverseName="jobInteractions" inverseEntity="UserProfile"/>
+        <relationship name="userProfile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserProfile" inverseName="jobInteractions" inverseEntity="UserProfile"/>
         <fetchIndex name="byUserProfileIndex">
             <fetchIndexElement property="userProfile" type="Binary" order="ascending"/>
         </fetchIndex>
@@ -381,7 +381,7 @@
 
     <entity name="InferredManifestProfile" representedClassName="InferredManifestProfile" syncable="YES">
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="userProfileID" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="userProfileID" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="lastUpdated" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="totalSwipesAnalyzed" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="targetRole" optional="YES" attributeType="String"/>
@@ -412,7 +412,7 @@
         <attribute name="convergenceError" attributeType="Double" defaultValueString="1.0" usesScalarValueType="YES"/>
         <attribute name="minSwipesForConfident" attributeType="Integer 32" defaultValueString="100" usesScalarValueType="YES"/>
         <attribute name="hasConverged" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
-        <relationship name="userProfile" maxCount="1" deletionRule="Nullify" destinationEntity="UserProfile" inverseName="manifestProfile" inverseEntity="UserProfile"/>
+        <relationship name="userProfile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserProfile" inverseName="manifestProfile" inverseEntity="UserProfile"/>
         <fetchIndex name="byUserProfileIDIndex">
             <fetchIndexElement property="userProfileID" type="Binary" order="ascending"/>
         </fetchIndex>

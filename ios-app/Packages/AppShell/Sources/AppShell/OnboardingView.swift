@@ -2,6 +2,9 @@ import SwiftUI
 import CoreData
 import Persistence
 import AdCards
+import os
+
+private let onboardingLogger = Logger(subsystem: "com.manifestandmatch.app", category: "Onboarding")
 
 @MainActor
 public struct OnboardingView: View {
@@ -189,7 +192,12 @@ public struct OnboardingView: View {
         profile.primaryLocationCountry = country.trimmingCharacters(in: .whitespaces).isEmpty ? nil :
                                          country.trimmingCharacters(in: .whitespaces)
 
-        try? context.save()
+        do {
+            try context.save()
+            onboardingLogger.debug("UserProfile saved — name: \(profile.name)")
+        } catch {
+            onboardingLogger.error("UserProfile save FAILED: \(error)")
+        }
         UserDefaults.standard.set(true, forKey: "hasCompletedOnboarding")
         // ATT prompt fires after onboarding so users have seen the app value first.
         Task { await ATTConsentManager.shared.requestTrackingAuthorization() }

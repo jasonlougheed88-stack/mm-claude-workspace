@@ -33,6 +33,11 @@ public final class UserProfile: NSManagedObject {
         set { setValue(newValue as NSArray, forKey: "skills") }
     }
 
+    public var locations: [String] {
+        get { (value(forKey: "locations") as? [String]) ?? [] }
+        set { setValue(newValue as NSArray, forKey: "locations") }
+    }
+
     // MARK: - Lifecycle
 
     public override func awakeFromInsert() {
@@ -44,6 +49,7 @@ public final class UserProfile: NSManagedObject {
         amberTealPosition = 0.5
         currentDomain = "technology"
         experienceLevel = "mid"
+        skills = []
     }
 
     // MARK: - Fetch helpers

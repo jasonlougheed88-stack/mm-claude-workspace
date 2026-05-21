@@ -68,7 +68,10 @@ public struct TrackerTab: View {
 }
 
 // MARK: - Profile Tab
-// Phase 4 stub. Full profile editing is a later phase.
+// PHASE11-UPGRADE: ProfileTab — replace stub with real settings views.
+// Required for App Store: Privacy Policy, Terms of Service, Data Management (GDPR/CCPA).
+// Also: onboarding preview → real scored jobs, ThompsonExplanationEngine inline explanation.
+// Reference: BUILD_SEQUENCE.md Phase 11.
 
 @MainActor
 public struct ProfileTab: View {

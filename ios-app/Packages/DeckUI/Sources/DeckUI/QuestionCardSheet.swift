@@ -2,10 +2,15 @@ import SwiftUI
 import Intelligence
 import CoreTaxonomy
 
+// PHASE8-UPGRADE: QuestionCardSheet — the sheet UI stays, but the trigger logic moves to
+// QuestionTimingCoordinator (decides WHEN to fire based on RIASEC gap analysis, not a fixed
+// count). The question passed in will come from SmartQuestionGenerator instead of QuestionBank.
+// DeckScreen change: replace `jobSwipeCount.isMultiple(of: 10)` with
+// `QuestionTimingCoordinator.shared.shouldFireQuestion(after: swipeCount, profile: inferredProfile)`.
+// Reference: QuestionTimingCoordinator.swift, SmartQuestionGenerator.swift from V7/V8.
 /// Career-exploration question sheet.
-/// Fires after every 10 job swipes when the user's RIASEC profile has gaps.
-/// Phase 8 replaces the question bank with SmartQuestionGenerator (personalized to swipe
-/// history + O*NET occupation data). Phase 6 uses static generic questions.
+/// Fires after every 10 job swipes (Phase 6 fixed interval).
+/// Phase 8 replaces fixed interval with QuestionTimingCoordinator (RIASEC gap-aware).
 @MainActor
 struct QuestionCardSheet: View {
     let question: QuestionCard

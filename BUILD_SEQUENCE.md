@@ -277,10 +277,22 @@ Fill CoreTaxonomy and rebuild JobPipeline properly. Must happen BEFORE Phase 8 �
 - **Gate:** Jobs have real O*NET data. workActivitiesScore and riasecScore have job-side data. Skills matching is semantic.
 
 ### Phase 8 — Intelligence Pipeline *(3–4 sessions)*
-Lift ~18 systems from V7/V8 reference into Intelligence package. All are "lift as-is" per Untangling Guide. Read reference files BEFORE writing anything.
-- Question cards end-to-end: QuestionTimingCoordinator, SmartQuestionGenerator, ManifestAwareQuestionGenerator, FallbackQuestionCoordinator, CareerQuestionsSeed
-- Answer pipeline: UserTruthsExtractionActor, AnswerParsingActor, RIASECScorer (iOS 26 Foundation Models), RIASECKeywordMapper (fallback)
-- FastBehavioralLearning, DeepBehavioralAnalysis, SwipePatternAnalyzer (full implementation)
+
+**⚠️ MANDATORY FIRST STEP — run this before writing any new file:**
+```bash
+grep -rn "PHASE8-UPGRADE" ios-app/Packages/
+```
+This lists every Phase 6/7 stub that Phase 8 upgrades. Do NOT create a new system alongside an existing stub — upgrade what's there. The reference V7 codebase failed this way (ThompsonScoringOrchestrator initialized but never called; two disconnected scoring engines running simultaneously). Do not repeat it.
+
+**Known PHASE8-UPGRADE stubs (verify with grep above):**
+- `Intelligence/SwipePatternAnalyzer.swift` — replace keyword matching with O*NET RIASEC inference
+- `Intelligence/QuestionCard.swift` — QuestionBank.all becomes the fallback; SmartQuestionGenerator generates on top
+- `DeckUI/QuestionCardSheet.swift` — sheet UI stays; trigger logic moves to QuestionTimingCoordinator
+
+**New systems to build (not stubs — these don't exist yet):**
+- QuestionTimingCoordinator, SmartQuestionGenerator, ManifestAwareQuestionGenerator, FallbackQuestionCoordinator, CareerQuestionsSeed
+- UserTruthsExtractionActor, AnswerParsingActor, RIASECScorer (iOS 26 Foundation Models), RIASECKeywordMapper (fallback)
+- FastBehavioralLearning, DeepBehavioralAnalysis (full implementation)
 - KeychainManager, CoverLetterService, MatchExplanationGenerator, TealPathGenerator, AICareerProfileBuilder
 - ThompsonBridge + ThompsonCareerIntegrator — port from reference, inline bonus calls into OptimizedThompsonEngine.scoreJobs()
 - **Gate:** Question cards fire when RIASEC data gaps exist. User RIASEC profile builds from answers. ThompsonBridge applies UserTruths bonus. Both sides of riasecScore populated — Teal mode works end-to-end. Cover letters generate.
@@ -300,8 +312,16 @@ Fill ResumeParsing package and wire into onboarding.
 - **Gate:** Resume upload populates skills, work history, RIASEC data on day one.
 
 ### Phase 11 — User Flow Polish *(1 session)*
+
+**⚠️ MANDATORY FIRST STEP:**
+```bash
+grep -rn "PHASE11-UPGRADE" ios-app/Packages/
+```
+**Known PHASE11-UPGRADE stubs:**
+- `AppShell/TabViews.swift` — ProfileTab stub → real settings views
+
 No dead ends. Legal pages required for App Store.
-- ProfileScreen settings stubs → real views (Privacy Policy, Terms of Service, Data Management — required for App Store + GDPR/CCPA)
+- ProfileTab stub → real views (Privacy Policy, Terms of Service, Data Management — required for App Store + GDPR/CCPA)
 - Onboarding preview → real scored jobs (currently hardcoded 87%/72%/91%)
 - ThompsonExplanationEngine inline card explanation
 - **Gate:** End-to-end user flow test passes. No blank screens. Legal requirements met.

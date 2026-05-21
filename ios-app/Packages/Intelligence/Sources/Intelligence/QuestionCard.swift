@@ -15,6 +15,13 @@ public struct QuestionCard: Sendable {
     public let options: [Option]
 }
 
+// PHASE8-UPGRADE: QuestionBank — replace static questions with SmartQuestionGenerator.
+// SmartQuestionGenerator reads InferredManifestProfile + swipe history to ask only where
+// RIASEC confidence is low. It also generates role-specific questions ("You've swiped right
+// on 8 data roles — how open are you to Data Science Manager?") using O*NET occupation data
+// from Phase 7. QuestionBank.all stays as the fallback when no personalization is possible.
+// Reference: V7/V8 SmartQuestionGenerator.swift, ManifestAwareQuestionGenerator.swift,
+// FallbackQuestionCoordinator.swift, CareerQuestionsSeed.swift
 /// Static question bank for Phase 6.
 /// Questions are framed as career-exploration prompts, not personality test items.
 /// The RIASEC mapping is invisible to the user — they're answering "what kind of work

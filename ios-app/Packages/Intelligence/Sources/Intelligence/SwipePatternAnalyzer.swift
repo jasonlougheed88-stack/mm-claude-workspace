@@ -11,8 +11,13 @@ public struct SwipePattern: Sendable {
     public let enterprisingSignal: Double
 }
 
+// PHASE8-UPGRADE: SwipePatternAnalyzer — replace keyword matching with O*NET-based RIASEC inference.
+// Phase 7 maps every job to real RIASEC codes from the DOL database. Phase 8 uses those codes
+// to compute riasecInferred from actual occupation data instead of keyword guessing.
+// Full implementation: FastBehavioralLearning.swift + DeepBehavioralAnalysis.swift from V7/V8.
+// Keep the SwipePattern struct — the output shape stays the same, only the internals change.
 /// Stateless swipe history analyzer — Phase 6 stub.
-/// Phase 8 replaces this with full RIASEC inference using O*NET occupation codes.
+/// Phase 8 replaces keyword matching with O*NET-based RIASEC inference (requires Phase 7 data).
 public enum SwipePatternAnalyzer {
 
     private static let investigativeTerms: Set<String> = [

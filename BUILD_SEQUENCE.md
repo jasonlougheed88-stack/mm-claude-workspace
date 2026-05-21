@@ -188,8 +188,21 @@ Clean build confirmed. Performance test written — execution deferred to Phase 
 - ManifestAndMatchApp.swift wired: initialize() at launch, viewContext injected ✅
 - Gate PASSED: amber_primary alpha=4.0 (was 1.0), teal_primary alpha=14.0 — persistence confirmed across kill+relaunch ✅
 
-**Current task: Phase 6 — Close the Gaps**
+**Current task: Phase 6 — Close the Gaps (IN PROGRESS)**
 Read `new_build_requirements/connection_status/CONNECTION_BUILD_PLAN.md` before writing any code.
+
+### Phase 6 Step 1 — Session 2026-05-20: COMPLETE ✅
+Three gaps closed. Build: zero errors, zero warnings.
+
+**Fixed:**
+- `JobInteraction.sessionID` — was nil on every swipe. Added `@State private var sessionID = UUID()` to DeckScreen, set on every `recordInteraction()` call. Swipe records now carry a session identifier.
+- Card color — `scoreColor` in JobCardView was using global `profileBlend` (slider position), making every card the same color. Now uses `job.thompsonScore?.personalScore ?? profileBlend` — each card's color is driven by its per-job Thompson signal.
+- TrackerTab — was a pure stub. Replaced with `@FetchRequest` on `JobInteraction` filtered to `action == "interested" OR "applied"`. Shows company, title, date. Empty state when no interactions yet.
+
+**Not yet done in Phase 6 (next session):**
+- ThompsonBridge + ThompsonCareerIntegrator bonus methods — these don't exist in V8 yet, need to be read from reference and ported into ScoringEngine (Phase 8 scope, revisit)
+- Question card injection in DeckScreen
+- SwipePatternAnalyzer wired to ManifestInferenceActor
 
 ---
 

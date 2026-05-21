@@ -1,31 +1,68 @@
 import SwiftUI
+import CoreData
 import CoreTaxonomy
 import CareerGrowth
+import Persistence
 
 // MARK: - Tracker Tab
-// Phase 4 stub. Full CRM (applied jobs list, status tracking) is Phase 4 continued / Phase 5.
 
 @MainActor
 public struct TrackerTab: View {
     public init() {}
 
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \JobInteraction.timestamp, ascending: false)],
+        predicate: NSPredicate(format: "action == %@ OR action == %@", "interested", "applied")
+    ) private var interactions: FetchedResults<JobInteraction>
+
     public var body: some View {
         NavigationStack {
-            VStack(spacing: SacredUI.Spacing.section) {
-                Spacer()
-                Image(systemName: "checklist")
-                    .font(.system(size: SacredUI.Icon.hero))
-                    .foregroundStyle(SacredUI.SemanticColor.textSecondary)
-                Text("Application Tracker")
-                    .font(SacredUI.Typography.title2)
-                Text("Jobs you've applied to will appear here.")
+            Group {
+                if interactions.isEmpty {
+                    emptyState
+                } else {
+                    list
+                }
+            }
+            .navigationTitle("Tracker")
+        }
+    }
+
+    private var emptyState: some View {
+        VStack(spacing: SacredUI.Spacing.section) {
+            Spacer()
+            Image(systemName: "checklist")
+                .font(.system(size: SacredUI.Icon.hero))
+                .foregroundStyle(SacredUI.SemanticColor.textSecondary)
+            Text("No applications yet")
+                .font(SacredUI.Typography.title2)
+            Text("Jobs you swipe right on will appear here.")
+                .font(SacredUI.Typography.body2)
+                .foregroundStyle(SacredUI.SemanticColor.textSecondary)
+                .multilineTextAlignment(.center)
+            Spacer()
+        }
+        .padding()
+    }
+
+    private var list: some View {
+        List(interactions, id: \.id) { interaction in
+            VStack(alignment: .leading, spacing: SacredUI.Spacing.xxsmall) {
+                Text(interaction.jobTitle)
+                    .font(SacredUI.Typography.body1)
+                    .foregroundStyle(SacredUI.SemanticColor.text)
+                Text(interaction.jobCompany)
                     .font(SacredUI.Typography.body2)
                     .foregroundStyle(SacredUI.SemanticColor.textSecondary)
-                    .multilineTextAlignment(.center)
-                Spacer()
+                if let date = interaction.timestamp {
+                    Text(date, style: .date)
+                        .font(SacredUI.Typography.caption1)
+                        .foregroundStyle(SacredUI.SemanticColor.textSecondary)
+                }
             }
-            .padding()
-            .navigationTitle("Tracker")
+            .padding(.vertical, SacredUI.Spacing.xxsmall)
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel("\(interaction.jobTitle) at \(interaction.jobCompany)")
         }
     }
 }

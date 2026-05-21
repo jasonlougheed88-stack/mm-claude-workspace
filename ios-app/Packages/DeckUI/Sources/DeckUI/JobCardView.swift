@@ -206,8 +206,11 @@ public struct JobCardView: View {
     // MARK: - Computed
 
     private var scoreColor: Color {
+        // Use the per-job Thompson signal (amber/teal arm blend) as the hue driver,
+        // falling back to the slider position only when no score is available.
+        let ratio = job.thompsonScore?.personalScore ?? profileBlend
         let hue = SacredUI.DualProfile.amberHue +
-                  (SacredUI.DualProfile.tealHue - SacredUI.DualProfile.amberHue) * profileBlend
+                  (SacredUI.DualProfile.tealHue - SacredUI.DualProfile.amberHue) * ratio
         return Color(hue: hue, saturation: SacredUI.DualProfile.saturation,
                      brightness: SacredUI.DualProfile.brightness)
     }

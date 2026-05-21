@@ -34,6 +34,7 @@ public struct DeckScreen: View {
     @State private var profileBlend: Double = 0.5
     @State private var isLoading: Bool = true
     @State private var sessionAdsSeen: Int = 0
+    @State private var sessionID = UUID()
 
     public init(userProfile: JobNormalizer.UserProfile) {
         self.userProfile = userProfile
@@ -308,6 +309,7 @@ public struct DeckScreen: View {
     private func recordInteraction(job: Job, action: SwipeAction, score: Double) {
         let interaction = JobInteraction(context: context)
         interaction.id = UUID()
+        interaction.sessionID = sessionID
         interaction.timestamp = Date()
         interaction.jobID = job.id
         interaction.jobTitle = job.title

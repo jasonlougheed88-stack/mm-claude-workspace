@@ -6,25 +6,16 @@ Last updated: 2026-05-20
 
 ## ⚠️ CURRENT SESSION STATUS — READ BEFORE DOING ANYTHING
 
-**Phases 1–5 COMPLETE. Phase 6 IN PROGRESS (step 1 done).**
-**Last updated: 2026-05-20. Build: zero errors, zero warnings. Commit: `72ee087` on main.**
+**Phases 1–6 COMPLETE. Phase 7 is next.**
+**Last updated: 2026-05-21. Build: zero errors, zero warnings. Commit: see Phase 6 gate below.**
 
 ---
 
-## IMMEDIATE NEXT TASK — Phase 6 Step 2
+## IMMEDIATE NEXT TASK — Phase 7: Taxonomy + Job Pipeline
 
-Three gaps closed in step 1 (see Phase 6 detail below). Next session must:
+Read Phase 7 detail below before starting. CoreTaxonomy and JobPipeline packages exist as stubs — Phase 7 fills them with real data and systems.
 
-1. **Verify step 1 in simulator** — XcodeBuildMCP was unavailable in the web session that built step 1. Before writing any new code, boot the app and confirm:
-   - Swipe right → Tracker tab shows that job (confirms sessionID + FetchRequest both work)
-   - Cards in deck have visually different colors from each other (confirms per-job personalScore is driving hue)
-   - If either fails, fix before moving forward
-
-2. **Question card injection in DeckScreen** — placeholder comment exists in DeckScreen where question cards should fire. Read the build plan before touching it.
-
-3. **SwipePatternAnalyzer wired to ManifestInferenceActor** — currently ManifestInferenceActor runs on its own; SwipePatternAnalyzer output should feed it.
-
-⚠️ ThompsonBridge + ThompsonCareerIntegrator are NOT Phase 6 scope — those files don't exist in V8 yet. They are Phase 8 (Intelligence pipeline). Do not attempt to port them in Phase 6.
+⚠️ Phase 7 is 2–3 sessions of heavy work. Read the full scope before starting any session.
 
 ---
 
@@ -222,7 +213,7 @@ Clean build confirmed. Performance test written — execution deferred to Phase 
 
 ---
 
-### Phase 6 Step 1 — 2026-05-20 ✅ (build verified, runtime NOT yet verified)
+### Phase 6 Step 1 — 2026-05-20 ✅ (runtime verified 2026-05-21)
 
 **What was fixed:**
 | Fix | File | Detail |
@@ -231,29 +222,35 @@ Clean build confirmed. Performance test written — execution deferred to Phase 
 | Card color identical across all cards | `DeckUI/Sources/DeckUI/JobCardView.swift` | `scoreColor` was using global `profileBlend` (slider) — every card was the same hue. Now uses `job.thompsonScore?.personalScore ?? profileBlend`. Each card gets a unique color from its per-job Thompson signal. |
 | TrackerTab stub | `AppShell/Sources/AppShell/TabViews.swift` | Replaced placeholder with `@FetchRequest` on `JobInteraction` filtered to `action == "interested" OR "applied"`. Shows job title, company, date. Empty state when no interactions. |
 
-**Runtime verification still needed (XcodeBuildMCP unavailable in web session):**
-- Swipe right → confirm job appears in Tracker tab
-- Confirm cards have visually different colors from each other
-- Confirm sessionID non-nil in saved records
+**Runtime verification — PASSED 2026-05-21:**
+- Swipe right → job appears in Tracker tab ✅
+- JobInteraction records save with non-nil sessionID ✅ (4 records confirmed in SQLite)
+- UserProfile created by onboarding, saves cleanly ✅
+- Root cause found and fixed: 5 required Core Data attributes/relationships had no
+  values set at creation time, silently blocking ALL viewContext saves. Fixed by making
+  them optional in the schema + proper initialization in awakeFromInsert.
 
-**Commit:** `72ee087` on `main` — pushed to GitHub ✅
+**Commit:** `72ee087` (step 1 code) + `2a9b8f1` (gate fix) on `main` — pushed to GitHub ✅
 
 ---
 
-### Phase 6 Remaining (next session)
+### Phase 6 Remaining — COMPLETE ✅ (2026-05-21)
 
-1. **Verify step 1 in simulator first** — do not write new code until runtime is confirmed
-2. **Question card injection** — placeholder exists in DeckScreen where question cards should fire. Read `new_build_requirements/` plan before touching.
-3. **SwipePatternAnalyzer → ManifestInferenceActor** — wire the pattern analyzer output into the inference actor
+1. **Question card injection** ✅ — fires after every 10 job swipes. Career-exploration questions mapped to RIASEC. Answer writes `riasecXxxDirect` + `riasecDirectConfidence` to InferredManifestProfile.
+2. **SwipePatternAnalyzer → ManifestInferenceActor** ✅ — stateless analyzer extracts investigative/enterprising signals from swipe history. ManifestInferenceActor calls it on every inference cycle.
 
-**Not in Phase 6 scope:**
-- ThompsonBridge + ThompsonCareerIntegrator — these don't exist in V8, belong in Phase 8 (Intelligence). The CONNECTION_BUILD_PLAN referenced these from a V7 audit; they were never ported.
+**New files (Phase 6 step 2):**
+- `Intelligence/Sources/Intelligence/SwipePatternAnalyzer.swift`
+- `Intelligence/Sources/Intelligence/QuestionCard.swift`
+- `DeckUI/Sources/DeckUI/QuestionCardSheet.swift`
 
-**Phase 6 gate:**
-- Simulator-verified: Tracker tab captures right-swipes ✅ (pending runtime test)
-- Simulator-verified: Card colors are per-job, not global ✅ (pending runtime test)
-- Question cards fire in DeckScreen
-- SwipePatternAnalyzer feeding ManifestInferenceActor
+**Phase 6 gate — PASSED ✅ 2026-05-21:**
+- Tracker tab captures right-swipes ✅
+- Card colors are per-job ✅
+- Question card fires after 10 swipes ✅
+- RIASEC answer saved: enterprising=0.15, direct_conf=0.15 (confirmed SQLite) ✅
+- SwipePatternAnalyzer: investigative_inferred=0.20 from swipe patterns ✅
+- Build: zero errors, zero warnings ✅
 
 ---
 
@@ -263,14 +260,14 @@ This is the honest picture of what remains. The skeleton is complete (15 package
 
 **Why this order:** `riasecScore` and `workActivitiesScore` need data on the JOB side (O*NET enrichment — Phase 7) AND the USER side (question cards — Phase 8). Taxonomy before Intelligence means as soon as question cards fire, both sides have data and scoring becomes fully functional immediately.
 
-### Phase 6 — Close the Gaps *(in progress — 1 session remaining)*
+### Phase 6 — Close the Gaps ✅ COMPLETE (2026-05-21)
 - ✅ SessionID on swipe records
 - ✅ Card color per-job signal
 - ✅ Tracker tab live
-- ⬜ Runtime verification of step 1
-- ⬜ Question card injection in DeckScreen
-- ⬜ SwipePatternAnalyzer → ManifestInferenceActor
-- **Gate:** Simulator-verified: Tracker shows right-swipes, cards have unique colors, question cards appear.
+- ✅ Runtime verification (2026-05-21)
+- ✅ Question card injection in DeckScreen
+- ✅ SwipePatternAnalyzer → ManifestInferenceActor
+- **Gate passed 2026-05-21** ✅
 
 ### Phase 7 — Taxonomy + Job Pipeline *(2–3 sessions)*
 Fill CoreTaxonomy and rebuild JobPipeline properly. Must happen BEFORE Phase 8 — O*NET enrichment feeds the job side of riasecScore and workActivitiesScore. Without it, question cards fire but scoring can't use the answers.

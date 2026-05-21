@@ -56,6 +56,7 @@ public actor ManifestInferenceActor {
 
         let skillPreferences = calculateSkillPreferences(from: interactions)
         let roleInference = inferTargetRole(from: interactions)
+        let pattern = SwipePatternAnalyzer.analyze(interactions)
         let confidence = calculateConfidence(dataPoints: interactions.count)
 
         await context.perform { [context] in
@@ -67,6 +68,8 @@ public actor ManifestInferenceActor {
             )
             profileObject.targetRole = roleInference.role
             profileObject.targetRoleConfidence = roleInference.confidence
+            profileObject.riasecInvestigativeInferred = pattern.investigativeSignal
+            profileObject.riasecEnterprisingInferred = pattern.enterprisingSignal
             profileObject.riasecInferredConfidence = confidence
             profileObject.totalSwipesAnalyzed = Int32(interactions.count)
             profileObject.lastUpdated = Date()

@@ -38,6 +38,8 @@ public struct DeckScreen: View {
     @State private var isLoading: Bool = true
     @State private var sessionAdsSeen: Int = 0
     @State private var sessionID = UUID()
+    @State private var jobSwipeCount: Int = 0
+    @State private var showQuestionSheet: Bool = false
 
     public init(userProfile: JobNormalizer.UserProfile) {
         self.userProfile = userProfile
@@ -63,6 +65,13 @@ public struct DeckScreen: View {
         .task { await loadJobs() }
         .onChange(of: profileBlend) { _, newValue in
             Task { await OptimizedThompsonEngine.shared.setProfileBlend(newValue) }
+        }
+        .sheet(isPresented: $showQuestionSheet) {
+            let idx = max(0, (jobSwipeCount / 10) - 1) % QuestionBank.all.count
+            QuestionCardSheet(question: QuestionBank.all[idx]) { riasecKey in
+                recordRIASECAnswer(riasecKey)
+            }
+            .presentationDetents([.medium, .large])
         }
     }
 
@@ -254,6 +263,13 @@ public struct DeckScreen: View {
             dragOffset = .zero
             isAnimatingOut = false
 
+            if case .job = currentCard {
+                jobSwipeCount += 1
+                if jobSwipeCount.isMultiple(of: 10) {
+                    showQuestionSheet = true
+                }
+            }
+
             if currentIndex >= cards.count - 5 {
                 await appendMoreJobs()
             }
@@ -333,6 +349,30 @@ public struct DeckScreen: View {
             deckLogger.debug("JobInteraction saved — action: \(action.rawValue) job: \(job.title)")
         } catch {
             deckLogger.error("JobInteraction save FAILED: \(error)")
+        }
+    }
+
+    // MARK: - RIASEC answer
+
+    private func recordRIASECAnswer(_ riasecKey: String) {
+        let profile = InferredManifestProfile.fetchOrCreate(in: context)
+        let boost = 0.15
+        switch riasecKey {
+        case "realistic":     profile.riasecRealisticDirect     = min(1.0, profile.riasecRealisticDirect + boost)
+        case "investigative": profile.riasecInvestigativeDirect = min(1.0, profile.riasecInvestigativeDirect + boost)
+        case "artistic":      profile.riasecArtisticDirect      = min(1.0, profile.riasecArtisticDirect + boost)
+        case "social":        profile.riasecSocialDirect         = min(1.0, profile.riasecSocialDirect + boost)
+        case "enterprising":  profile.riasecEnterprisingDirect  = min(1.0, profile.riasecEnterprisingDirect + boost)
+        case "conventional":  profile.riasecConventionalDirect  = min(1.0, profile.riasecConventionalDirect + boost)
+        default: break
+        }
+        profile.riasecDirectConfidence = min(1.0, profile.riasecDirectConfidence + boost)
+        profile.lastUpdated = Date()
+        do {
+            try context.save()
+            deckLogger.debug("RIASEC answer saved — category: \(riasecKey) confidence: \(profile.riasecDirectConfidence, format: .fixed(precision: 2))")
+        } catch {
+            deckLogger.error("RIASEC answer save FAILED: \(error)")
         }
     }
 

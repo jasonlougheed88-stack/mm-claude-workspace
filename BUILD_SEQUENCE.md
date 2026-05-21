@@ -11,11 +11,15 @@ Last updated: 2026-05-20
 
 ---
 
-## IMMEDIATE NEXT TASK — Phase 7: Taxonomy + Job Pipeline
+## IMMEDIATE NEXT TASK — Phase 7 Session 1: CoreTaxonomy Data Foundation
 
-Read Phase 7 detail below before starting. CoreTaxonomy and JobPipeline packages exist as stubs — Phase 7 fills them with real data and systems.
+Phase 7 is 3 sessions. This is session 1. Read the full Phase 7 section below before touching anything.
 
-⚠️ Phase 7 is 2–3 sessions of heavy work. Read the full scope before starting any session.
+**Session 1 scope:** Copy 14 data files → CoreTaxonomy/Resources/, update Package.swift, port 6 Swift files (ONetDataModels, ONetDataService, SkillTaxonomy, EnhancedSkillsMatcher, StringSimilarity, ONetCodeMapper). Build gate: zero errors/warnings.
+
+**Do NOT start Session 2 work (JobONetEnricher, enrichment wiring) in the same session as Session 1 unless Session 1 finishes early with significant context remaining.**
+
+⚠️ CoreTaxonomy has ZERO package dependencies — sacred constraint. Every file you add to CoreTaxonomy must import nothing outside the Swift standard library and Foundation.
 
 ---
 
@@ -269,12 +273,84 @@ This is the honest picture of what remains. The skeleton is complete (15 package
 - ✅ SwipePatternAnalyzer → ManifestInferenceActor
 - **Gate passed 2026-05-21** ✅
 
-### Phase 7 — Taxonomy + Job Pipeline *(2–3 sessions)*
-Fill CoreTaxonomy and rebuild JobPipeline properly. Must happen BEFORE Phase 8 — O*NET enrichment feeds the job side of riasecScore and workActivitiesScore. Without it, question cards fire but scoring can't use the answers.
-- `CoreTaxonomy` filled: SkillTaxonomy (787 skills, 36 categories), O*NET data bundle (13 JSON files), EnhancedSkillsMatcher, OccupationAdjacencyService, CareerRelationshipDiscovery, AppState
-- `JobPipeline` filled: JobONetEnricher, ONetCodeMapper, LocationScoringEngine, JobDiscoveryCoordinator, SmartSourceSelector, RateLimitManager, ProfileEnrichmentService
-- At profile creation: run JobONetEnricher on user's declared role → populates onetWorkActivities + RIASEC on UserProfile
-- **Gate:** Jobs have real O*NET data. workActivitiesScore and riasecScore have job-side data. Skills matching is semantic.
+### Phase 7 — Taxonomy + Job Pipeline *(3 sessions)*
+
+This is the keystone phase. Right now riasecScore and workActivitiesScore return 0.5 (neutral) on EVERY job — the slider does nothing in Teal mode. Phase 7 fixes the job side by wiring O*NET data from ingestion through scoring. It also wires the user side (declared role at onboarding → O*NET RIASEC baseline). When complete, both sides have data and the scoring formula works end-to-end.
+
+**⚠️ Package placement is a sacred constraint — CoreTaxonomy has ZERO dependencies.**
+This means ONetCodeMapper lives in CoreTaxonomy (string → string lookup, no external deps).
+JobONetEnricher lives in JobPipeline (imports Job from JobNormalizer — can't be in CoreTaxonomy).
+
+#### Session 7.1 — Data Foundation + CoreTaxonomy Infrastructure
+**CoreTaxonomy (zero deps — all pure logic + data):**
+1. Copy 13 O*NET JSON files + SkillTaxonomy.json → `CoreTaxonomy/Sources/CoreTaxonomy/Resources/`
+2. Update CoreTaxonomy/Package.swift: add `resources: [.copy("Resources")]`
+3. Port ONetDataModels.swift — type definitions: RIASECProfile (6-dim), WorkActivities (41-dim), ONetOccupation
+4. Port ONetDataService.swift — given SOC code → returns all O*NET dimension data (reads Bundle.module)
+5. Port SkillTaxonomy.swift + SkillTaxonomyLoader — loads SkillTaxonomy.json (787 skills, 36 cats)
+6. Port EnhancedSkillsMatcher.swift — 4-strategy cascade, 50K LRU cache
+7. Port StringSimilarity.swift — Levenshtein distance util for EnhancedSkillsMatcher
+8. Port ONetCodeMapper.swift — 4-tier title → SOC code pipeline (modern mappings, keyword index, fuzzy)
+9. **Build gate:** zero errors/warnings, ONetDataService can look up 5 SOC codes in tests
+
+#### Session 7.2 — O*NET Enrichment Pipeline + JobPipeline Wiring
+**JobPipeline (depends on CoreTaxonomy, JobNormalizer, Persistence):**
+1. Port JobONetEnricher.swift — takes Job → calls ONetCodeMapper → looks up in ONetDataService → returns enriched Job with onetCode, riasecProfile, workActivities
+2. Port ONetCacheWarmer.swift — preloads O*NET JSON at startup to avoid first-access latency
+3. Port ProfileConverter.swift — converts Persistence.UserProfile → JobNormalizer.UserProfile, MUST copy onetRIASEC*, onetWorkActivities, onetSkills fields (this is a silent failure trap — see OPEN STATE)
+4. Wire JobPipelineClient.fetchJobs() to call JobONetEnricher on every fetched job BEFORE returning
+5. Wire ONetCacheWarmer at app startup (ManifestAndMatchApp or PersistenceController init)
+6. Update DeckScreen.recordInteraction() to save `interaction.jobONETCode = job.onetCode` — JobInteraction entity already has this field, ManifestInferenceActor (Phase 8) needs it to aggregate RIASEC from swipe history
+7. **Build gate:** zero errors/warnings, fetched jobs have non-nil onetCode + riasecProfile + workActivities
+
+#### Session 7.3 — User Profile Enrichment + Advanced Systems + Full Gate
+1. Port ProfileEnrichmentService.swift to JobPipeline — takes declared role string → looks up O*NET → populates UserProfile.onetRIASEC*, onetWorkActivities, onetSkills
+2. Wire ProfileEnrichmentService call in OnboardingView.completeOnboarding() after Core Data save
+3. Port OccupationAdjacencyService.swift to CoreTaxonomy — expands job search to related occupations when slider ≥ 0.25 (Teal mode). Uses onet_related_occupations.json and alternates
+4. Port CareerRelationshipDiscovery.swift to CoreTaxonomy — maps career relationship types between occupations (used by Phase 9 Manifest tab career paths, foundation must be here)
+5. Port RIASECKeywordMapper.swift to Intelligence package — keyword-based RIASEC fallback for pre-iOS 26 (Phase 8 answer parsing needs it, but type definition must exist before Phase 8)
+6. **Runtime gate (full pipeline verification):**
+   - Create fresh profile (uninstall sim first) → UserProfile has non-nil onetRIASECInvestigative in SQLite
+   - Fetch jobs → each has non-nil onetCode, riasecProfile, workActivities (oslog confirms)
+   - Swipe 3 right → JobInteraction rows have non-nil jobONETCode in SQLite
+   - Score 10 jobs → riasecScore and workActivitiesScore are NOT 0.5 (they differ per job)
+7. Commit + push + update BUILD_SEQUENCE.md + write checkpoint
+
+**Phase 7 gate:** riasecScore and workActivitiesScore produce differentiated per-job scores (not uniform 0.5). Both sides of the scoring formula have data. Slider works in Teal mode.
+
+**Files to create (Phase 7):**
+
+| File | Package | Source |
+|---|---|---|
+| ONetDataModels.swift | CoreTaxonomy | Port V7Core/ONetDataModels.swift |
+| ONetDataService.swift | CoreTaxonomy | Port V7Core/ONetDataService.swift |
+| SkillTaxonomy.swift | CoreTaxonomy | Port V7Core/SkillTaxonomy.swift |
+| EnhancedSkillsMatcher.swift | CoreTaxonomy | Port V7Core/EnhancedSkillsMatcher.swift |
+| StringSimilarity.swift | CoreTaxonomy | Port V7Core/StringSimilarity.swift |
+| ONetCodeMapper.swift | CoreTaxonomy | Port V7Services/ONet/ONetCodeMapper.swift |
+| OccupationAdjacencyService.swift | CoreTaxonomy | Port V7Core/OccupationAdjacencyService.swift |
+| CareerRelationshipDiscovery.swift | CoreTaxonomy | Port V7Core/CareerRelationshipDiscovery.swift |
+| JobONetEnricher.swift | JobPipeline | Port V7Services/ONet/JobONetEnricher.swift |
+| ONetCacheWarmer.swift | JobPipeline | Port V7Services/ONet/ONetCacheWarmer.swift |
+| ProfileConverter.swift | JobPipeline | Port V7Services/Utilities/ProfileConverter.swift |
+| ProfileEnrichmentService.swift | JobPipeline | Port V7Services/Profile/ProfileEnrichmentService.swift |
+| RIASECKeywordMapper.swift | Intelligence | Port V7AI/Parsing/RIASECKeywordMapper.swift |
+
+**Data files to copy (all 14 → CoreTaxonomy/Resources/):**
+onet_interests.json, onet_work_activities.json, onet_occupation_titles.json, onet_occupation_skills.json, onet_modern_mappings.json, onet_related_occupations.json, onet_abilities.json, onet_knowledge.json, onet_work_styles.json, onet_credentials.json, onet_projections.json, onet_technology_skills.json, onet_keyword_index_tier1.json, SkillTaxonomy.json
+
+**Files to modify (Phase 7):**
+- CoreTaxonomy/Package.swift — add `resources: [.copy("Resources")]`
+- JobPipelineClient.swift — call JobONetEnricher after fetch
+- DeckScreen.swift — save job.onetCode → interaction.jobONETCode in recordInteraction
+- OnboardingView.swift — call ProfileEnrichmentService after profile creation
+- ManifestAndMatchApp.swift (or equivalent) — call ONetCacheWarmer at startup
+
+**NOT in Phase 7 scope:**
+- ESCO v1.2 enrichment (data quality improvement, defer — existing 3,500 aliases work)
+- onet_modern_mappings.json expansion to ~200 entries (data task, can add titles anytime)
+- RIASECScorer.swift Foundation Models path (Phase 8)
+- CareerPathEngine, SkillsGapAnalyzer (Phase 9 — Manifest tab)
 
 ### Phase 8 — Intelligence Pipeline *(3–4 sessions)*
 
